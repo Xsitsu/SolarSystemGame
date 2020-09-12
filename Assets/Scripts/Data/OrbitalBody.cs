@@ -1,0 +1,9 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class OrbitalBody : Orbital
+{
+    public float mass;
+    public float radius;
+}
