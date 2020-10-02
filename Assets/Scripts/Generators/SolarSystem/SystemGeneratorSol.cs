@@ -8,20 +8,24 @@ public class SystemGeneratorSol : ISystemGenerator
     {
         return new Color(r / 255f, g / 255f, b / 255f, 1);
     }
-    Planet MakePlanet(double mass, double radius, Color color, double orbitRadius)
+    Planet MakePlanet(double mass, double radiusKM, Color color, double orbitRadiusAU)
     {
         Planet planet = new Planet();
-        planet.mass = mass;
-        planet.radius = radius;
+        planet.mass = mass * Numbers.EarthMassToKGs;
+        planet.radius = radiusKM * 1000;
         planet.color = color;
-        planet.orbitRadius = orbitRadius;
+        planet.orbitRadius = orbitRadiusAU * Numbers.AUToKM * 1000;
         return planet;
+    }
+    Planet MakeMoon(double mass, double radius, Color color, double orbitRadius)
+    {
+        return null;
     }
     public Star Generate()
     {
         Star sun = new Star();
-        sun.mass = 1.989 * (10^30);
-        sun.radius = 696340;
+        sun.mass = Numbers.SunMassToKGs;
+        sun.radius = 696340 * 1000;
         sun.color = MakeColor(252, 212, 64);
 
         sun.satellites.Add(MakePlanet(0.055, 2439.7, MakeColor(128, 106, 75), 0.39)); // Mercury
@@ -33,6 +37,8 @@ public class SystemGeneratorSol : ISystemGenerator
         sun.satellites.Add(MakePlanet(14.54, 25559, MakeColor(51, 191, 222), 19.18)); // Uranus
         sun.satellites.Add(MakePlanet(17.15, 24764, MakeColor(6, 57, 199), 30.06)); // Neptune
         sun.satellites.Add(MakePlanet(0.0022, 1195, MakeColor(186, 185, 182), 39.53)); // Pluto
+
+        //sun.satellites[2].satellites.Add(MakeMoon()); // Earth's Moon
 
         return sun;
     }

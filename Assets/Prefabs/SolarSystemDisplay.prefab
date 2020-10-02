@@ -43,9 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02934bf264c395f4880c410130d2c68c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  position: {x: 0, y: 0, z: 0}
   timeFactor: 1
-  planetPrefab: {fileID: 575671382489657171, guid: eaed80b14db426a4f8afeea56d2c86f8,
+  starPrefab: {fileID: 575671382489657171, guid: 9dfc1af4c72104e4fb2b8581e2a13e4b,
     type: 3}
-  planetShader: {fileID: -6465566751694194690, guid: 025c1f1ddebb40e42a1c1616a06beb45,
+  planetPrefab: {fileID: 575671382489657171, guid: eaed80b14db426a4f8afeea56d2c86f8,
     type: 3}

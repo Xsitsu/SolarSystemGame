@@ -50,7 +50,7 @@ public class TestCameraController : MonoBehaviour
         {
             transform.localPosition = target.transform.position;
             transform.eulerAngles = new Vector3(rotationVertical, rotationHorizontal, 0);
-            zoomContainer.transform.localPosition = new Vector3(0, 0, -zoom / Numbers.UnitsToMeters);
+            zoomContainer.transform.localPosition = new Vector3(0, 0, -zoom / (float)Numbers.UnitsToMeters);
         }
     }
 }

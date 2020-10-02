@@ -16,7 +16,7 @@ public class TestShipController : MonoBehaviour
     void Start()
     {
         speed = 0;
-        transform.localScale = sizeMeters / Numbers.UnitsToMeters;
+        transform.localScale = sizeMeters / (float)Numbers.UnitsToMeters;
     }
     void Update()
     {
@@ -51,7 +51,7 @@ public class TestShipController : MonoBehaviour
 
             Vector3 rotate = new Vector3(rotX, rotY, rotZ) * rotateSpeed * Time.deltaTime;
             transform.Rotate(rotate.x, rotate.y, rotate.z);
-            transform.localPosition += transform.forward * (speed / Numbers.UnitsToMeters) * Time.deltaTime;
+            transform.localPosition += transform.forward * (float)(speed / Numbers.UnitsToMeters) * Time.deltaTime;
         }
     }
 }

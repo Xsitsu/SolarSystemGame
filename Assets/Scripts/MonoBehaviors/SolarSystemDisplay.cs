@@ -12,17 +12,16 @@ public class SolarSystemDisplay : MonoBehaviour
 
     public Orbital anchor;
     public Orbital currentAnchor;
-    public Vector3 position;
 
     [Range(0.000001f, 1000)]
     public double timeFactor = 1.0;
+    public GameObject starPrefab;
     public GameObject planetPrefab;
-    public Shader planetShader;
 
     List<SolarSystemObject> bodies = new List<SolarSystemObject>();
     int last = -1;
 
-    void AddBodyToList(Orbital body)
+    void AddBodyToList(Orbital body, Transform parent)
     {
         SolarSystemObject obj = new SolarSystemObject();
         obj.Body = body;
@@ -31,49 +30,37 @@ public class SolarSystemDisplay : MonoBehaviour
         if (body is Planet)
         {
             GameObject go = Instantiate(planetPrefab);
-            Material mat = new Material(planetShader);
-            mat.SetColor("_Color", ((Planet)body).color);
-            go.GetComponent<MeshRenderer>().material = mat;
             obj.Object = go;
-
-            float radiusKM = (float)((Planet)body).radius;
-            go.transform.localScale *= (radiusKM * 1000) / Numbers.UnitsToMeters;
-            go.transform.SetParent(transform);
+            go.transform.SetParent(parent);
+            go.GetComponent<PlanetMono>().DisplayPlanet((Planet)body);
         }
         if (body is Star)
         {
-            GameObject go = Instantiate(planetPrefab);
-            Material mat = new Material(planetShader);
-            mat.SetColor("_Color", ((Star)body).color);
-            go.GetComponent<MeshRenderer>().material = mat;
+            GameObject go = Instantiate(starPrefab);
             obj.Object = go;
-
-            go.transform.localScale *= (float)((Star)body).radius / Numbers.UnitsToMeters;
-            go.transform.SetParent(transform);
+            go.transform.SetParent(parent);
+            go.GetComponent<StarMono>().DisplayStar((Star)body);
         }
 
         bodies.Add(obj);
 
         foreach (Orbital orbital in body.satellites)
         {
-            AddBodyToList(orbital);
+            Transform setParent = null;
+            if (obj.Object != null)
+            {
+                setParent = obj.Object.GetComponent<OrbitalBodyMono>().satellites.transform;
+            }
+            //setParent = transform;
+            AddBodyToList(orbital, setParent);
         }
     }
     void LoadSolarSystem(Orbital system)
     {
-        Vector3 dir = (new Vector3(1, -2, 0.7f)).normalized;
-        float dist = 100;
-
-        if (system is OrbitalBody)
-        {
-            dist = (float)((OrbitalBody)system).radius * 1.2f;
-        }
-
         anchor = system;
         currentAnchor = anchor;
-        position = dir * dist;
 
-        AddBodyToList(system);
+        AddBodyToList(system, transform);
     }
     void UnloadSolarSystem()
     {
@@ -100,8 +87,9 @@ public class SolarSystemDisplay : MonoBehaviour
             {
                 if (body.Body != anchor)
                 {
-                    float rad = (float)body.Body.orbitRadius;
-                    int periodSeconds = (int)(Numbers.YearToSeconds * Mathf.Sqrt(rad * rad * rad));
+                    float radM = (float)body.Body.orbitRadius;
+                    float radAU = (radM / 1000) / Numbers.AUToKM;
+                    int periodSeconds = (int)(Numbers.YearToSeconds * Mathf.Sqrt(radAU * radAU * radAU));
                     int currentPeriod = (int)(current * timeFactor) % periodSeconds;
                     float percent = (float)currentPeriod / (float)periodSeconds;
 
@@ -111,8 +99,7 @@ public class SolarSystemDisplay : MonoBehaviour
 
                     if (body.Object)
                     {
-                        float distM = rad * Numbers.AUToKM * 1000;
-                        body.Object.transform.localPosition = dir * distM / Numbers.UnitsToMeters;
+                        body.Object.transform.localPosition = dir * (float)(radM / Numbers.UnitsToMeters);
                     }
                 }
             }
