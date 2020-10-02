@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class OrbitalBody : Orbital
 {
-    public double mass;
-    public double radius;
+    public double mass; //kg
+    public double radius; //km
 }

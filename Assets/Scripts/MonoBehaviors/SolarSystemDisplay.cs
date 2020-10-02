@@ -10,10 +10,6 @@ public class SolarSystemDisplay : MonoBehaviour
         public GameObject Object;
     }
 
-    static int YearToSeconds = 60 * 60 * 24 * 365;
-    static int AUToKM = 149598000;
-    static float Scale = 10;
-
     public Orbital anchor;
     public Orbital currentAnchor;
     public Vector3 position;
@@ -40,7 +36,8 @@ public class SolarSystemDisplay : MonoBehaviour
             go.GetComponent<MeshRenderer>().material = mat;
             obj.Object = go;
 
-            go.transform.localScale *= (float)((Planet)body).radius / Scale;
+            float radiusKM = (float)((Planet)body).radius;
+            go.transform.localScale *= (radiusKM * 1000) / Numbers.UnitsToMeters;
             go.transform.SetParent(transform);
         }
         if (body is Star)
@@ -51,7 +48,7 @@ public class SolarSystemDisplay : MonoBehaviour
             go.GetComponent<MeshRenderer>().material = mat;
             obj.Object = go;
 
-            go.transform.localScale *= (float)((Star)body).radius / Scale;
+            go.transform.localScale *= (float)((Star)body).radius / Numbers.UnitsToMeters;
             go.transform.SetParent(transform);
         }
 
@@ -104,7 +101,7 @@ public class SolarSystemDisplay : MonoBehaviour
                 if (body.Body != anchor)
                 {
                     float rad = (float)body.Body.orbitRadius;
-                    int periodSeconds = (int)(YearToSeconds * Mathf.Sqrt(rad * rad * rad));
+                    int periodSeconds = (int)(Numbers.YearToSeconds * Mathf.Sqrt(rad * rad * rad));
                     int currentPeriod = (int)(current * timeFactor) % periodSeconds;
                     float percent = (float)currentPeriod / (float)periodSeconds;
 
@@ -114,7 +111,8 @@ public class SolarSystemDisplay : MonoBehaviour
 
                     if (body.Object)
                     {
-                        body.Object.transform.localPosition = dir * rad * AUToKM / Scale;
+                        float distM = rad * Numbers.AUToKM * 1000;
+                        body.Object.transform.localPosition = dir * distM / Numbers.UnitsToMeters;
                     }
                 }
             }
