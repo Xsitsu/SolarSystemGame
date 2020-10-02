@@ -15,6 +15,7 @@ public class SolarSystemDisplay : MonoBehaviour
 
     [Range(0.000001f, 1000)]
     public double timeFactor = 1.0;
+    public int dayOffset = 0;
     public GameObject starPrefab;
     public GameObject planetPrefab;
 
@@ -51,7 +52,7 @@ public class SolarSystemDisplay : MonoBehaviour
             {
                 setParent = obj.Object.GetComponent<OrbitalBodyMono>().satellites.transform;
             }
-            //setParent = transform;
+
             AddBodyToList(orbital, setParent);
         }
     }
@@ -74,11 +75,12 @@ public class SolarSystemDisplay : MonoBehaviour
     void Start()
     {
         LoadSolarSystem(new SystemGeneratorSol().Generate());
-        currentAnchor = anchor.satellites[2];
+        currentAnchor = anchor.satellites[2].satellites[0];
     }
     void Update()
     {
         int current = Epoch.Current();
+        current += dayOffset * Numbers.DayToSeconds;
         if (current != last)
         {
             last = current;
@@ -110,7 +112,7 @@ public class SolarSystemDisplay : MonoBehaviour
                 {
                     if (body.Body == currentAnchor)
                     {
-                        transform.localPosition = -body.Object.transform.localPosition;
+                        transform.localPosition -= body.Object.transform.position;
                     }
                 }
             }

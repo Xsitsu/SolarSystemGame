@@ -429,5 +429,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SolarSystemDisplay
       objectReference: {fileID: 0}
+    - target: {fileID: 3864639299727469575, guid: fc108a13fbe25bd45a9a70dcea62c6ff,
+        type: 3}
+      propertyPath: timeFactor
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc108a13fbe25bd45a9a70dcea62c6ff, type: 3}
