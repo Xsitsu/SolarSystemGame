@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OrbitalBody : Orbital
+public interface ISystemGenerator
 {
-    public double mass;
-    public double radius;
+    Star Generate();
 }

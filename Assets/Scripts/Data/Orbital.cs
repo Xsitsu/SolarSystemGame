@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class Orbital
 {
-    public float orbitRadius;
-    public List<Orbital> satellites;
+    public double orbitRadius;
+    public List<Orbital> satellites = new List<Orbital>();
 }
