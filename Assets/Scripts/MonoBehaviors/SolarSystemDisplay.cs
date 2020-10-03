@@ -97,7 +97,7 @@ public class SolarSystemDisplay : MonoBehaviour
             double periodYears = periodSeconds / Numbers.YearToSeconds;
 
             //Debug.Log("periodSeconds:" + periodSeconds + " | currentPeriod " + currentPeriod + " | percent " + percent + " | periodYears " + periodYears);
-            Debug.Log("CenterMass: " + center.mass + "; Orbit (au): " + radAU + "; Period: " + (periodYears * 365.25) + ", Current: " + currentPeriod + "/" + periodSeconds + " : " + percent * 100 + "%");
+            //Debug.Log("CenterMass: " + center.mass + "; Orbit (au): " + radAU + "; Period: " + (periodYears * 365.25) + ", Current: " + currentPeriod + "/" + periodSeconds + " : " + percent * 100 + "%");
 
             float x = (float)percent * Mathf.PI * 2;
             float z = (float)percent * Mathf.PI * 2;

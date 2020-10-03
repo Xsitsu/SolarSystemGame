@@ -17,7 +17,7 @@ public class Orbital
         double period = System.Math.Sqrt(period2);
 
         //Debug.Log("Numbers.G: " + Numbers.G + " | massCentralKG: " + massCentralKG);
-        Debug.Log("radM: " + radM + " | rad3: " + rad3 + " | top: " + top + " | bottom: " + bottom + " | period2: " + period2 + " | period: " + period);
+        //Debug.Log("radM: " + radM + " | rad3: " + rad3 + " | top: " + top + " | bottom: " + bottom + " | period2: " + period2 + " | period: " + period);
 
         return period;
     }
