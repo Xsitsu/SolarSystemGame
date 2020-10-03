@@ -13,14 +13,14 @@ public class SolarSystemDisplay : MonoBehaviour
     public Orbital anchor;
     public Orbital currentAnchor;
 
-    [Range(0.000001f, 1000)]
+    [Range(0.000001f, 1000000)]
     public double timeFactor = 1.0;
     public int dayOffset = 0;
     public GameObject starPrefab;
     public GameObject planetPrefab;
 
     List<SolarSystemObject> bodies = new List<SolarSystemObject>();
-    int last = -1;
+    double last = -1;
 
     void AddBodyToList(Orbital body, Transform parent)
     {
@@ -72,6 +72,60 @@ public class SolarSystemDisplay : MonoBehaviour
 
         bodies.Clear();
     }
+    SolarSystemObject GetObjectFromOrbital(Orbital orbital)
+    {
+        foreach (SolarSystemObject sso in bodies)
+        {
+            if (sso.Body == orbital)
+            {
+                return sso;
+            }
+        }
+        return null;
+    }
+    void UpdateOrbital(double currentTime, Orbital orbital, OrbitalBody center)
+    {
+        if (center != null)
+        {
+            double periodSeconds = orbital.CalculateOrbitalPeriod(center.mass);
+            double currentPeriod = (currentTime * timeFactor) % periodSeconds;
+            double percent = currentPeriod / periodSeconds;
+
+            double radM = orbital.orbitRadius;
+            double radKM = (radM / 1000);
+            double radAU = radKM / Numbers.AUToKM;
+            double periodYears = periodSeconds / Numbers.YearToSeconds;
+
+            //Debug.Log("periodSeconds:" + periodSeconds + " | currentPeriod " + currentPeriod + " | percent " + percent + " | periodYears " + periodYears);
+            Debug.Log("CenterMass: " + center.mass + "; Orbit (au): " + radAU + "; Period: " + (periodYears * 365.25) + ", Current: " + currentPeriod + "/" + periodSeconds + " : " + percent * 100 + "%");
+
+            float x = (float)percent * Mathf.PI * 2;
+            float z = (float)percent * Mathf.PI * 2;
+            Vector3 dir =  new Vector3(Mathf.Cos(x), 0, Mathf.Sin(z));
+
+            SolarSystemObject sso = GetObjectFromOrbital(orbital);
+            if (sso != null)
+            {
+                if (sso.Object)
+                {
+                    sso.Object.transform.localPosition = dir * (float)(radM / Numbers.UnitsToMeters);
+                }
+
+                if (currentAnchor == orbital)
+                {
+                    transform.localPosition -= sso.Object.transform.position;
+                }
+            }
+        }
+
+        if (orbital is OrbitalBody)
+        {
+            foreach (Orbital satellite in orbital.satellites)
+            {
+                UpdateOrbital(currentTime, satellite, (OrbitalBody)orbital);
+            }
+        }
+    }
     void Start()
     {
         LoadSolarSystem(new SystemGeneratorSol().Generate());
@@ -79,24 +133,31 @@ public class SolarSystemDisplay : MonoBehaviour
     }
     void Update()
     {
-        int current = Epoch.Current();
+        double current = Epoch.Current();
         current += dayOffset * Numbers.DayToSeconds;
         if (current != last)
         {
             last = current;
 
+            UpdateOrbital(current, anchor, null);
+
+            /*
             foreach (SolarSystemObject body in bodies)
             {
                 if (body.Body != anchor)
                 {
-                    float radM = (float)body.Body.orbitRadius;
-                    float radAU = (radM / 1000) / Numbers.AUToKM;
-                    int periodSeconds = (int)(Numbers.YearToSeconds * Mathf.Sqrt(radAU * radAU * radAU));
-                    int currentPeriod = (int)(current * timeFactor) % periodSeconds;
-                    float percent = (float)currentPeriod / (float)periodSeconds;
+                    double radM = body.Body.orbitRadius;
+                    double radKM = (radM / 1000);
+                    double radAU = radKM / Numbers.AUToKM;
+                    double periodYears = System.Math.Sqrt(radAU * radAU * radAU);//Mathf.Sqrt(radAU * radAU * radAU);
+                    double periodSeconds = (Numbers.YearToSeconds * periodYears);
+                    double currentPeriod = (current * timeFactor) % periodSeconds;
+                    double percent = currentPeriod / periodSeconds;
 
-                    float x = percent * Mathf.PI * 2;
-                    float z = percent * Mathf.PI * 2;
+                    Debug.Log("Orbit (au): " + radAU + "; Period: " + (periodYears * 365.25) + ", Current: " + currentPeriod + "/" + periodSeconds + " : " + percent * 100 + "%");
+
+                    float x = (float)percent * Mathf.PI * 2;
+                    float z = (float)percent * Mathf.PI * 2;
                     Vector3 dir =  new Vector3(Mathf.Cos(x), 0, Mathf.Sin(z));
 
                     if (body.Object)
@@ -116,6 +177,7 @@ public class SolarSystemDisplay : MonoBehaviour
                     }
                 }
             }
+            */
         }
     }
 }

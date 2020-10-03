@@ -22,6 +22,6 @@ public class PlanetMono : OrbitalBodyMono
     public void DisplayPlanet(Planet planet)
     {
         material.SetColor("_Color", planet.color);
-        display.transform.localScale *= (float)((planet).radius / Numbers.UnitsToMeters);
+        display.transform.localScale *= (float)((2 * planet.radius) / Numbers.UnitsToMeters);
     }
 }
