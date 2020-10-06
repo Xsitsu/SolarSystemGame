@@ -101,14 +101,14 @@ public class SolarSystemDisplay : MonoBehaviour
 
             float x = (float)percent * Mathf.PI * 2;
             float z = (float)percent * Mathf.PI * 2;
-            Vector3 dir =  new Vector3(Mathf.Cos(x), 0, Mathf.Sin(z));
+            Vector3 dir = new Vector3(Mathf.Cos(x), 0, Mathf.Sin(z));
 
             SolarSystemObject sso = GetObjectFromOrbital(orbital);
             if (sso != null)
             {
                 if (sso.Object)
                 {
-                    sso.Object.transform.localPosition = dir * (float)(radM / Numbers.UnitsToMeters);
+                    sso.Object.transform.localPosition = dir.normalized * (float)(radM / Numbers.UnitsToMeters);
                 }
 
                 if (currentAnchor == orbital)
@@ -130,10 +130,11 @@ public class SolarSystemDisplay : MonoBehaviour
     {
         LoadSolarSystem(new SystemGeneratorSol().Generate());
         currentAnchor = anchor.satellites[2].satellites[0];
+        //currentAnchor = anchor.satellites[0];
     }
     void Update()
     {
-        double current = Epoch.Current();
+        double current = Epoch.CurrentMilliseconds() / 1000.0;
         current += dayOffset * Numbers.DayToSeconds;
         if (current != last)
         {

@@ -203,6 +203,21 @@ PrefabInstance:
       propertyPath: zoomSpeed
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 8683508571069385529, guid: a5e6e294c3010914492a62f2c420f6ba,
+        type: 3}
+      propertyPath: m_projectionMatrixMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683508571069385529, guid: a5e6e294c3010914492a62f2c420f6ba,
+        type: 3}
+      propertyPath: field of view
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683508571069385529, guid: a5e6e294c3010914492a62f2c420f6ba,
+        type: 3}
+      propertyPath: near clip plane
+      value: 0.3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5e6e294c3010914492a62f2c420f6ba, type: 3}
 --- !u!1 &737783158

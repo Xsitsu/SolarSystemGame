@@ -25,4 +25,10 @@
  
          return Mathf.Abs(difference);
      }
+
+     public static double CurrentMilliseconds()
+     {
+         DateTime epochStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+         return (DateTime.UtcNow - epochStart).TotalMilliseconds;
+     }
  }
