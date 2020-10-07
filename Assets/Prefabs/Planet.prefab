@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 575671382489657168}
   - component: {fileID: 423935866436711719}
+  - component: {fileID: 4199220214729824065}
   m_Layer: 0
   m_Name: Planet
   m_TagString: Untagged
@@ -49,6 +50,22 @@ MonoBehaviour:
   satellites: {fileID: 8867802971113548477}
   planetShader: {fileID: -6465566751694194690, guid: 025c1f1ddebb40e42a1c1616a06beb45,
     type: 3}
+--- !u!114 &4199220214729824065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575671382489657171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b6c964449b1e05459fa8f8688ca7e91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minZoom: 100
+  maxZoom: 1000
+  zoomSpeed: 100
+  defaultZoom: 200
 --- !u!1 &5748661338972811893
 GameObject:
   m_ObjectHideFlags: 0

@@ -30,17 +30,35 @@ public class SolarSystemDisplay : MonoBehaviour
 
         if (body is Planet)
         {
+            Planet planet = (Planet)body;
+
             GameObject go = Instantiate(planetPrefab);
             obj.Object = go;
             go.transform.SetParent(parent);
-            go.GetComponent<PlanetMono>().DisplayPlanet((Planet)body);
+            go.GetComponent<PlanetMono>().DisplayPlanet(planet);
+
+            double radiusUnits = (planet.radius / Numbers.UnitsToMeters);
+            Observable obs = go.GetComponent<Observable>();
+            obs.minZoom = (float)(planet.radius * 1.2);
+            obs.maxZoom = (float)(planet.radius * 4);
+            obs.zoomSpeed = (float)(planet.radius * 0.5);
+            obs.defaultZoom = (float)(planet.radius * 1.5);
         }
         if (body is Star)
         {
+            Star star = (Star)body;
+
             GameObject go = Instantiate(starPrefab);
             obj.Object = go;
             go.transform.SetParent(parent);
             go.GetComponent<StarMono>().DisplayStar((Star)body);
+
+            double radiusUnits = (star.radius / Numbers.UnitsToMeters);
+            Observable obs = go.GetComponent<Observable>();
+            obs.minZoom = (float)(star.radius * 1.2);
+            obs.maxZoom = (float)(star.radius * 4);
+            obs.zoomSpeed = (float)(star.radius * 0.5);
+            obs.defaultZoom = (float)(star.radius * 1.5);
         }
 
         bodies.Add(obj);

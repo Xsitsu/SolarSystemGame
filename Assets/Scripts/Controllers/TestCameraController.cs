@@ -21,11 +21,17 @@ public class TestCameraController : MonoBehaviour
 
     void Start()
     {
-        Observe(target.GetComponent<Observable>());
+        
     }
 
     void Update()
     {
+        if (target != null)
+        {
+            Observe(target.GetComponent<Observable>());
+            target = null;
+        }
+
         if (Input.GetMouseButton(1))
         {
             float axisX = Input.GetAxis("Mouse X");
@@ -62,9 +68,9 @@ public class TestCameraController : MonoBehaviour
 
     void LateUpdate()
     {
-        if (target != null)
+        if (targ != null)
         {
-            transform.localPosition = target.transform.position;
+            transform.localPosition = targ.transform.position;
             transform.eulerAngles = new Vector3(rotationVertical, rotationHorizontal, 0);
             zoomContainer.transform.localPosition = new Vector3(0, 0, -zoom / (float)Numbers.UnitsToMeters);
         }
