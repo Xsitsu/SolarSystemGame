@@ -22,6 +22,18 @@ public class SolarSystemDisplay : MonoBehaviour
     List<SolarSystemObject> bodies = new List<SolarSystemObject>();
     double last = -1;
 
+    void SetupOrbitalBody(GameObject go, OrbitalBody orbitalBody)
+    {
+        double radiusUnits = (orbitalBody.radius / Numbers.UnitsToMeters);
+        Observable obs = go.GetComponent<Observable>();
+        obs.minZoom = (float)(orbitalBody.radius * 1.2);
+        obs.maxZoom = (float)(orbitalBody.radius * 4);
+        obs.zoomSpeed = (float)(orbitalBody.radius * 0.5);
+        obs.defaultZoom = (float)(orbitalBody.radius * 1.5);
+
+        InteractableManager.Instance.Register(go);
+    }
+
     void AddBodyToList(Orbital body, Transform parent)
     {
         SolarSystemObject obj = new SolarSystemObject();
@@ -37,12 +49,7 @@ public class SolarSystemDisplay : MonoBehaviour
             go.transform.SetParent(parent);
             go.GetComponent<PlanetMono>().DisplayPlanet(planet);
 
-            double radiusUnits = (planet.radius / Numbers.UnitsToMeters);
-            Observable obs = go.GetComponent<Observable>();
-            obs.minZoom = (float)(planet.radius * 1.2);
-            obs.maxZoom = (float)(planet.radius * 4);
-            obs.zoomSpeed = (float)(planet.radius * 0.5);
-            obs.defaultZoom = (float)(planet.radius * 1.5);
+            SetupOrbitalBody(go, planet);
         }
         if (body is Star)
         {
@@ -51,14 +58,9 @@ public class SolarSystemDisplay : MonoBehaviour
             GameObject go = Instantiate(starPrefab);
             obj.Object = go;
             go.transform.SetParent(parent);
-            go.GetComponent<StarMono>().DisplayStar((Star)body);
+            go.GetComponent<StarMono>().DisplayStar(star);
 
-            double radiusUnits = (star.radius / Numbers.UnitsToMeters);
-            Observable obs = go.GetComponent<Observable>();
-            obs.minZoom = (float)(star.radius * 1.2);
-            obs.maxZoom = (float)(star.radius * 4);
-            obs.zoomSpeed = (float)(star.radius * 0.5);
-            obs.defaultZoom = (float)(star.radius * 1.5);
+            SetupOrbitalBody(go, star);
         }
 
         bodies.Add(obj);
@@ -85,6 +87,7 @@ public class SolarSystemDisplay : MonoBehaviour
     {
         foreach (SolarSystemObject body in bodies)
         {
+            InteractableManager.Instance.Unregister(body.Object);
             Destroy(body.Object);
         }
 
@@ -148,7 +151,7 @@ public class SolarSystemDisplay : MonoBehaviour
     {
         LoadSolarSystem(new SystemGeneratorSol().Generate());
         currentAnchor = anchor.satellites[2].satellites[0];
-        //currentAnchor = anchor.satellites[0];
+        currentAnchor = anchor.satellites[2];
     }
     void Update()
     {
@@ -159,44 +162,6 @@ public class SolarSystemDisplay : MonoBehaviour
             last = current;
 
             UpdateOrbital(current, anchor, null);
-
-            /*
-            foreach (SolarSystemObject body in bodies)
-            {
-                if (body.Body != anchor)
-                {
-                    double radM = body.Body.orbitRadius;
-                    double radKM = (radM / 1000);
-                    double radAU = radKM / Numbers.AUToKM;
-                    double periodYears = System.Math.Sqrt(radAU * radAU * radAU);//Mathf.Sqrt(radAU * radAU * radAU);
-                    double periodSeconds = (Numbers.YearToSeconds * periodYears);
-                    double currentPeriod = (current * timeFactor) % periodSeconds;
-                    double percent = currentPeriod / periodSeconds;
-
-                    Debug.Log("Orbit (au): " + radAU + "; Period: " + (periodYears * 365.25) + ", Current: " + currentPeriod + "/" + periodSeconds + " : " + percent * 100 + "%");
-
-                    float x = (float)percent * Mathf.PI * 2;
-                    float z = (float)percent * Mathf.PI * 2;
-                    Vector3 dir =  new Vector3(Mathf.Cos(x), 0, Mathf.Sin(z));
-
-                    if (body.Object)
-                    {
-                        body.Object.transform.localPosition = dir * (float)(radM / Numbers.UnitsToMeters);
-                    }
-                }
-            }
-
-            if (currentAnchor != null)
-            {
-                foreach (SolarSystemObject body in bodies)
-                {
-                    if (body.Body == currentAnchor)
-                    {
-                        transform.localPosition -= body.Object.transform.position;
-                    }
-                }
-            }
-            */
         }
     }
 }
