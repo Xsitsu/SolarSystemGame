@@ -203,6 +203,11 @@ PrefabInstance:
       propertyPath: zoomSpeed
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 8683508570765838727, guid: a5e6e294c3010914492a62f2c420f6ba,
+        type: 3}
+      propertyPath: tweenTime
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8683508571069385529, guid: a5e6e294c3010914492a62f2c420f6ba,
         type: 3}
       propertyPath: m_projectionMatrixMode
@@ -333,17 +338,17 @@ PrefabInstance:
     - target: {fileID: 518803332839855548, guid: a236dead37d3b13408d4dac38192c75e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 20000
       objectReference: {fileID: 0}
     - target: {fileID: 518803332839855548, guid: a236dead37d3b13408d4dac38192c75e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 20000
       objectReference: {fileID: 0}
     - target: {fileID: 518803332839855548, guid: a236dead37d3b13408d4dac38192c75e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.385245
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 518803332839855548, guid: a236dead37d3b13408d4dac38192c75e,
         type: 3}

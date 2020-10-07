@@ -5,22 +5,23 @@ using UnityEngine;
 public class TestCameraController : MonoBehaviour
 {
     public GameObject target;
+    public GameObject tweenContainer;
     public GameObject zoomContainer;
-    [Range(0, 10000)]
-    public float minZoom = 200;
-    [Range(0, 10000)]
-    public float maxZoom = 5000;
-    [Range(0, 1000)]
-    public float zoomSpeed = 400;
-    [Range(0, 10000)]
-    public float zoom = 400;
+
     [Range(0, 360*4)]
     public float rotationSpeed = 180;
+    [Range(0, 100)]
+    public float tweenTime = 2; // seconds
+    float tweenSpeed = 0;
+
+    float zoom = 400;
     float rotationHorizontal = 0;
     float rotationVertical = 0;
+    Observable targ;
+
     void Start()
     {
-        
+        Observe(target.GetComponent<Observable>());
     }
 
     void Update()
@@ -40,8 +41,23 @@ public class TestCameraController : MonoBehaviour
             }
         }
 
-        zoom += Input.mouseScrollDelta.y * zoomSpeed;
-        zoom = Mathf.Clamp(zoom, minZoom, maxZoom);
+        zoom += Input.mouseScrollDelta.y * targ.zoomSpeed;
+        zoom = Mathf.Clamp(zoom, targ.minZoom, targ.maxZoom);
+
+        float dist = tweenContainer.transform.localPosition.magnitude;
+        if (dist > 0)
+        {
+            float travelDist = tweenSpeed * Time.deltaTime;
+            if (dist > travelDist)
+            {
+                Vector3 dir = tweenContainer.transform.localPosition.normalized;
+                tweenContainer.transform.localPosition -= dir * travelDist;
+            }
+            else
+            {
+                tweenContainer.transform.localPosition = new Vector3(0, 0, 0);
+            }
+        }
     }
 
     void LateUpdate()
@@ -52,5 +68,17 @@ public class TestCameraController : MonoBehaviour
             transform.eulerAngles = new Vector3(rotationVertical, rotationHorizontal, 0);
             zoomContainer.transform.localPosition = new Vector3(0, 0, -zoom / (float)Numbers.UnitsToMeters);
         }
+    }
+
+    public void Observe(Observable observable)
+    {
+        targ = observable;
+        zoom = targ.defaultZoom;
+
+        Vector3 diff = targ.transform.position - transform.position;
+        transform.localPosition = targ.transform.position;
+        tweenContainer.transform.localPosition = -diff;
+
+        tweenSpeed = diff.magnitude / tweenTime;
     }
 }
