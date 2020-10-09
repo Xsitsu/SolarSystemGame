@@ -23,6 +23,13 @@ public class PlayerManager : MonoBehaviour
 
     void Update()
     {
-        
+        SolarSystemDisplay display = SolarSystemDisplay.Instance;
+        if (display && character)
+        {
+            SolarSystemDisplay.SolarSystemObject sso = display.GetStrongestGravity(character.transform.position);
+            
+            OrbitalBodyMono mono = sso.Object.GetComponent<OrbitalBodyMono>();
+            character.transform.SetParent(mono.satellites.transform);
+        }
     }
 }

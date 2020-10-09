@@ -77,15 +77,18 @@ public class SolarSystemDisplay : MonoBehaviour
 
         bodies.Add(obj);
 
-        foreach (Orbital orbital in body.satellites)
+        if (body is OrbitalBody)
         {
-            Transform setParent = null;
-            if (obj.Object != null)
+            foreach (Orbital orbital in ((OrbitalBody)body).satellites)
             {
-                setParent = obj.Object.GetComponent<OrbitalBodyMono>().satellites.transform;
-            }
+                Transform setParent = null;
+                if (obj.Object != null)
+                {
+                    setParent = obj.Object.GetComponent<OrbitalBodyMono>().satellites.transform;
+                }
 
-            AddBodyToList(orbital, setParent);
+                AddBodyToList(orbital, setParent);
+            }
         }
     }
     void LoadSolarSystem(Orbital system)
@@ -128,10 +131,36 @@ public class SolarSystemDisplay : MonoBehaviour
             }
         }
 
-        foreach (Orbital satellite in orbital.satellites)
+        if (orbital is OrbitalBody)
         {
-            UpdateOrbital(currentTime, satellite);
+            foreach (Orbital satellite in ((OrbitalBody)orbital).satellites)
+            {
+                UpdateOrbital(currentTime, satellite);
+            }
         }
+    }
+    public SolarSystemObject GetStrongestGravity(Vector3 fromPosition)
+    {
+        double strongestGravity = 0;
+        SolarSystemObject rtval = null;
+        foreach (SolarSystemObject sso in bodies)
+        {
+            if (sso.Object != null && sso.Body != null)
+            {
+                if (sso.Body is OrbitalBody)
+                {
+                    float dist = (sso.Object.transform.position - fromPosition).magnitude;
+                    double gravity = ((OrbitalBody)sso.Body).CalculateGravityFromDistance(dist);
+                    if (gravity > strongestGravity)
+                    {
+                        strongestGravity = gravity;
+                        rtval = sso;
+                    }
+                }
+                
+            }
+        }
+        return rtval;
     }
     void Start()
     {

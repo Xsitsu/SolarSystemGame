@@ -6,9 +6,9 @@ public class TestShipController : MonoBehaviour
 {
     public Vector3 sizeMeters = new Vector3(20, 20, 20);
     public bool autoBrake = false;
-    [Range(0, 10000)]
+    [Range(0, 10000000)]
     public float maxSpeed = 100;
-    [Range(0, 10000)]
+    [Range(0, 10000000)]
     public float acceleration = 42;
     [Range(0, 360 * 4)]
     public float rotateSpeed = 120;

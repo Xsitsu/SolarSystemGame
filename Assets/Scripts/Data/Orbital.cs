@@ -3,43 +3,14 @@ using System.Collections.Generic;
 
 public class Orbital
 {
-    public double mass; // kg
     public double orbitRadius; // m
-    public Orbital parent { get; private set; }
-    public List<Orbital> satellites = new List<Orbital>();
+    public OrbitalBody parent { get; private set; }
 
-    public void AddSatellite(Orbital satellite)
-    {
-        if (!IsSatellite(satellite))
-        {
-            satellites.Add(satellite);
-            satellite.AddTo(this);
-        }
-    }
-    public void RemoveSatellite(Orbital satellite)
-    {
-        if (IsSatellite(satellite))
-        {
-            satellite.RemoveFrom(this);
-            satellites.Remove(satellite);
-        }
-    }
-    public bool IsSatellite(Orbital satellite)
-    {
-        foreach (Orbital s in satellites)
-        {
-            if (s == satellite)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-    public void AddTo(Orbital parent)
+    public void AddTo(OrbitalBody parent)
     {
         this.parent = parent;
     }
-    public void RemoveFrom(Orbital parent)
+    public void RemoveFrom(OrbitalBody parent)
     {
         if (this.parent == parent)
         {
