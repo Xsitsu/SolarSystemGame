@@ -10,17 +10,29 @@ public class SolarSystemDisplay : MonoBehaviour
         public GameObject Object;
     }
 
-    public Orbital anchor;
-    public Orbital currentAnchor;
-
     [Range(0.000001f, 1000000)]
     public double timeFactor = 1.0;
     public int dayOffset = 0;
     public GameObject starPrefab;
     public GameObject planetPrefab;
 
+    public Orbital anchor;
+    public GameObject anchorObject;
+
     List<SolarSystemObject> bodies = new List<SolarSystemObject>();
     double last = -1;
+
+    static private SolarSystemDisplay _instance;
+	static public SolarSystemDisplay Instance { get { return _instance; } }
+    void Awake()
+	{
+		_instance = this;
+	}
+
+    void OnDestroy()
+    {
+        _instance = null;
+    }
 
     void SetupOrbitalBody(GameObject go, OrbitalBody orbitalBody)
     {
@@ -79,7 +91,6 @@ public class SolarSystemDisplay : MonoBehaviour
     void LoadSolarSystem(Orbital system)
     {
         anchor = system;
-        currentAnchor = anchor;
 
         AddBodyToList(system, transform);
     }
@@ -104,54 +115,27 @@ public class SolarSystemDisplay : MonoBehaviour
         }
         return null;
     }
-    void UpdateOrbital(double currentTime, Orbital orbital, OrbitalBody center)
+    void UpdateOrbital(double currentTime, Orbital orbital)
     {
-        if (center != null)
+        SolarSystemObject sso = GetObjectFromOrbital(orbital);
+        if (sso != null)
         {
-            double periodSeconds = orbital.CalculateOrbitalPeriod(center.mass);
-            double currentPeriod = (currentTime * timeFactor) % periodSeconds;
-            double percent = currentPeriod / periodSeconds;
-
-            double radM = orbital.orbitRadius;
-            double radKM = (radM / 1000);
-            double radAU = radKM / Numbers.AUToKM;
-            double periodYears = periodSeconds / Numbers.YearToSeconds;
-
-            //Debug.Log("periodSeconds:" + periodSeconds + " | currentPeriod " + currentPeriod + " | percent " + percent + " | periodYears " + periodYears);
-            //Debug.Log("CenterMass: " + center.mass + "; Orbit (au): " + radAU + "; Period: " + (periodYears * 365.25) + ", Current: " + currentPeriod + "/" + periodSeconds + " : " + percent * 100 + "%");
-
-            float x = (float)percent * Mathf.PI * 2;
-            float z = (float)percent * Mathf.PI * 2;
-            Vector3 dir = new Vector3(Mathf.Cos(x), 0, Mathf.Sin(z));
-
-            SolarSystemObject sso = GetObjectFromOrbital(orbital);
-            if (sso != null)
+            if (sso.Object)
             {
-                if (sso.Object)
-                {
-                    sso.Object.transform.localPosition = dir.normalized * (float)(radM / Numbers.UnitsToMeters);
-                }
-
-                if (currentAnchor == orbital)
-                {
-                    transform.localPosition -= sso.Object.transform.position;
-                }
+                double radM = orbital.orbitRadius;
+                Vector3 dir = orbital.CalculateRelativeDirection(currentTime).ToUnity();
+                sso.Object.transform.localPosition = dir.normalized * (float)(radM / Numbers.UnitsToMeters);
             }
         }
 
-        if (orbital is OrbitalBody)
+        foreach (Orbital satellite in orbital.satellites)
         {
-            foreach (Orbital satellite in orbital.satellites)
-            {
-                UpdateOrbital(currentTime, satellite, (OrbitalBody)orbital);
-            }
+            UpdateOrbital(currentTime, satellite);
         }
     }
     void Start()
     {
         LoadSolarSystem(new SystemGeneratorSol().Generate());
-        currentAnchor = anchor.satellites[2].satellites[0];
-        currentAnchor = anchor.satellites[2];
     }
     void Update()
     {
@@ -161,7 +145,12 @@ public class SolarSystemDisplay : MonoBehaviour
         {
             last = current;
 
-            UpdateOrbital(current, anchor, null);
+            UpdateOrbital(current * timeFactor, anchor);
+        }
+
+        if (anchorObject != null)
+        {
+            transform.localPosition -= anchorObject.transform.position;
         }
     }
 }

@@ -10,7 +10,7 @@ public class Interactable : MonoBehaviour
     public GameObject button;
     void Start()
     {
-        
+        button.GetComponent<Button>().onClick.AddListener(Interact);
     }
 
     void Update()
@@ -33,5 +33,11 @@ public class Interactable : MonoBehaviour
     public void Interact()
     {
         Debug.Log("Interact!");
+
+        // test stuff
+        OrbitalBodyMono mono = adornee.GetComponent<OrbitalBodyMono>();
+        GameObject character = PlayerManager.Instance.character;
+        character.transform.SetParent(mono.satellites.transform);
+        character.transform.localPosition = mono.display.transform.localScale * 0.6f;
     }
 }
