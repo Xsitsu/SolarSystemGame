@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class Orbital
 {
+    public string name = "";
     public double orbitRadius; // m
     public OrbitalBody parent { get; private set; }
 

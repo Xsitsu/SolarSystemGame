@@ -12,6 +12,7 @@ public class WarpEngineMono : EngineMono
     public float warpFactor { get; private set; }
     public float WarpFactorOut;
     public double speedCOut;
+    public double speedAUOut;
     public double CalculateSpeedC()
     {
         double speedC = System.Math.Pow(warpFactor, 3);
@@ -33,12 +34,15 @@ public class WarpEngineMono : EngineMono
         {
             double speedC = CalculateSpeedC();
             double speedM = speedC * Numbers.c;
+            double speedAU = (speedM / 1000) / Numbers.AUToKM;
             speedCOut = speedC;
+            speedAUOut = speedAU;
             transform.localPosition += transform.forward * (float)(speedM / Numbers.UnitsToMeters) * Time.deltaTime;
         }
         else
         {
             speedCOut = 0;
+            speedAUOut = 0;
         }
     }
 }

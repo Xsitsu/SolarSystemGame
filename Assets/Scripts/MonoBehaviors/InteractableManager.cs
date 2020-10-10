@@ -39,13 +39,33 @@ public class InteractableManager : MonoBehaviour
 
     public void Unregister(GameObject gameObject)
     {
-        foreach (Transform ch in transform)
+        foreach (Transform ch in canvas.transform)
         {
             GameObject child = ch.gameObject;
-            if (child.GetComponent<Interactable>().adornee = child)
+            if (child.GetComponent<Interactable>().adornee = gameObject)
             {
                 Destroy(child);
             }
         }
+    }
+
+    public Interactable GetInteractable(GameObject gameObject)
+    {
+        foreach (Transform ch in canvas.transform)
+        {
+            Interactable interactable = ch.gameObject.GetComponent<Interactable>();
+            if (interactable)
+            {
+                if (interactable.adornee == gameObject)
+                {
+                    return interactable;
+                }
+            }
+            else
+            {
+                Debug.Log("Have child with no interactable!");
+            }
+        }
+        return null;
     }
 }

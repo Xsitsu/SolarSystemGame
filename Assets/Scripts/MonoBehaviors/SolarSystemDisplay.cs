@@ -44,6 +44,15 @@ public class SolarSystemDisplay : MonoBehaviour
         obs.defaultZoom = (float)(orbitalBody.radius * 1.5);
 
         InteractableManager.Instance.Register(go);
+        Interactable interactable = InteractableManager.Instance.GetInteractable(go);
+        if (interactable)
+        {
+            interactable.SetNameLabel(orbitalBody.name);
+        }
+        else
+        {
+            Debug.Log("No interactable for: " + orbitalBody.name);
+        }
     }
 
     void AddBodyToList(Orbital body, Transform parent)
