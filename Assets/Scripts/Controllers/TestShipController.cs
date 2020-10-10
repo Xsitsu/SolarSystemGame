@@ -4,54 +4,66 @@ using UnityEngine;
 
 public class TestShipController : MonoBehaviour
 {
+    public bool autoBrake;
     public Vector3 sizeMeters = new Vector3(20, 20, 20);
-    public bool autoBrake = false;
-    [Range(0, 10000000)]
-    public float maxSpeed = 100;
-    [Range(0, 10000000)]
-    public float acceleration = 42;
-    [Range(0, 360 * 4)]
-    public float rotateSpeed = 120;
-    float speed;
+
+    SublightEngineMono sublightEngine;
+    WarpEngineMono warpEngine;
     void Start()
     {
-        speed = 0;
+        sublightEngine = GetComponent<SublightEngineMono>();
+        warpEngine = GetComponent<WarpEngineMono>();
         transform.localScale = sizeMeters / (float)Numbers.UnitsToMeters;
     }
     void Update()
     {
         if (enabled)
         {
-            if (Input.GetKey(KeyCode.W))
+            int sublightAcceleration = 0;
+            Vector3 sublightRotation = new Vector3(0, 0, 0);
+
+            if (warpEngine.warpFactor > 0 || Input.GetKey(KeyCode.LeftShift))
             {
-                speed += acceleration * Time.deltaTime;
-                if (speed > maxSpeed)
+                int warpAcceleration = 0;
+                if (Input.GetKey(KeyCode.W))
                 {
-                    speed = maxSpeed;
+                    warpAcceleration = 1;
                 }
+                else if (Input.GetKey(KeyCode.S))
+                {
+                    warpAcceleration = -1;
+                }
+
+                warpEngine.moveDirection.z = warpAcceleration;
             }
-            else if (Input.GetKey(KeyCode.S) || autoBrake)
+            else
             {
-                speed -= acceleration * Time.deltaTime;
-                if (speed < 0)
+                if (Input.GetKey(KeyCode.W))
                 {
-                    speed = 0;
+                    sublightAcceleration = 1;
                 }
+                else if (Input.GetKey(KeyCode.S) || autoBrake)
+                {
+                    sublightAcceleration = -1;
+                }
+
+                int rotX = 0;
+                int rotY = 0;
+                int rotZ = 0;
+                if (Input.GetKey(KeyCode.Q)) rotZ++;
+                if (Input.GetKey(KeyCode.E)) rotZ--;
+                if (Input.GetKey(KeyCode.A)) rotY--;
+                if (Input.GetKey(KeyCode.D)) rotY++;
+                if (Input.GetKey(KeyCode.Z)) rotX--;
+                if (Input.GetKey(KeyCode.C)) rotX++;
+
+                sublightRotation.x = rotX;
+                sublightRotation.y = rotY;
+                sublightRotation.z = rotZ;
             }
 
-            int rotX = 0;
-            int rotY = 0;
-            int rotZ = 0;
-            if (Input.GetKey(KeyCode.Q)) rotZ++;
-            if (Input.GetKey(KeyCode.E)) rotZ--;
-            if (Input.GetKey(KeyCode.A)) rotY--;
-            if (Input.GetKey(KeyCode.D)) rotY++;
-            if (Input.GetKey(KeyCode.Z)) rotX--;
-            if (Input.GetKey(KeyCode.C)) rotX++;
-
-            Vector3 rotate = new Vector3(rotX, rotY, rotZ) * rotateSpeed * Time.deltaTime;
-            transform.Rotate(rotate.x, rotate.y, rotate.z);
-            transform.localPosition += transform.forward * (float)(speed / Numbers.UnitsToMeters) * Time.deltaTime;
+            sublightEngine.moveDirection.z = sublightAcceleration;
+            sublightEngine.rotateDirection = sublightRotation;
         }
     }
 }

@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 518803332839855550}
   - component: {fileID: 518803332839855551}
   - component: {fileID: 5340496282669709503}
+  - component: {fileID: 9201626583900388013}
+  - component: {fileID: 1521363444914832825}
   m_Layer: 0
   m_Name: TestShip
   m_TagString: Untagged
@@ -28,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 518803332839855544}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 7.385245}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 3}
   m_Children: []
   m_Father: {fileID: 0}
@@ -93,11 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb7e810faeef2b049b66706f7450db4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sizeMeters: {x: 32, y: 18, z: 92}
   autoBrake: 0
-  maxSpeed: 400
-  acceleration: 132
-  rotateSpeed: 120
+  sizeMeters: {x: 32, y: 18, z: 92}
 --- !u!114 &5340496282669709503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,3 +113,38 @@ MonoBehaviour:
   maxZoom: 10000
   zoomSpeed: 100
   defaultZoom: 200
+--- !u!114 &9201626583900388013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 518803332839855544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ad2c09a07601f74f8103fe65b37ffd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSpeed: 2000
+  acceleration: 600
+  rotateSpeed: 120
+  SpeedOut: 0
+  moveDirection: {x: 0, y: 0, z: 0}
+  rotateDirection: {x: 0, y: 0, z: 0}
+--- !u!114 &1521363444914832825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 518803332839855544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 345d907f4e4cf8c42a38f7c7b7a297eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxWarp: 5
+  acceleration: 0.5
+  moveDirection: {x: 0, y: 0, z: 0}
+  WarpFactorOut: 0
+  speedCOut: 0

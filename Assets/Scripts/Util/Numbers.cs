@@ -5,6 +5,7 @@ using UnityEngine;
 public static class Numbers
 {
     public static double G = 6.673 * System.Math.Pow(10, -11); // m^2 / kg^2
+    public static double c = 299792458; // m/s
     public static double YearToSeconds = 60 * 60 * 24 * 365.25;
     public static double DayToSeconds = 60 * 60 * 24;
     public static double AUToKM = 149597870;
