@@ -65,8 +65,7 @@ public class Interactable : MonoBehaviour
         // test stuff
         OrbitalBodyMono mono = adornee.GetComponent<OrbitalBodyMono>();
         GameObject character = PlayerManager.Instance.character;
-        character.transform.SetParent(mono.satellites.transform);
-        character.transform.localPosition = mono.display.transform.localScale * 0.6f;
+        character.transform.position = mono.gameObject.transform.position + mono.display.transform.localScale * 0.6f;
     }
 
     public void SetNameLabel(string setText)

@@ -18,18 +18,15 @@ public class PlayerManager : MonoBehaviour
     }
     void Start()
     {
-        
+        SolarSystemDisplay display = SolarSystemDisplay.Instance;
+        if (display != null && character != null)
+        {
+            character.transform.SetParent(display.gameObject.transform);
+        }
     }
 
     void Update()
     {
-        SolarSystemDisplay display = SolarSystemDisplay.Instance;
-        if (display && character)
-        {
-            SolarSystemDisplay.SolarSystemObject sso = display.GetStrongestGravity(character.transform.position);
-            
-            OrbitalBodyMono mono = sso.Object.GetComponent<OrbitalBodyMono>();
-            character.transform.SetParent(mono.satellites.transform);
-        }
+        
     }
 }

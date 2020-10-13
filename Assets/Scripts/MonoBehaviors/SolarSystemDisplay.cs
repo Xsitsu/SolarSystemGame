@@ -158,7 +158,7 @@ public class SolarSystemDisplay : MonoBehaviour
             {
                 if (sso.Body is OrbitalBody)
                 {
-                    float dist = (sso.Object.transform.position - fromPosition).magnitude;
+                    double dist = (sso.Object.transform.position - fromPosition).magnitude * Numbers.UnitsToMeters;
                     double gravity = ((OrbitalBody)sso.Body).CalculateGravityFromDistance(dist);
                     if (gravity > strongestGravity)
                     {
@@ -171,24 +171,122 @@ public class SolarSystemDisplay : MonoBehaviour
         }
         return rtval;
     }
+    public SolarSystemObject GetClosestToSurface(Vector3 fromPosition)
+    {
+        double closestDist = 0;
+        SolarSystemObject rtval = null;
+        foreach (SolarSystemObject sso in bodies)
+        {
+            if (sso.Object != null && sso.Body != null)
+            {
+                if (sso.Body is OrbitalBody)
+                {
+                    double dist = (sso.Object.transform.position - fromPosition).magnitude * Numbers.UnitsToMeters;
+                    dist -= ((OrbitalBody)sso.Body).radius;
+                    if (dist < 0)
+                    {
+                        dist = 0;
+                        return sso;
+                    }
+                    if (closestDist > dist)
+                    {
+                        closestDist = dist;
+                        rtval = sso;
+                    }
+                }
+                
+            }
+        }
+        return rtval;
+    }
+    void PositionOrbitalParent(Orbital orbital, Vector3d offset, double currentTime, Orbital fromChild)
+    {
+        SolarSystemObject sso = GetObjectFromOrbital(orbital);
+        if (sso != null && sso.Object != null)
+        {
+            sso.Object.transform.localPosition = (offset.ToUnity() / (float)Numbers.UnitsToMeters);
+        }
+
+        if (orbital is OrbitalBody)
+        {
+            OrbitalBody body = (OrbitalBody)orbital;
+            foreach (Orbital child in body.satellites)
+            {
+                if (child != fromChild)
+                {
+                    double radM = child.orbitRadius;
+                    Vector3d dir = child.CalculateRelativeDirection(currentTime).ToUnityd();
+                    Vector3d childOffset = dir.normalized * radM;
+                    PositionOrbitalChild(child, offset + childOffset, currentTime);
+                }
+            }
+        }
+
+        if (orbital.parent != null)
+        {
+            double radM = orbital.orbitRadius;
+            Vector3d dir = orbital.CalculateRelativeDirection(currentTime).ToUnityd();
+            Vector3d parentOffset = dir.normalized * radM;
+            PositionOrbitalParent(orbital.parent, offset - parentOffset, currentTime, orbital);
+        }
+    }
+    void PositionOrbitalChild(Orbital orbital, Vector3d offset, double currentTime)
+    {
+        SolarSystemObject sso = GetObjectFromOrbital(orbital);
+        if (sso != null && sso.Object != null)
+        {
+            sso.Object.transform.localPosition = (offset.ToUnity() / (float)Numbers.UnitsToMeters);
+        }
+
+        if (orbital is OrbitalBody)
+        {
+            OrbitalBody body = (OrbitalBody)orbital;
+            foreach (Orbital child in body.satellites)
+            {
+                double radM = child.orbitRadius;
+                Vector3d dir = child.CalculateRelativeDirection(currentTime).ToUnityd();
+                Vector3d childOffset = dir.normalized * radM;
+                PositionOrbitalChild(child, offset + childOffset, currentTime);
+            }
+        }
+    }
     void Start()
     {
         LoadSolarSystem(new SystemGeneratorSol().Generate());
+        foreach (SolarSystemObject sso in bodies)
+        {
+            if (sso.Object != null)
+            {
+                sso.Object.transform.SetParent(transform);
+            }
+        }
     }
     void Update()
     {
+        if (anchorObject != null)
+        {
+            transform.localPosition -= anchorObject.transform.position;
+
+            SolarSystemDisplay.SolarSystemObject sso = GetStrongestGravity(anchorObject.transform.position);
+            if (sso != null && anchor != sso.Body)
+            {
+                //Debug.Log("Changing anchor to: " + sso.Body.name);
+                
+                Vector3 diff = anchorObject.transform.position - sso.Object.transform.position;
+                anchorObject.transform.localPosition = diff;
+                transform.localPosition = -diff;
+                anchor = sso.Body;
+            }
+            
+        }
+
         double current = Epoch.CurrentMilliseconds() / 1000.0;
         current += dayOffset * Numbers.DayToSeconds;
         if (current != last)
         {
             last = current;
-
-            UpdateOrbital(current * timeFactor, anchor);
-        }
-
-        if (anchorObject != null)
-        {
-            transform.localPosition -= anchorObject.transform.position;
+            double useTime = current * timeFactor;
+            PositionOrbitalParent(anchor, new Vector3d(0, 0, 0), useTime, null);
         }
     }
 }
