@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Orbital
 {
     public string name = "";
     public double orbitRadius; // m
+    public Vector3d offset; // m
+    public double orbitPercentOffset;
     public OrbitalBody parent { get; private set; }
 
     public void AddTo(OrbitalBody parent)
@@ -47,6 +50,8 @@ public class Orbital
             double periodSeconds = CalculateOrbitalPeriod();
             double currentPeriod = atTime % periodSeconds;
             double percent = currentPeriod / periodSeconds;
+            percent += orbitPercentOffset;
+            percent %= 1;
 
             double radM = orbitRadius;
             double radKM = (radM / 1000);

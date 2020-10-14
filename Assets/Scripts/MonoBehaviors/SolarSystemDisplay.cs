@@ -24,16 +24,6 @@ public class SolarSystemDisplay : MonoBehaviour
 
     static private SolarSystemDisplay _instance;
 	static public SolarSystemDisplay Instance { get { return _instance; } }
-    void Awake()
-	{
-		_instance = this;
-	}
-
-    void OnDestroy()
-    {
-        _instance = null;
-    }
-
     void SetupOrbitalBody(GameObject go, OrbitalBody orbitalBody)
     {
         double radiusUnits = (orbitalBody.radius / Numbers.UnitsToMeters);
@@ -199,13 +189,17 @@ public class SolarSystemDisplay : MonoBehaviour
         }
         return rtval;
     }
-    void PositionOrbitalParent(Orbital orbital, Vector3d offset, double currentTime, Orbital fromChild)
+    void PositionOrbitalSelf(Orbital orbital, Vector3d offset)
     {
         SolarSystemObject sso = GetObjectFromOrbital(orbital);
         if (sso != null && sso.Object != null)
         {
             sso.Object.transform.localPosition = (offset.ToUnity() / (float)Numbers.UnitsToMeters);
         }
+    }
+    void PositionOrbitalParent(Orbital orbital, Vector3d offset, double currentTime, Orbital fromChild)
+    {
+        PositionOrbitalSelf(orbital, offset);
 
         if (orbital is OrbitalBody)
         {
@@ -215,8 +209,12 @@ public class SolarSystemDisplay : MonoBehaviour
                 if (child != fromChild)
                 {
                     double radM = child.orbitRadius;
-                    Vector3d dir = child.CalculateRelativeDirection(currentTime).ToUnityd();
-                    Vector3d childOffset = dir.normalized * radM;
+                    Vector3d childOffset = child.offset;
+                    if (radM > 0)
+                    {
+                        Vector3d dir = child.CalculateRelativeDirection(currentTime).ToUnityd();
+                        childOffset += dir.normalized * radM;
+                    }
                     PositionOrbitalChild(child, offset + childOffset, currentTime);
                 }
             }
@@ -225,18 +223,18 @@ public class SolarSystemDisplay : MonoBehaviour
         if (orbital.parent != null)
         {
             double radM = orbital.orbitRadius;
-            Vector3d dir = orbital.CalculateRelativeDirection(currentTime).ToUnityd();
-            Vector3d parentOffset = dir.normalized * radM;
+            Vector3d parentOffset = orbital.offset;
+            if (radM > 0)
+            {
+                Vector3d dir = orbital.CalculateRelativeDirection(currentTime).ToUnityd();
+                parentOffset += dir.normalized * radM;
+            }
             PositionOrbitalParent(orbital.parent, offset - parentOffset, currentTime, orbital);
         }
     }
     void PositionOrbitalChild(Orbital orbital, Vector3d offset, double currentTime)
     {
-        SolarSystemObject sso = GetObjectFromOrbital(orbital);
-        if (sso != null && sso.Object != null)
-        {
-            sso.Object.transform.localPosition = (offset.ToUnity() / (float)Numbers.UnitsToMeters);
-        }
+        PositionOrbitalSelf(orbital, offset);
 
         if (orbital is OrbitalBody)
         {
@@ -244,11 +242,23 @@ public class SolarSystemDisplay : MonoBehaviour
             foreach (Orbital child in body.satellites)
             {
                 double radM = child.orbitRadius;
-                Vector3d dir = child.CalculateRelativeDirection(currentTime).ToUnityd();
-                Vector3d childOffset = dir.normalized * radM;
+                Vector3d childOffset = child.offset;
+                if (radM > 0)
+                {
+                    Vector3d dir = child.CalculateRelativeDirection(currentTime).ToUnityd();
+                    childOffset += dir.normalized * radM;
+                }
                 PositionOrbitalChild(child, offset + childOffset, currentTime);
             }
         }
+    }
+    void Awake()
+    {
+        _instance = this;   
+    }
+    void OnDestroy()
+    {
+        _instance = null;
     }
     void Start()
     {
