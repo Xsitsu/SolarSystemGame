@@ -68,4 +68,14 @@ public class InteractableManager : MonoBehaviour
         }
         return null;
     }
+
+    public void SetVisible(bool visible)
+    {
+        canvas.SetActive(visible);
+    }
+
+    public bool GetVisible()
+    {
+        return canvas.activeSelf;
+    }
 }

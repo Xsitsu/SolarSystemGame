@@ -60,8 +60,6 @@ public class Interactable : MonoBehaviour
 
     public void Interact()
     {
-        Debug.Log("Interact!");
-
         // test stuff
         OrbitalBodyMono mono = adornee.GetComponent<OrbitalBodyMono>();
         GameObject character = PlayerManager.Instance.character;

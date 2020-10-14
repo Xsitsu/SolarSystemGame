@@ -46,10 +46,19 @@ public class SystemGeneratorSol : ISystemGenerator
         Planet earth = MakePlanet("Earth", 1.000, 6378.1, MakeColor(49, 108, 196), 1.000);
         Planet earthMoon = MakeMoon("Luna", 7.342 * System.Math.Pow(10, 22), 1737.4, MakeColor(220, 220, 220), 384400);
 
+        Planet earthMoonMoon = MakeMoon("Luna Minor", 1 * System.Math.Pow(10, 20), 10, MakeColor(255, 0, 255), (earthMoon.radius / 1000) + 10000);
+
         earth.AddSatellite(earthMoon);
+        earthMoon.AddSatellite(earthMoonMoon);
 
         // Mars
         Planet mars = MakePlanet("Mars", 0.107, 3396.2, MakeColor(189, 66, 28), 1.524);
+
+        Planet phobos = MakeMoon("Phobos", 10.6 * System.Math.Pow(10, 15), 11, MakeColor(220, 220, 220), 9376);
+        Planet deimos = MakeMoon("Deimos", 1.4762 * System.Math.Pow(10, 15), 6.2, MakeColor(208, 208, 192), 23463.2);
+
+        mars.AddSatellite(phobos);
+        mars.AddSatellite(deimos);
 
         // Jupiter
         Planet jupiter = MakePlanet("Jupiter", 317.8, 71492, MakeColor(207, 128, 89), 5.203);
