@@ -5,10 +5,15 @@ using UnityEngine;
 public class StarMono : OrbitalBodyMono
 {
     public Shader starShader;
+    public GameObject lightSource;
     Material material;
+    Light _light;
     void Start()
     {
-        
+        if (lightSource != null)
+        {
+            _light = lightSource.GetComponent<Light>();
+        }
     }
     void Awake()
     {
@@ -23,5 +28,18 @@ public class StarMono : OrbitalBodyMono
     {
         material.SetColor("_Color", star.color);
         display.transform.localScale *= (float)((2 * star.radius) / Numbers.UnitsToMeters);
+
+        if (_light != null)
+        {
+            _light.color = star.color;
+        }
+    }
+
+    public void SetLightDirection(Quaternion dir)
+    {
+        if (_light != null)
+        {
+            _light.transform.localRotation = dir;
+        }
     }
 }

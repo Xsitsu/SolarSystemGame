@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Galaxy : Orbital
+public class Galaxy : OrbitalBody
 {
     
 }

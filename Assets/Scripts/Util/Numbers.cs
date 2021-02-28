@@ -8,9 +8,10 @@ public static class Numbers
     public static double c = 299792458; // m/s
     public static double YearToSeconds = 60 * 60 * 24 * 365.25;
     public static double DayToSeconds = 60 * 60 * 24;
+    public static double LightYearToKM = 9460730472580.8;
     public static double AUToKM = 149597870;
     public static double UnitsToMeters = 100; // Unity spatial coordinate system to meters
-    public static double SunMassToKGs = 1.989 * System.Math.Pow(10, 30);
+    public static double SolarMassToKG = 1.989 * System.Math.Pow(10, 30);
     public static double EarthMassToKGs = 5.972 * System.Math.Pow(10, 24);
     public static double PI2 = System.Math.PI * 2;
     public static double PISquared = System.Math.PI * System.Math.PI;

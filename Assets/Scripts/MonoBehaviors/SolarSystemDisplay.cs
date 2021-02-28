@@ -262,7 +262,8 @@ public class SolarSystemDisplay : MonoBehaviour
     }
     void Start()
     {
-        LoadSolarSystem(new SystemGeneratorSol().Generate());
+        //LoadSolarSystem(new SystemGeneratorSol().Generate());
+        LoadSolarSystem(new GalaxyGeneratorTest().Generate(42));
         foreach (SolarSystemObject sso in bodies)
         {
             if (sso.Object != null)

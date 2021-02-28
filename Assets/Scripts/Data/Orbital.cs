@@ -10,6 +10,31 @@ public class Orbital
     public double orbitPercentOffset;
     public OrbitalBody parent { get; private set; }
 
+    public bool HasAncestor(OrbitalBody ancestor)
+    {
+        OrbitalBody check = parent;
+        while (check != null)
+        {
+            if (check == ancestor)
+            {
+                return true;
+            }
+            else
+            {
+                check = check.parent;
+            }
+        }
+        return false;
+    }
+    public OrbitalBody FindCommonAncestor(Orbital other)
+    {
+        OrbitalBody check = parent;
+        while (check != null && !other.HasAncestor(check))
+        {
+            check = check.parent;
+        }
+        return check;
+    }
     public void AddTo(OrbitalBody parent)
     {
         this.parent = parent;

@@ -32,7 +32,7 @@ public class SystemGeneratorSol : ISystemGenerator
     {
         Star sun = new Star();
         sun.name = "Sol";
-        sun.mass = Numbers.SunMassToKGs;
+        sun.mass = Numbers.SolarMassToKG;
         sun.radius = 696340 * 1000;
         sun.color = MakeColor(252, 212, 64);
 

@@ -51,6 +51,32 @@ public class Interactable : MonoBehaviour
             {
                 transform.position = new Vector3(screenPosition.x, screenPosition.y, 0);
                 hide = false;
+
+                if (PlayerManager.Instance.character != null)
+                {
+                    double distU = (PlayerManager.Instance.character.transform.position - adornee.transform.position).magnitude;
+                    double distM = distU * Numbers.UnitsToMeters;
+                    double distKM = distM / 1000d;
+                    double distAU = distKM / Numbers.AUToKM;
+                    double distLY = distKM / Numbers.LightYearToKM;
+
+                    if (distLY >= 0.1)
+                    {
+                        SetDistanceLabel(System.Math.Round(distLY, 1).ToString() + " ly");
+                    }
+                    else if (distAU >= 0.1)
+                    {
+                        SetDistanceLabel(System.Math.Round(distAU, 1).ToString() + " au");
+                    }
+                    else if (distKM >= 10)
+                    {
+                        SetDistanceLabel(System.Math.Round(distKM, 0).ToString() + " km");
+                    }
+                    else
+                    {
+                        SetDistanceLabel(System.Math.Round(distM, 0).ToString() + " m");
+                    }
+                }
             }
 
         }

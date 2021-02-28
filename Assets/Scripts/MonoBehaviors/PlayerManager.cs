@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     public GameObject character;
+    public GameObject setParent;
+
     static private PlayerManager _instance;
 	static public PlayerManager Instance { get { return _instance; } }
     void Awake()
@@ -18,11 +20,17 @@ public class PlayerManager : MonoBehaviour
     }
     void Start()
     {
-        SolarSystemDisplay display = SolarSystemDisplay.Instance;
+        if (setParent != null)
+        {
+            character.transform.SetParent(setParent.transform);
+        }
+        /*
+        UniverseDisplay display = UniverseDisplay.Instance;
         if (display != null && character != null)
         {
             character.transform.SetParent(display.gameObject.transform);
         }
+        */
     }
 
     void Update()

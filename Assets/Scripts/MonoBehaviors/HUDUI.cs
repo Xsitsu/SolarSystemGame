@@ -7,6 +7,13 @@ public class HUDUI : MonoBehaviour
 {
     public GameObject button_interactables;
     public GameObject button_speedChange;
+    public GameObject label_speedSublight;
+    public GameObject label_speedWarp;
+    public GameObject label_speedC;
+
+    Text speedSublight;
+    Text speedWarp;
+    Text speedC;
     void Start()
     {
         Button interactables = button_interactables.GetComponent<Button>();
@@ -20,10 +27,26 @@ public class HUDUI : MonoBehaviour
         {
             speedChange.onClick.AddListener(ClickSpeedChange);
         }
+
+        speedSublight = label_speedSublight.GetComponent<Text>();
+        speedWarp = label_speedWarp.GetComponent<Text>();
+        speedC = label_speedC.GetComponent<Text>();
     }
     void Update()
     {
-        
+        GameObject character = PlayerManager.Instance.character;
+        if (character != null)
+        {
+            SublightEngineMono sublightEngine = character.GetComponent<SublightEngineMono>();
+            WarpEngineMono warpEngine = character.GetComponent<WarpEngineMono>();
+            double _speedM = sublightEngine.SpeedOut;
+            double _warpFactor = warpEngine.WarpFactorOut;
+            double _speedC = warpEngine.speedCOut;
+
+            speedSublight.text = System.Math.Round(_speedM, 1).ToString() + " m/s";
+            speedWarp.text = "Warp " + System.Math.Round(_warpFactor, 1).ToString();
+            speedC.text = System.Math.Round(_speedC, 1).ToString() + "c";
+        }
     }
     void ClickInteractables()
     {
@@ -31,7 +54,8 @@ public class HUDUI : MonoBehaviour
     }
     void ClickSpeedChange()
     {
-        SolarSystemDisplay display = SolarSystemDisplay.Instance;
+        UniverseDisplay display = UniverseDisplay.Instance;
+        /*
         if (display.timeFactor > 1.0)
         {
             display.timeFactor = 1.0;
@@ -40,5 +64,6 @@ public class HUDUI : MonoBehaviour
         {
             display.timeFactor = 50000.0;
         }
+        */
     }
 }
