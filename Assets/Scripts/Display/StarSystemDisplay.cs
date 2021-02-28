@@ -155,6 +155,7 @@ public class StarSystemDisplay : MonoBehaviour
                 Planet planet = (Planet)orbital;
                 go = Instantiate(planetPrefab);
                 go.GetComponent<PlanetMono>().DisplayPlanet(planet);
+                go.GetComponent<PlanetMono>().SetLightSource(GetOrbitalObject(_star));
             }
             else if (orbital is Star)
             {

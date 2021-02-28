@@ -6,6 +6,7 @@ public class PlanetMono : OrbitalBodyMono
 {
     public Shader planetShader;
     Material material;
+    GameObject _lightSource;
     void Start()
     {
         
@@ -17,11 +18,19 @@ public class PlanetMono : OrbitalBodyMono
     }
     void Update()
     {
-        
+        if (_lightSource != null)
+        {
+            Vector3 dir = Vector3.Normalize(transform.position - _lightSource.transform.position);
+            material.SetVector("_LightDirection", dir);
+        }
     }
     public void DisplayPlanet(Planet planet)
     {
         material.SetColor("_Color", planet.color);
         display.transform.localScale *= (float)((2 * planet.radius) / Numbers.UnitsToMeters);
+    }
+    public void SetLightSource(GameObject lightSource)
+    {
+        _lightSource = lightSource;
     }
 }

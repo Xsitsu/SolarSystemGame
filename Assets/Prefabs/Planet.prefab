@@ -48,8 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   display: {fileID: 5748661338972811893}
   satellites: {fileID: 8867802971113548477}
-  planetShader: {fileID: -6465566751694194690, guid: 025c1f1ddebb40e42a1c1616a06beb45,
-    type: 3}
+  planetShader: {fileID: 4800000, guid: 28ab8854f4e2f5644a32f7a56eedd41a, type: 3}
 --- !u!114 &4199220214729824065
 MonoBehaviour:
   m_ObjectHideFlags: 0
