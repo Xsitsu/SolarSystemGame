@@ -7,6 +7,8 @@ public class PlayerManager : MonoBehaviour
     public GameObject character;
     public GameObject setParent;
 
+    public Structure CharacterStructure;
+
     static private PlayerManager _instance;
 	static public PlayerManager Instance { get { return _instance; } }
     void Awake()
@@ -24,13 +26,12 @@ public class PlayerManager : MonoBehaviour
         {
             character.transform.SetParent(setParent.transform);
         }
-        /*
-        UniverseDisplay display = UniverseDisplay.Instance;
-        if (display != null && character != null)
-        {
-            character.transform.SetParent(display.gameObject.transform);
-        }
-        */
+
+        CharacterStructure = new Structure();
+        ModuleCargo cargoBay = new ModuleCargo();
+        cargoBay.Name = "Cargo Bay";
+        cargoBay.MaxVolume = 10000;
+        CharacterStructure.AddModule(cargoBay);
     }
 
     void Update()

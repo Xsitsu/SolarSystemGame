@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Construction : Orbital
+public class Item
 {
-    
+    public double volume; // L^3
+    public double weight; // Kg
 }
