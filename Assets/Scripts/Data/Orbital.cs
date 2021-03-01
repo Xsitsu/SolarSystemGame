@@ -73,17 +73,21 @@ public class Orbital
     {
         if (parent != null)
         {
-            double periodSeconds = CalculateOrbitalPeriod();
-            double currentPeriod = atTime % periodSeconds;
-            double percent = currentPeriod / periodSeconds;
+            double percent = 0;
+            if (!anchored)
+            {
+                double periodSeconds = CalculateOrbitalPeriod();
+                double currentPeriod = atTime % periodSeconds;
+                percent = currentPeriod / periodSeconds;
+            }
             percent += orbitPercentOffset;
             percent %= 1;
-
+            /*
             double radM = orbitRadius;
             double radKM = (radM / 1000);
             double radAU = radKM / Numbers.AUToKM;
             double periodYears = periodSeconds / Numbers.YearToSeconds;
-
+            */
             double x = percent * Numbers.PI2;
             double z = percent * Numbers.PI2;
 
