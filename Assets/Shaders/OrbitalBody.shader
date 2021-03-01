@@ -56,7 +56,11 @@
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed3 lightDirection = normalize(_LightDirection.xyz);
-                fixed intensity = -1 * dot(lightDirection, i.worldNormal);
+                float intensity = -1 * dot(lightDirection, i.worldNormal);
+                float ambience = 0.4;
+
+                intensity = (intensity * (1 - ambience)) + ambience;
+
                 fixed4 col = intensity * _Color * tex2D(_MainTex, i.uv);
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);

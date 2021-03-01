@@ -188,6 +188,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 518803332839855550, guid: a236dead37d3b13408d4dac38192c75e,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 488d81bd06a1056488442f3e67a92b1e, type: 2}
     - target: {fileID: 518803332839855551, guid: a236dead37d3b13408d4dac38192c75e,
         type: 3}
       propertyPath: autoBrake
@@ -211,6 +216,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 52563080}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &52563089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 52563081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afff7ae8b0db5fb4a9f5d8e326643dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &581870851
 PrefabInstance:
   m_ObjectHideFlags: 0

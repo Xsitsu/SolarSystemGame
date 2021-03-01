@@ -103,6 +103,15 @@ public class StarSystemDisplay : MonoBehaviour
             LoadOrbital(_star);
             LoadDescendants(_star);
             SetAnchor(_star);
+
+            if (anchorObject != null)
+            {
+                ShipRenderer renderer = anchorObject.GetComponent<ShipRenderer>();
+                if (renderer != null)
+                {
+                    renderer.SetLightSource(GetOrbitalObject(_star));
+                }
+            }
         }
 
     }
@@ -116,6 +125,15 @@ public class StarSystemDisplay : MonoBehaviour
 
             _star = null;
             anchor = null;
+
+            if (anchorObject != null)
+            {
+                ShipRenderer renderer = anchorObject.GetComponent<ShipRenderer>();
+                if (renderer != null)
+                {
+                    renderer.SetLightSource(GetOrbitalObject(null));
+                }
+            }
         }
     }
     public bool StarSystemIsLoaded()
