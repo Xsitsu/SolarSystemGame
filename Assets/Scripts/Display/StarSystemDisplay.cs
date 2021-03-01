@@ -7,6 +7,7 @@ public class StarSystemDisplay : MonoBehaviour
     public GameObject nonePrefab;
     public GameObject starPrefab;
     public GameObject planetPrefab;
+    public GameObject stationPrefab;
 
     public Orbital anchor;
     public GameObject anchorObject;
@@ -54,38 +55,6 @@ public class StarSystemDisplay : MonoBehaviour
                     Debug.Log("Set new strongest [BAD]: " + strongest.name);
                 }
             }
-
-            /*
-            if (anchor != null)
-            {
-                GameObject starObj = GetOrbitalObject(_star);
-                if (starObj != null)
-                {
-                    GameObject faceObj = null;
-                    if (anchor == _star)
-                    {
-                        faceObj = anchorObject;
-                    }
-                    else
-                    {
-                        faceObj = GetOrbitalObject(anchor);
-                    }
-
-                    if (faceObj == null)
-                    {
-                        faceObj = anchorObject;
-                    }
-
-                    if (faceObj != null)
-                    {
-                        Vector3 fromPos = starObj.transform.position;
-                        Vector3 toPos = faceObj.transform.position;
-                        Quaternion dir = Quaternion.LookRotation(toPos - fromPos, Vector3.up);
-                        starObj.GetComponent<StarMono>().SetLightDirection(dir);
-                    }
-                }
-            }
-            */
         }
 
         double current = Epoch.CurrentMilliseconds() / 1000.0;
@@ -180,6 +149,10 @@ public class StarSystemDisplay : MonoBehaviour
                 Star star = (Star)orbital;
                 go = Instantiate(starPrefab);
                 go.GetComponent<StarMono>().DisplayStar(star);
+            }
+            else if (orbital is Station)
+            {
+                go = Instantiate(stationPrefab);
             }
             else
             {

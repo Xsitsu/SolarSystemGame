@@ -8,6 +8,7 @@ public class Orbital
     public double orbitRadius; // m
     public Vector3d offset; // m
     public double orbitPercentOffset;
+    public bool anchored = false;
     public OrbitalBody parent { get; private set; }
 
     public bool HasAncestor(OrbitalBody ancestor)

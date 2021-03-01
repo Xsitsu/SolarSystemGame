@@ -86,11 +86,19 @@ public class Interactable : MonoBehaviour
 
     public void Interact()
     {
+        GameObject character = PlayerManager.Instance.character;
+
         // test stuff
         OrbitalBodyMono mono = adornee.GetComponent<OrbitalBodyMono>();
-        GameObject character = PlayerManager.Instance.character;
-        character.transform.position = mono.gameObject.transform.position + mono.display.transform.localScale * 0.6f;
-    }
+        if (mono != null)
+        {
+            character.transform.position = mono.gameObject.transform.position + mono.display.transform.localScale * 0.6f;
+        }
+        else
+        {
+            character.transform.position = adornee.transform.position + (new Vector3(1, 1, 1) * 1000);
+        }
+   }
 
     public void SetNameLabel(string setText)
     {

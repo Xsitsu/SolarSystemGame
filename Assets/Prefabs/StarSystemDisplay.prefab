@@ -49,4 +49,6 @@ MonoBehaviour:
     type: 3}
   planetPrefab: {fileID: 575671382489657171, guid: eaed80b14db426a4f8afeea56d2c86f8,
     type: 3}
+  stationPrefab: {fileID: 3481526890011117502, guid: 7c39be7c03c4f794b8bde88ce75a92b8,
+    type: 3}
   anchorObject: {fileID: 0}

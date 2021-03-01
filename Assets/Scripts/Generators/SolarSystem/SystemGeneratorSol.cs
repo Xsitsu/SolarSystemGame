@@ -85,6 +85,15 @@ public class SystemGeneratorSol : ISystemGenerator
         sun.AddSatellite(neptune);
         sun.AddSatellite(pluto);
 
+
+        // Terra Station
+        Station terraStation = new Station();
+        terraStation.name = "Terra Station";
+        terraStation.orbitRadius = earth.radius * 1.4;
+        terraStation.orbitPercentOffset = 0.37;
+        terraStation.anchored = true;
+        earth.AddSatellite(terraStation);
+
         return sun;
     }
 }
