@@ -5,9 +5,15 @@ using UnityEngine;
 public class Orbital
 {
     public string name = "";
-    public double orbitRadius; // m
-    public Vector3d offset; // m
+    public double orbitRadius; // meters
+    public double orbitInclination; // degrees (relative to parent equator)
+    public double longitudeOfAN; // degrees
+    public double axialTilt; // degrees (relative to orbit)
+    public double rotationalPeriod; // seconds (sidereal)
+
+    public Vector3d offset; // meters
     public double orbitPercentOffset;
+
     public bool anchored = false;
     public OrbitalBody parent { get; private set; }
 

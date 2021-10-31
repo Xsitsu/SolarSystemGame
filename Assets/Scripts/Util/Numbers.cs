@@ -8,6 +8,8 @@ public static class Numbers
     public static double c = 299792458; // m/s
     public static double YearToSeconds = 60 * 60 * 24 * 365.25;
     public static double DayToSeconds = 60 * 60 * 24;
+    public static double HourToSecond = 60 * 60;
+    public static double MinuteToSecond = 60;
     public static double LightYearToKM = 9460730472580.8;
     public static double AUToKM = 149597870;
     public static double UnitsToMeters = 100; // Unity spatial coordinate system to meters
