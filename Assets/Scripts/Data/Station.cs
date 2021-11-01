@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Station : Orbital
+public class Station : OrbitalBody
 {
 
 }

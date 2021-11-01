@@ -5,8 +5,10 @@ using UnityEngine;
 public class PlanetMono : OrbitalBodyMono
 {
     public Shader planetShader;
+    public Texture2D texture;
     Material material;
     GameObject _lightSource;
+
     void Start()
     {
         
@@ -28,6 +30,8 @@ public class PlanetMono : OrbitalBodyMono
     {
         material.SetColor("_Color", planet.color);
         display.transform.localScale *= (float)((2 * planet.radius) / Numbers.UnitsToMeters);
+
+        material.SetTexture("_MainTex", texture);
     }
     public void SetLightSource(GameObject lightSource)
     {

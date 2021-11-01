@@ -44,6 +44,7 @@ public class SystemGeneratorSol : ISystemGenerator
         sun.mass = Numbers.SolarMassToKG;
         sun.radius = 696340 * 1000;
         sun.color = MakeColor(252, 212, 64);
+        SetOrbitData(sun, 0, 0, 0, 25.05 * Numbers.DayToSeconds);
 
         // Mercury
         Planet mercury = MakePlanet("Mercury", 0.055, 2439.7, MakeColor(128, 106, 75), 0.39);
@@ -109,9 +110,14 @@ public class SystemGeneratorSol : ISystemGenerator
         // Terra Station
         Station terraStation = new Station();
         terraStation.name = "Terra Station";
-        terraStation.orbitRadius = earth.radius * 1.4;
+        terraStation.orbitRadius = earth.radius * 1.2;
         terraStation.orbitPercentOffset = 0.37;
-        terraStation.anchored = true;
+        terraStation.radius = 1000;
+        terraStation.mass = 2000000;
+
+        SetOrbitData(terraStation, 8.0, 20, 12, 23 * Numbers.MinuteToSecond);
+
+        //terraStation.anchored = true;
         earth.AddSatellite(terraStation);
 
         return sun;

@@ -39,6 +39,7 @@ public class StarSystemDisplay : MonoBehaviour
         {
             transform.localPosition -= anchorObject.transform.position;
 
+            /*
             Orbital strongest = GetStrongestGravity(anchorObject.transform.position);
             if (strongest != null && strongest != anchor)
             {
@@ -57,6 +58,7 @@ public class StarSystemDisplay : MonoBehaviour
                     Debug.Log("Set new strongest [BAD]: " + strongest.name);
                 }
             }
+            */
         }
 
         Vector3d worldspaceOffset = new Vector3d(0, 0, 0);
@@ -66,6 +68,29 @@ public class StarSystemDisplay : MonoBehaviour
         //current += dayOffset * Numbers.DayToSeconds;
         double useTime = current * timeFactor;
         PositionOrbitalParent(anchor, worldspaceOffset, worldspaceRotation, useTime, null);
+    }
+
+    public void SetNewOrbitalAnchor(GameObject gameObject)
+    {
+        foreach (DictionaryEntry entry in orbitalMap)
+        {
+            if ((GameObject)(entry.Value) == gameObject)
+            {
+                if (entry.Key is OrbitalBody)
+                {
+                    OrbitalBody body = (OrbitalBody)entry.Key;
+
+                    Debug.Log("Set new strongest: " + body.name);
+
+                    Vector3 diff = anchorObject.transform.position - gameObject.transform.position;
+                    anchorObject.transform.localPosition = diff;
+                    transform.localPosition = -diff;
+                    SetAnchor(body);
+
+                    return;
+                }
+            }
+        }
     }
 
     public void LoadStarSystem(Star starSystem)
@@ -176,10 +201,13 @@ public class StarSystemDisplay : MonoBehaviour
 
                     double radiusUnits = (body.radius / Numbers.UnitsToMeters);
                     Observable obs = go.GetComponent<Observable>();
-                    obs.minZoom = (float)(body.radius * 1.2);
-                    obs.maxZoom = (float)(body.radius * 4);
-                    obs.zoomSpeed = (float)(body.radius * 0.5);
-                    obs.defaultZoom = (float)(body.radius * 1.5);
+                    if (obs != null)
+                    {
+                        obs.minZoom = (float)(body.radius * 1.2);
+                        obs.maxZoom = (float)(body.radius * 4);
+                        obs.zoomSpeed = (float)(body.radius * 0.5);
+                        obs.defaultZoom = (float)(body.radius * 1.5);
+                    }
                 }
 
                 InteractableManager.Instance.Register(go);
