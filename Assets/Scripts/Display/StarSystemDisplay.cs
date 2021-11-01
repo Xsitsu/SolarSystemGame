@@ -10,7 +10,6 @@ public class StarSystemDisplay : MonoBehaviour
     public GameObject stationPrefab;
 
     public Orbital anchor;
-    public GameObject anchorObject;
 
     public double timeFactor = 1.0;
 
@@ -35,39 +34,22 @@ public class StarSystemDisplay : MonoBehaviour
 
     void Update()
     {
-        if (anchorObject != null)
-        {
-            transform.localPosition -= anchorObject.transform.position;
-
-            /*
-            Orbital strongest = GetStrongestGravity(anchorObject.transform.position);
-            if (strongest != null && strongest != anchor)
-            {
-                if (OrbitalIsLoaded(strongest))
-                {
-                    Debug.Log("Set new strongest: " + strongest.name);
-                    GameObject obj = (GameObject)(orbitalMap[strongest]);
-
-                    Vector3 diff = anchorObject.transform.position - obj.transform.position;
-                    anchorObject.transform.localPosition = diff;
-                    transform.localPosition = -diff;
-                    SetAnchor(strongest);
-                }
-                else
-                {
-                    Debug.Log("Set new strongest [BAD]: " + strongest.name);
-                }
-            }
-            */
-        }
-
         Vector3d worldspaceOffset = new Vector3d(0, 0, 0);
         Quaternion worldspaceRotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
 
+        worldspaceRotation = Quaternion.Inverse(anchor.rotationOffset);
+
         double current = Epoch.CurrentMilliseconds() / 1000.0;
-        //current += dayOffset * Numbers.DayToSeconds;
         double useTime = current * timeFactor;
         PositionOrbitalParent(anchor, worldspaceOffset, worldspaceRotation, useTime, null);
+    }
+    public Star GetStar()
+    {
+        return _star;
+    }
+    public void SetOrbitalAnchor(Orbital newAnchor)
+    {
+        SetAnchor(newAnchor);
     }
 
     public void SetNewOrbitalAnchor(GameObject gameObject)
@@ -80,12 +62,11 @@ public class StarSystemDisplay : MonoBehaviour
                 {
                     OrbitalBody body = (OrbitalBody)entry.Key;
 
-                    Debug.Log("Set new strongest: " + body.name);
+                    Debug.Log("Set new orbit anchor: " + body.name);
 
-                    Vector3 diff = anchorObject.transform.position - gameObject.transform.position;
-                    anchorObject.transform.localPosition = diff;
-                    transform.localPosition = -diff;
-                    SetAnchor(body);
+                    anchor.RemoveParent();
+                    body.AddSatellite(anchor);
+                    anchor.orbitRadius = body.radius * 1.4;
 
                     return;
                 }
@@ -101,8 +82,9 @@ public class StarSystemDisplay : MonoBehaviour
 
             LoadOrbital(_star);
             LoadDescendants(_star);
-            SetAnchor(_star);
+            //SetAnchor(_star);
 
+            /*
             if (anchorObject != null)
             {
                 ShipRenderer renderer = anchorObject.GetComponent<ShipRenderer>();
@@ -111,6 +93,7 @@ public class StarSystemDisplay : MonoBehaviour
                     renderer.SetLightSource(GetOrbitalObject(_star));
                 }
             }
+            */
         }
 
     }
@@ -120,11 +103,12 @@ public class StarSystemDisplay : MonoBehaviour
         {
             UnloadOrbital(_star);
             UnloadDescendants(_star);
-            SetAnchor(null);
+            //SetAnchor(null);
 
             _star = null;
-            anchor = null;
+            //anchor = null;
 
+            /*
             if (anchorObject != null)
             {
                 ShipRenderer renderer = anchorObject.GetComponent<ShipRenderer>();
@@ -133,6 +117,7 @@ public class StarSystemDisplay : MonoBehaviour
                     renderer.SetLightSource(GetOrbitalObject(null));
                 }
             }
+            */
         }
     }
     public bool StarSystemIsLoaded()

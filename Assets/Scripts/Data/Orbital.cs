@@ -13,6 +13,7 @@ public class Orbital
 
     public Vector3d offset; // meters
     public double orbitPercentOffset;
+    public Quaternion rotationOffset = Quaternion.LookRotation(Vector3.forward, Vector3.up);
 
     public bool anchored = false;
     public OrbitalBody parent { get; private set; }
@@ -41,6 +42,13 @@ public class Orbital
             check = check.parent;
         }
         return check;
+    }
+    public void RemoveParent()
+    {
+        if (this.parent != null)
+        {
+            this.parent.RemoveSatellite(this);
+        }
     }
     public void AddTo(OrbitalBody parent)
     {

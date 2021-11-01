@@ -57,13 +57,29 @@ public class HUDUI : MonoBehaviour
         StarSystemDisplay display = StarSystemDisplay.Instance;
         //UniverseDisplay display = UniverseDisplay.Instance;
 
-        if (display.timeFactor > 1.0)
+        if (display.timeFactor == 1.0)
         {
-            display.timeFactor = 1.0;
+            display.timeFactor = 10.0;
+        }
+        else if (display.timeFactor == 10.0)
+        {
+            display.timeFactor = 100.0;
+        }
+        else if (display.timeFactor == 100.0)
+        {
+            display.timeFactor = 1000.0;
+        }
+        else if (display.timeFactor == 1000.0)
+        {
+            display.timeFactor = 10000.0;
+        }
+        else if (display.timeFactor == 10000.0)
+        {
+            display.timeFactor = 100000.0;
         }
         else
         {
-            display.timeFactor = 50000.0;
+            display.timeFactor = 1.0;
         }
     }
 }

@@ -115,7 +115,7 @@ public class SystemGeneratorSol : ISystemGenerator
         terraStation.radius = 1000;
         terraStation.mass = 2000000;
 
-        SetOrbitData(terraStation, 8.0, 20, 12, 23 * Numbers.MinuteToSecond);
+        SetOrbitData(terraStation, 60, 32, 8, 30 * Numbers.MinuteToSecond);
 
         //terraStation.anchored = true;
         earth.AddSatellite(terraStation);

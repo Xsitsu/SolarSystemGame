@@ -92,12 +92,12 @@ public class Interactable : MonoBehaviour
         OrbitalBodyMono mono = adornee.GetComponent<OrbitalBodyMono>();
         if (mono != null)
         {
-            character.transform.position = mono.gameObject.transform.position + mono.display.transform.localScale * 0.6f;
+            //character.transform.position = mono.gameObject.transform.position + mono.display.transform.localScale * 0.6f;
             StarSystemDisplay.Instance.SetNewOrbitalAnchor(mono.gameObject);
         }
         else
         {
-            character.transform.position = adornee.transform.position + (new Vector3(1, 1, 1) * 1000);
+            //character.transform.position = adornee.transform.position + (new Vector3(1, 1, 1) * 1000);
             StarSystemDisplay.Instance.SetNewOrbitalAnchor(adornee);
         }
    }
