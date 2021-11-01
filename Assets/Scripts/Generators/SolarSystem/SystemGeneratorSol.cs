@@ -110,7 +110,7 @@ public class SystemGeneratorSol : ISystemGenerator
         // Terra Station
         Station terraStation = new Station();
         terraStation.name = "Terra Station";
-        terraStation.orbitRadius = earth.radius * 1.2;
+        terraStation.orbitRadius = earth.radius * 1.10;
         terraStation.orbitPercentOffset = 0.37;
         terraStation.radius = 10000;
         terraStation.mass = 2000000;

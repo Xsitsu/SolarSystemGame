@@ -198,6 +198,12 @@ public class StarSystemDisplay : MonoBehaviour
                 if (interactable)
                 {
                     interactable.SetNameLabel(orbital.name);
+
+                    if (orbital is OrbitalBody)
+                    {
+                        double dist = ((OrbitalBody)orbital).radius;
+                        interactable.SetOffsetDistance(dist);
+                    }
                 }
                 else
                 {

@@ -11,6 +11,8 @@ public class Interactable : MonoBehaviour
     public GameObject textLabelName;
     public GameObject textLabelDistance;
 
+    double offsetDistance;
+
     TextMeshProUGUI labelName;
     TextMeshProUGUI labelDistance;
     void Awake()
@@ -55,7 +57,9 @@ public class Interactable : MonoBehaviour
                 if (PlayerManager.Instance.character != null)
                 {
                     double distU = (PlayerManager.Instance.character.transform.position - adornee.transform.position).magnitude;
-                    double distM = distU * Numbers.UnitsToMeters;
+                    double distM = (distU * Numbers.UnitsToMeters) - offsetDistance;
+                    if (distM < 0) distM = 0;
+
                     double distKM = distM / 1000d;
                     double distAU = distKM / Numbers.AUToKM;
                     double distLY = distKM / Numbers.LightYearToKM;
@@ -124,5 +128,10 @@ public class Interactable : MonoBehaviour
         {
             Debug.Log("Could not set distance label to: " + setText);
         }
+    }
+
+    public void SetOffsetDistance(double dist)
+    {
+        offsetDistance = dist;
     }
 }
