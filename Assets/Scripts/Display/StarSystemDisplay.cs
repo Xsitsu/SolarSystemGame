@@ -12,6 +12,8 @@ public class StarSystemDisplay : MonoBehaviour
     public Orbital anchor;
     public GameObject anchorObject;
 
+    public double timeFactor = 1.0;
+
     Star _star;
     Hashtable orbitalMap = new Hashtable();
 
@@ -57,10 +59,13 @@ public class StarSystemDisplay : MonoBehaviour
             }
         }
 
+        Vector3d worldspaceOffset = new Vector3d(0, 0, 0);
+        Quaternion worldspaceRotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
+
         double current = Epoch.CurrentMilliseconds() / 1000.0;
         //current += dayOffset * Numbers.DayToSeconds;
-        double useTime = current;// * timeFactor;
-        PositionOrbitalParent(anchor, new Vector3d(0, 0, 0), useTime, null);
+        double useTime = current * timeFactor;
+        PositionOrbitalParent(anchor, worldspaceOffset, worldspaceRotation, useTime, null);
     }
 
     public void LoadStarSystem(Star starSystem)
@@ -258,66 +263,57 @@ public class StarSystemDisplay : MonoBehaviour
 
 
 
-    void PositionOrbitalSelf(Orbital orbital, Vector3d offset)
+    void PositionOrbitalSelf(Orbital orbital, Vector3d worldspaceOffset, Quaternion worldspaceRotation, double currentTime)
     {
         if (OrbitalIsLoaded(orbital))
         {
             GameObject obj = (GameObject)orbitalMap[orbital];
-            obj.transform.localPosition = (offset.ToUnity() / (float)Numbers.UnitsToMeters);
+            obj.transform.localPosition = (worldspaceOffset.ToUnity() / (float)Numbers.UnitsToMeters);
+            obj.transform.rotation = worldspaceRotation * orbital.GetRotationalPeriodRotation(currentTime);
         }
     }
-    void PositionOrbitalParent(Orbital orbital, Vector3d offset, double currentTime, Orbital fromChild)
+    void PositionOrbitalParent(Orbital orbital, Vector3d worldspaceOffset, Quaternion worldspaceRotation, double currentTime, Orbital fromChild)
     {
-        PositionOrbitalSelf(orbital, offset);
-
-        if (orbital is OrbitalBody)
-        {
-            OrbitalBody body = (OrbitalBody)orbital;
-            foreach (Orbital child in body.satellites)
-            {
-                if (child != fromChild)
-                {
-                    double radM = child.orbitRadius;
-                    Vector3d childOffset = child.offset;
-                    if (radM > 0)
-                    {
-                        Vector3d dir = child.CalculateRelativeDirection(currentTime).ToUnityd();
-                        childOffset += dir.normalized * radM;
-                    }
-                    PositionOrbitalChild(child, offset + childOffset, currentTime);
-                }
-            }
-        }
+        PositionOrbitalChild(orbital, worldspaceOffset, worldspaceRotation, currentTime, fromChild);
 
         if (orbital.parent != null)
         {
-            double radM = orbital.orbitRadius;
-            Vector3d parentOffset = orbital.offset;
-            if (radM > 0)
-            {
-                Vector3d dir = orbital.CalculateRelativeDirection(currentTime).ToUnityd();
-                parentOffset += dir.normalized * radM;
-            }
-            PositionOrbitalParent(orbital.parent, offset - parentOffset, currentTime, orbital);
+            Quaternion rotationAxialTilt = Quaternion.Euler(0, 0, -(float)orbital.axialTilt);
+            Quaternion orbitRotation = orbital.GetOrbitPeriodRotation(currentTime);
+            Quaternion orbitPlaneRotation = worldspaceRotation * rotationAxialTilt * orbitRotation;
+
+            Vector3d orbitOffset = (orbitPlaneRotation * new Vector3(0, 0, -(float)orbital.orbitRadius)).ToUnityd();
+
+            Quaternion rotationOrbitInclination = Quaternion.Euler(0, 0, -(float)orbital.orbitInclination);
+            Quaternion rotationLongAN = Quaternion.Euler(0, -(float)orbital.longitudeOfAN, 0);
+            Quaternion parentRotation = orbitPlaneRotation * rotationOrbitInclination * rotationLongAN;
+            Vector3d parentOffset = worldspaceOffset + orbitOffset;
+
+            PositionOrbitalParent(orbital.parent, parentOffset, parentRotation, currentTime, orbital);
         }
     }
-    void PositionOrbitalChild(Orbital orbital, Vector3d offset, double currentTime)
+    void PositionOrbitalChild(Orbital orbital, Vector3d worldspaceOffset, Quaternion worldspaceRotation, double currentTime, Orbital ignoreChild)
     {
-        PositionOrbitalSelf(orbital, offset);
+        PositionOrbitalSelf(orbital, worldspaceOffset, worldspaceRotation, currentTime);
 
         if (orbital is OrbitalBody)
         {
             OrbitalBody body = (OrbitalBody)orbital;
             foreach (Orbital child in body.satellites)
             {
-                double radM = child.orbitRadius;
-                Vector3d childOffset = child.offset;
-                if (radM > 0)
+                if (child != ignoreChild)
                 {
-                    Vector3d dir = child.CalculateRelativeDirection(currentTime).ToUnityd();
-                    childOffset += dir.normalized * radM;
+                    Quaternion orbitRotation = worldspaceRotation * child.GetLongANRotation() * child.GetOrbitInclinationRotation() * child.GetOrbitPeriodRotation(currentTime);
+                    Quaternion tiltRotation = child.GetAxialTiltRotation();
+
+                    Vector3d orbitOffset = (orbitRotation * new Vector3(0, 0, (float)child.orbitRadius)).ToUnityd();
+
+                    Vector3d childOffset = worldspaceOffset + orbitOffset;
+                    Quaternion childRotation = worldspaceRotation * orbitRotation * tiltRotation;
+
+                    PositionOrbitalChild(child, childOffset, childRotation, currentTime, null);
                 }
-                PositionOrbitalChild(child, offset + childOffset, currentTime);
+
             }
         }
     }

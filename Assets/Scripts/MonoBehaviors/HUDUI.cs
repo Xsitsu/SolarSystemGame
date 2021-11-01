@@ -54,8 +54,9 @@ public class HUDUI : MonoBehaviour
     }
     void ClickSpeedChange()
     {
-        UniverseDisplay display = UniverseDisplay.Instance;
-        /*
+        StarSystemDisplay display = StarSystemDisplay.Instance;
+        //UniverseDisplay display = UniverseDisplay.Instance;
+
         if (display.timeFactor > 1.0)
         {
             display.timeFactor = 1.0;
@@ -64,6 +65,5 @@ public class HUDUI : MonoBehaviour
         {
             display.timeFactor = 50000.0;
         }
-        */
     }
 }
