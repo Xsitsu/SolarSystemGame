@@ -37,8 +37,6 @@ public class StarSystemDisplay : MonoBehaviour
         Vector3d worldspaceOffset = new Vector3d(0, 0, 0);
         Quaternion worldspaceRotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
 
-        worldspaceRotation = Quaternion.Inverse(anchor.rotationOffset);
-
         double current = Epoch.CurrentMilliseconds() / 1000.0;
         double useTime = current * timeFactor;
         PositionOrbitalParent(anchor, worldspaceOffset, worldspaceRotation, useTime, null);
@@ -291,19 +289,16 @@ public class StarSystemDisplay : MonoBehaviour
 
         if (orbital.parent != null)
         {
-            Quaternion rotationAxialTilt = Quaternion.Euler(0, 0, -(float)orbital.axialTilt);
-            Quaternion orbitRotation = orbital.GetOrbitPeriodRotation(currentTime);
-            Quaternion orbitPlaneRotation = worldspaceRotation * rotationAxialTilt * orbitRotation;
+            Quaternion orbitPlaneRotation = Quaternion.Inverse(orbital.GetAxialTiltRotation() * orbital.rotationOffset);
+            Quaternion orbitRotation = worldspaceRotation * orbitPlaneRotation * orbital.GetOrbitPeriodRotation(currentTime);
 
-            Vector3d orbitOffset = (orbitPlaneRotation * new Vector3(0, 0, -(float)orbital.orbitRadius)).ToUnityd();
+            Vector3d orbitOffset = (orbitRotation * new Vector3(0, 0, (float)orbital.orbitRadius)).ToUnityd();
 
-            Quaternion rotationOrbitInclination = Quaternion.Euler(0, 0, -(float)orbital.orbitInclination);
-            Quaternion rotationLongAN = Quaternion.Euler(0, -(float)orbital.longitudeOfAN, 0);
-            Quaternion parentRotation = orbitPlaneRotation * rotationOrbitInclination * rotationLongAN;
-            Vector3d parentOffset = worldspaceOffset + orbitOffset;
+            Vector3d parentOffset = worldspaceOffset - orbitOffset;
+            Quaternion parentRotation = worldspaceRotation * orbitPlaneRotation * Quaternion.Inverse(orbital.GetLongANRotation() * orbital.GetOrbitInclinationRotation());
 
             PositionOrbitalParent(orbital.parent, parentOffset, parentRotation, currentTime, orbital);
-        }
+}
     }
     void PositionOrbitalChild(Orbital orbital, Vector3d worldspaceOffset, Quaternion worldspaceRotation, double currentTime, Orbital ignoreChild)
     {
@@ -316,13 +311,14 @@ public class StarSystemDisplay : MonoBehaviour
             {
                 if (child != ignoreChild)
                 {
-                    Quaternion orbitRotation = worldspaceRotation * child.GetLongANRotation() * child.GetOrbitInclinationRotation() * child.GetOrbitPeriodRotation(currentTime);
+                    Quaternion orbitPlaneRotation = child.GetLongANRotation() * child.GetOrbitInclinationRotation();
+                    Quaternion orbitRotation = worldspaceRotation * orbitPlaneRotation * child.GetOrbitPeriodRotation(currentTime);
                     Quaternion tiltRotation = child.GetAxialTiltRotation();
 
                     Vector3d orbitOffset = (orbitRotation * new Vector3(0, 0, (float)child.orbitRadius)).ToUnityd();
 
                     Vector3d childOffset = worldspaceOffset + orbitOffset;
-                    Quaternion childRotation = worldspaceRotation * orbitRotation * tiltRotation;
+                    Quaternion childRotation = worldspaceRotation * orbitPlaneRotation * tiltRotation;
 
                     PositionOrbitalChild(child, childOffset, childRotation, currentTime, null);
                 }

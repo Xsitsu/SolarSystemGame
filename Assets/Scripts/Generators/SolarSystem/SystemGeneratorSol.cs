@@ -112,7 +112,7 @@ public class SystemGeneratorSol : ISystemGenerator
         terraStation.name = "Terra Station";
         terraStation.orbitRadius = earth.radius * 1.2;
         terraStation.orbitPercentOffset = 0.37;
-        terraStation.radius = 1000;
+        terraStation.radius = 10000;
         terraStation.mass = 2000000;
 
         SetOrbitData(terraStation, 60, 32, 8, 30 * Numbers.MinuteToSecond);
