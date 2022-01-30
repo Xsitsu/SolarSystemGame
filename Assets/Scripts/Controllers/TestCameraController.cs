@@ -10,6 +10,8 @@ public class TestCameraController : MonoBehaviour
 
     [Range(0, 360*4)]
     public float rotationSpeed = 180;
+    [Range(0, 1)]
+    public float zoomStep = 0.2f;
     [Range(0, 100)]
     public float tweenTime = 2; // seconds
     float tweenSpeed = 0;
@@ -47,7 +49,7 @@ public class TestCameraController : MonoBehaviour
             }
         }
 
-        zoom += Input.mouseScrollDelta.y * targ.zoomSpeed;
+        zoom += Input.mouseScrollDelta.y * zoom * zoomStep;
         zoom = Mathf.Clamp(zoom, targ.minZoom, targ.maxZoom);
 
         float dist = tweenContainer.transform.localPosition.magnitude;

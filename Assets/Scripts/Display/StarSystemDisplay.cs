@@ -188,7 +188,6 @@ public class StarSystemDisplay : MonoBehaviour
                     {
                         obs.minZoom = (float)(body.radius * 1.2);
                         obs.maxZoom = (float)(body.radius * 4);
-                        obs.zoomSpeed = (float)(body.radius * 0.5);
                         obs.defaultZoom = (float)(body.radius * 1.5);
                     }
                 }

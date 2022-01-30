@@ -30,7 +30,6 @@ public class SolarSystemDisplay : MonoBehaviour
         Observable obs = go.GetComponent<Observable>();
         obs.minZoom = (float)(orbitalBody.radius * 1.2);
         obs.maxZoom = (float)(orbitalBody.radius * 4);
-        obs.zoomSpeed = (float)(orbitalBody.radius * 0.5);
         obs.defaultZoom = (float)(orbitalBody.radius * 1.5);
 
         InteractableManager.Instance.Register(go);

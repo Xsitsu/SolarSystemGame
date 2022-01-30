@@ -210,6 +210,16 @@ PrefabInstance:
       propertyPath: acceleration
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 5340496282669709503, guid: a236dead37d3b13408d4dac38192c75e,
+        type: 3}
+      propertyPath: maxZoom
+      value: 1e+9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5340496282669709503, guid: a236dead37d3b13408d4dac38192c75e,
+        type: 3}
+      propertyPath: zoomSpeed
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a236dead37d3b13408d4dac38192c75e, type: 3}
 --- !u!1 &52563081 stripped
