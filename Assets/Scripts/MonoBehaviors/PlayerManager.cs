@@ -30,7 +30,7 @@ public class PlayerManager : MonoBehaviour
         CharacterStructure = new Structure();
         CharacterStructure.name = "Spaceship";
         CharacterStructure.position = new Vector3d(0, 0, -20000);
-        CharacterStructure.rotation = Quaternion.Euler(115, 0, 0);
+        CharacterStructure.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     void Update()

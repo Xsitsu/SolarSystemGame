@@ -386,7 +386,7 @@ public class StarSystemDisplay : MonoBehaviour
         {
             if (s != fromChild)
             {
-                Vector3d childOffset = worldspaceOffset + s.position;
+                Vector3d childOffset = worldspaceOffset + (worldspaceRotation * s.position.ToUnity()).ToUnityd();
                 Quaternion childRotation = worldspaceRotation * s.rotation;
                 PositionStructureSelf(s, childOffset, childRotation, currentTime);
             }
@@ -401,8 +401,11 @@ public class StarSystemDisplay : MonoBehaviour
 
         if (structure.parent != null)
         {
-            Vector3d parentOffset = worldspaceOffset - structure.position;
             Quaternion parentRotation = worldspaceRotation * Quaternion.Inverse(structure.rotation);
+
+            Vector3d positionOffset = (parentRotation * structure.position.ToUnity()).ToUnityd();
+
+            Vector3d parentOffset = worldspaceOffset - positionOffset;
             PositionOrbitalGrid(structure.parent, parentOffset, parentRotation, currentTime, structure);
         }
 
