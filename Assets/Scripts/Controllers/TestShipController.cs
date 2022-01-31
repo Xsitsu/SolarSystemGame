@@ -68,19 +68,19 @@ public class TestShipController : MonoBehaviour
         }
         */
 
-        int rotX = 0;
-        int rotY = 0;
-        int rotZ = 0;
-        if (Input.GetKey(KeyCode.Q)) rotZ++;
-        if (Input.GetKey(KeyCode.E)) rotZ--;
-        if (Input.GetKey(KeyCode.A)) rotY--;
-        if (Input.GetKey(KeyCode.D)) rotY++;
-        if (Input.GetKey(KeyCode.Z)) rotX--;
-        if (Input.GetKey(KeyCode.C)) rotX++;
+        // int rotX = 0;
+        // int rotY = 0;
+        // int rotZ = 0;
+        // if (Input.GetKey(KeyCode.Q)) rotZ++;
+        // if (Input.GetKey(KeyCode.E)) rotZ--;
+        // if (Input.GetKey(KeyCode.A)) rotY--;
+        // if (Input.GetKey(KeyCode.D)) rotY++;
+        // if (Input.GetKey(KeyCode.Z)) rotX--;
+        // if (Input.GetKey(KeyCode.C)) rotX++;
 
-        float rotSpeed = 0.2f;
+        // float rotSpeed = 0.2f;
 
-        Quaternion applyRotation = Quaternion.Euler(rotSpeed * rotX, rotSpeed * rotY, rotSpeed * rotZ);
-        PlayerManager.Instance.CharacterStructure.rotationOffset *= applyRotation;
+        // Quaternion applyRotation = Quaternion.Euler(rotSpeed * rotX, rotSpeed * rotY, rotSpeed * rotZ);
+        // PlayerManager.Instance.CharacterStructure.rotationOffset *= applyRotation;
     }
 }

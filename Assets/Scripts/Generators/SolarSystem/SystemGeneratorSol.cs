@@ -108,17 +108,19 @@ public class SystemGeneratorSol : ISystemGenerator
 
 
         // Terra Station
+        OrbitalGrid terraStationGrid = new OrbitalGrid();
+        terraStationGrid.name = "Terra Station";
+        terraStationGrid.orbitRadius = earth.radius * 1.10;
+        terraStationGrid.orbitPercentOffset = 0.37;
+
+        SetOrbitData(terraStationGrid, 40, 32, 8, 20 * Numbers.MinuteToSecond);
+
         Station terraStation = new Station();
-        terraStation.name = "Terra Station";
-        terraStation.orbitRadius = earth.radius * 1.10;
-        terraStation.orbitPercentOffset = 0.37;
-        terraStation.radius = 10000;
-        terraStation.mass = 2000000;
+        terraStation.position = new Vector3d(20000, 0, 0);
+        terraStation.rotation = Quaternion.Euler(-43, 0, 150);
 
-        SetOrbitData(terraStation, 60, 32, 8, 30 * Numbers.MinuteToSecond);
-
-        //terraStation.anchored = true;
-        earth.AddSatellite(terraStation);
+        terraStationGrid.AddStructure(terraStation);
+        earth.AddSatellite(terraStationGrid);
 
         return sun;
     }

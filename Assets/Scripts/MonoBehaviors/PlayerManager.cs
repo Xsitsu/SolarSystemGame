@@ -29,21 +29,16 @@ public class PlayerManager : MonoBehaviour
 
         CharacterStructure = new Structure();
         CharacterStructure.name = "Spaceship";
-
-        ModuleCargo cargoBay = new ModuleCargo();
-        cargoBay.Name = "Cargo Bay";
-        cargoBay.MaxVolume = 10000;
-        CharacterStructure.AddModule(cargoBay);
+        CharacterStructure.position = new Vector3d(0, 0, -20000);
+        CharacterStructure.rotation = Quaternion.Euler(115, 0, 0);
     }
 
     void Update()
     {
         if (CharacterStructure.parent == null)
         {
-            StarSystemDisplay.Instance.SetOrbitalAnchor(CharacterStructure);
-            Star star = StarSystemDisplay.Instance.GetStar();
-            CharacterStructure.orbitRadius = star.radius * 1.6;
-            star.AddSatellite(CharacterStructure);
+            StarSystemDisplay.Instance.SetStructureAnchor(CharacterStructure);
+            StarSystemDisplay.Instance.GetStartingGrid().AddStructure(CharacterStructure);
         }
     }
 }

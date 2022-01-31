@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3942003398345137478
+--- !u!1 &575671382489657171
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3942003398345137479}
-  - component: {fileID: 4837556996771379528}
+  - component: {fileID: 575671382489657168}
+  - component: {fileID: 4582709483146482088}
   m_Layer: 0
-  m_Name: StarSystemDisplay
+  m_Name: None
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3942003398345137479
+--- !u!4 &575671382489657168
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3942003398345137478}
+  m_GameObject: {fileID: 575671382489657171}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,24 +31,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4837556996771379528
+--- !u!114 &4582709483146482088
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3942003398345137478}
+  m_GameObject: {fileID: 575671382489657171}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e20f64cb3fac2b844bfeb8e99f6f67c4, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b6c964449b1e05459fa8f8688ca7e91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nonePrefab: {fileID: 575671382489657171, guid: d872f913dc1c9a94dad770969f93eb25,
-    type: 3}
-  starPrefab: {fileID: 575671382489657171, guid: 9dfc1af4c72104e4fb2b8581e2a13e4b,
-    type: 3}
-  planetPrefab: {fileID: 575671382489657171, guid: eaed80b14db426a4f8afeea56d2c86f8,
-    type: 3}
-  stationPrefab: {fileID: 3481526890011117502, guid: 7c39be7c03c4f794b8bde88ce75a92b8,
-    type: 3}
-  timeFactor: 1
+  minZoom: 100
+  maxZoom: 1000
+  defaultZoom: 200
