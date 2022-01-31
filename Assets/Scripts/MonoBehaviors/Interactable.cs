@@ -8,35 +8,27 @@ public class Interactable : MonoBehaviour
     public GameObject adornee;
     public GameObject canvas;
     public GameObject button;
-    public GameObject textLabelName;
-    public GameObject textLabelDistance;
+    public GameObject textLabel;
 
     double offsetDistance;
 
-    TextMeshProUGUI labelName;
-    TextMeshProUGUI labelDistance;
+    string _nameText = "";
+    string _distanceText = "";
+
+    TextMeshProUGUI label;
     void Awake()
     {
-        if (textLabelName)
+        if (textLabel)
         {
-            labelName = textLabelName.GetComponent<TextMeshProUGUI>();
+            label = textLabel.GetComponent<TextMeshProUGUI>();
         }
         else
         {
-            Debug.Log("Could not find labelName");
+            Debug.Log("Could not find textLabel");
         }
 
-        if (textLabelDistance)
-        {
-            labelDistance = textLabelDistance.GetComponent<TextMeshProUGUI>();
-        }
-        else
-        {
-            Debug.Log("Could not find labelDistance");
-        }
-
-        SetNameLabel("");
-        SetDistanceLabel("");
+        SetName("");
+        SetDistance(0);
     }
     void Start()
     {
@@ -58,31 +50,9 @@ public class Interactable : MonoBehaviour
                 {
                     double distU = (PlayerManager.Instance.character.transform.position - adornee.transform.position).magnitude;
                     double distM = (distU * Numbers.UnitsToMeters) - offsetDistance;
-                    if (distM < 0) distM = 0;
-
-                    double distKM = distM / 1000d;
-                    double distAU = distKM / Numbers.AUToKM;
-                    double distLY = distKM / Numbers.LightYearToKM;
-
-                    if (distLY >= 0.1)
-                    {
-                        SetDistanceLabel(System.Math.Round(distLY, 1).ToString() + " ly");
-                    }
-                    else if (distAU >= 0.1)
-                    {
-                        SetDistanceLabel(System.Math.Round(distAU, 1).ToString() + " au");
-                    }
-                    else if (distKM >= 10)
-                    {
-                        SetDistanceLabel(System.Math.Round(distKM, 0).ToString() + " km");
-                    }
-                    else
-                    {
-                        SetDistanceLabel(System.Math.Round(distM, 0).ToString() + " m");
-                    }
+                    SetDistance(distM);
                 }
             }
-
         }
 
         canvas.SetActive(!hide);
@@ -106,27 +76,55 @@ public class Interactable : MonoBehaviour
         }
    }
 
-    public void SetNameLabel(string setText)
+    public void SetName(string nameText)
     {
-        if (labelName)
-        {
-            labelName.SetText(setText);
-        }
-        else
-        {
-            Debug.Log("Could not set name label to: " + setText);
-        }
+        _nameText = nameText;
+
+        UpdateTextLabel();
     }
 
-    public void SetDistanceLabel(string setText)
+    public void SetDistance(double distM)
     {
-        if (labelDistance)
+        if (distM < 0) distM = 0;
+        
+        double distKM = distM / 1000d;
+        double distAU = distKM / Numbers.AUToKM;
+        double distLY = distKM / Numbers.LightYearToKM;
+
+        if (distLY >= 0.1)
         {
-            labelDistance.SetText(setText);
+            _distanceText = (System.Math.Round(distLY, 1).ToString() + " ly");
+        }
+        else if (distAU >= 0.1)
+        {
+            _distanceText = (System.Math.Round(distAU, 1).ToString() + " au");
+        }
+        else if (distKM >= 10)
+        {
+            _distanceText = (System.Math.Round(distKM, 0).ToString() + " km");
+        }
+        else if (distM > 0)
+        {
+            _distanceText = (System.Math.Round(distM, 0).ToString() + " m");
         }
         else
         {
-            Debug.Log("Could not set distance label to: " + setText);
+            _distanceText = "";
+        }
+
+        UpdateTextLabel();
+    }
+
+    public void UpdateTextLabel()
+    {
+        string setText = _nameText + " " + _distanceText;
+        if (label)
+        {
+            label.SetText(setText);
+        }
+        else
+        {
+            Debug.Log("Could not set label to: " + setText);
         }
     }
 

@@ -116,6 +116,8 @@ public class SystemGeneratorSol : ISystemGenerator
         SetOrbitData(terraStationGrid, 40, 32, 8, 20 * Numbers.MinuteToSecond);
 
         Station terraStation = new Station();
+        terraStation.name = "Terra Station";
+        terraStation.radiusM = 20000;
         // terraStation.position = new Vector3d(20000, 0, 0);
         // terraStation.rotation = Quaternion.Euler(-43, 0, 150);
 

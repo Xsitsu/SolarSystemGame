@@ -5,6 +5,7 @@ using UnityEngine;
 public class Structure
 {
     public string name;
+    public double radiusM;
     public Vector3d position = new Vector3d(0, 0, 0);
     public Quaternion rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
 

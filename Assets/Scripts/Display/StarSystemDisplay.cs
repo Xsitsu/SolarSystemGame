@@ -210,21 +210,24 @@ public class StarSystemDisplay : MonoBehaviour
                     }
                 }
 
-                InteractableManager.Instance.Register(go);
-                Interactable interactable = InteractableManager.Instance.GetInteractable(go);
-                if (interactable)
+                if (!(orbital is OrbitalGrid))
                 {
-                    interactable.SetNameLabel(orbital.name);
-
-                    if (orbital is OrbitalBody)
+                    InteractableManager.Instance.Register(go);
+                    Interactable interactable = InteractableManager.Instance.GetInteractable(go);
+                    if (interactable)
                     {
-                        double dist = ((OrbitalBody)orbital).radius;
-                        interactable.SetOffsetDistance(dist);
+                        interactable.SetName(orbital.name);
+
+                        if (orbital is OrbitalBody)
+                        {
+                            double dist = ((OrbitalBody)orbital).radius;
+                            interactable.SetOffsetDistance(dist);
+                        }
                     }
-                }
-                else
-                {
-                    Debug.Log("No interactable for: " + orbital.name);
+                    else
+                    {
+                        Debug.Log("No interactable for: " + orbital.name);
+                    }
                 }
             }
         }
@@ -278,7 +281,7 @@ public class StarSystemDisplay : MonoBehaviour
             {
                 structureMap.Add(structure, go);
                 go.transform.SetParent(transform);
-                //go.name = structure.name;
+                go.name = structure.name;
 
                 // if (orbital is OrbitalBody)
                 // {
@@ -294,22 +297,17 @@ public class StarSystemDisplay : MonoBehaviour
                 //     }
                 // }
 
-                // InteractableManager.Instance.Register(go);
-                // Interactable interactable = InteractableManager.Instance.GetInteractable(go);
-                // if (interactable)
-                // {
-                //     interactable.SetNameLabel(orbital.name);
-
-                //     if (orbital is OrbitalBody)
-                //     {
-                //         double dist = ((OrbitalBody)orbital).radius;
-                //         interactable.SetOffsetDistance(dist);
-                //     }
-                // }
-                // else
-                // {
-                //     Debug.Log("No interactable for: " + orbital.name);
-                // }
+                InteractableManager.Instance.Register(go);
+                Interactable interactable = InteractableManager.Instance.GetInteractable(go);
+                if (interactable)
+                {
+                    interactable.SetName(structure.name);
+                    interactable.SetOffsetDistance(structure.radiusM);
+                }
+                else
+                {
+                    Debug.Log("No interactable for: " + structure.name);
+                }
             }
         }
     }
