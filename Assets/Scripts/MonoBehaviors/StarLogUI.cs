@@ -30,7 +30,7 @@ public class StarLogUI : MonoBehaviour
 
     void ProcessAddOrbital(Orbital orbital)
     {
-        Debug.Log("ProcessAddOrbital for: " + orbital.name);
+        //Debug.Log("ProcessAddOrbital for: " + orbital.name);
 
         StarLogEntry entry = Instantiate(StarLogEntryPrefab).GetComponent<StarLogEntry>();
         entry.SetText(orbital.name);
