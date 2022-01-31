@@ -264,19 +264,72 @@ public class SystemGeneratorSol : ISystemGenerator
             periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)),
         };
 
-        
-
         Station terraStation = new Station()
         {
             name = "Terra Station",
 
             radius_m = 10000,
+            // position = new Vector3d(0, 20000, 0),
 
             rotationSpeed_degPersec = new Vector3d(0, 2, 0),
         };
 
         terraStationGrid.AddChild(terraStation);
         earth.AddChild(terraStationGrid);
+
+
+        // Terra Station 2
+        terraStationGrid = new OrbitalGrid
+        {
+            name = "Terra Station 2",
+
+            eccentricity = 0.0006822,
+            semiMajorAxis_m = 7238 * Numbers.KMToM,
+            inclination_deg = 33.6445,
+            longitudeOfAN_deg = 55.2902,
+            argumentOfPeriapsis_deg = 22.2131,
+            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)),
+        };
+
+        terraStation = new Station()
+        {
+            name = "Terra Station 2",
+
+            radius_m = 10000,
+            // position = new Vector3d(0, 20000, 0),
+
+            rotationSpeed_degPersec = new Vector3d(0, 2, 0),
+        };
+
+        terraStationGrid.AddChild(terraStation);
+        earth.AddChild(terraStationGrid);
+
+
+        // Luna Station
+        OrbitalGrid lunaStationGrid = new OrbitalGrid
+        {
+            name = "Luna Station",
+
+            eccentricity = 0.0006822,
+            semiMajorAxis_m = luna.radius_m * 2,
+            inclination_deg = 22.6445,
+            longitudeOfAN_deg = 79.2902,
+            argumentOfPeriapsis_deg = 20.2131,
+            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)),
+        };
+
+        Station lunaStation = new Station()
+        {
+            name = "Luna Station",
+
+            radius_m = 10000,
+            // position = new Vector3d(0, 20000, 0),
+
+            rotationSpeed_degPersec = new Vector3d(0, 2, 0),
+        };
+
+        lunaStationGrid.AddChild(lunaStation);
+        luna.AddChild(lunaStationGrid);
 
         return sun;
     }

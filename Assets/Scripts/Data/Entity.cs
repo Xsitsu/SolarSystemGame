@@ -65,6 +65,105 @@ public abstract class Entity
         }
     }
 
+    public bool HasAncestor(Entity entity)
+    {
+        Entity checkParent = this;
+        while (checkParent != null && checkParent != entity)
+        {
+            checkParent = checkParent.parent;
+        }
+
+        if (checkParent == entity) return true;
+        return false;
+    }
+    public bool HasDescendant(Entity entity)
+    {
+        return entity.HasAncestor(this);
+    }
+    Entity _CheckAncestry(Entity a, Entity b)
+    {
+        Entity checkParent = a;
+        while (checkParent != null && !b.HasAncestor(checkParent))
+        {
+            checkParent = checkParent.parent;
+        }
+        return checkParent;
+    }
+    public Entity FindCommonAncestor(Entity entity)
+    {
+        Entity common = _CheckAncestry(entity, this);
+        if (common == null)
+        {
+            common = _CheckAncestry(this, entity);
+        }
+        return common;
+    }
+
+    // My position relative to the other
+    public Vector3d CalculatePosition_Relative(double atTime, Entity other)
+    {
+        if (other != this)
+        {
+            if (HasAncestor(other))
+            {
+                if (parent == other)
+                {
+                    return CalculatePosition(atTime);
+                }
+                else
+                {
+                    Quaternion parentRot = parent.CalculateRotation_Relative(atTime, other);
+                    Vector3d localPosition = CalculatePosition(atTime);
+
+                    Vector3d worldPosition = (parentRot * localPosition.ToUnity()).ToUnityd();
+                    return parent.CalculatePosition_Relative(atTime, other) + worldPosition;
+                }
+            }
+            else
+            {
+                Entity common = FindCommonAncestor(other);
+                if (common != null)
+                {
+                    Vector3d commonToThis = CalculatePosition_Relative(atTime, common);
+                    Vector3d commonToOther = other.CalculatePosition_Relative(atTime, common);
+
+                    return commonToThis - commonToOther;
+                }
+            }
+        }
+        return new Vector3d();
+    }
+
+    public Quaternion CalculateRotation_Relative(double atTime, Entity other)
+    {
+        if (other != this)
+        {
+            if (HasAncestor(other))
+            {
+                if (parent == other)
+                {
+                    return CalculateRotation(atTime);
+                }
+                else
+                {
+                    return parent.CalculateRotation_Relative(atTime, other) * CalculateRotation(atTime);
+                }
+            }
+            else
+            {
+                Entity common = FindCommonAncestor(other);
+                if (common != null)
+                {
+                    Quaternion commonToThis = CalculateRotation_Relative(atTime, common);
+                    Quaternion commonToOther = other.CalculateRotation_Relative(atTime, common);
+
+                    return Quaternion.Inverse(commonToOther) * commonToThis;
+                }
+            }
+        }
+        return Quaternion.LookRotation(Vector3.forward, Vector3.up);
+    }
+
     public abstract Vector3d CalculatePosition(double atTime);
     public abstract Quaternion CalculateRotation(double atTime);
     public abstract Quaternion CalculateLocalRotation(double atTime);

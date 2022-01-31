@@ -27,6 +27,6 @@ public class OrbitalBody : Orbital
         double percent = currentPeriod_sec / period_sec;
         percent %= 1;
 
-        return Quaternion.Euler(0, (float)(percent * 360), 0);
+        return Quaternion.Euler(0, -(float)(percent * 360), 0);
     }
 }

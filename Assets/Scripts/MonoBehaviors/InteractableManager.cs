@@ -28,11 +28,12 @@ public class InteractableManager : MonoBehaviour
         
     }
 
-    public void Register(GameObject gameObject)
+    public void Register(Entity entity, GameObject gameObject)
     {
         GameObject intGameObj = Instantiate(interactablePrefab);
         Interactable interactable = intGameObj.GetComponent<Interactable>();
 
+        interactable.entity = entity;
         interactable.adornee = gameObject;
         intGameObj.transform.SetParent(canvas.transform);
     }

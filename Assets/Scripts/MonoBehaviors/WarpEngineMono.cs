@@ -37,12 +37,17 @@ public class WarpEngineMono : EngineMono
             double speedAU = (speedM / 1000) / Numbers.AUToKM;
             speedCOut = speedC;
             speedAUOut = speedAU;
-            transform.localPosition += transform.forward * (float)(speedM / Numbers.UnitsToMeters) * Time.deltaTime;
+            //transform.localPosition += transform.forward * (float)(speedM / Numbers.UnitsToMeters) * Time.deltaTime;
         }
         else
         {
             speedCOut = 0;
             speedAUOut = 0;
         }
+    }
+
+    public void ResetSpeed()
+    {
+        warpFactor = 0;
     }
 }

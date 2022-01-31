@@ -62,7 +62,7 @@ public class Orbital : Entity
 
     public Quaternion GetLongANRotation()
     {
-        return Quaternion.Euler(0, (float)longitudeOfAN_deg, 0);
+        return Quaternion.Euler(0, -(float)longitudeOfAN_deg, 0);
     }
     public Quaternion GetInclinationRotation()
     {

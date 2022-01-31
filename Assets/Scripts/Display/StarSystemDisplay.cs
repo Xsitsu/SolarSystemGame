@@ -32,7 +32,7 @@ public class StarSystemDisplay : MonoBehaviour
 
     void Start()
     {
-        LoadStarSystem(new SystemGeneratorSol().Generate());
+        LoadStarSystem(UniverseHandler.Instance.GetStarSystem());
     }
 
     void Update()
@@ -40,8 +40,7 @@ public class StarSystemDisplay : MonoBehaviour
         Vector3d worldspacePosition = new Vector3d(0, 0, 0);
         Quaternion worldspaceRotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
 
-        double current = Epoch.CurrentMilliseconds() / 1000.0;
-        double useTime = current * timeFactor + timeOffsetSeconds;
+        double useTime = CalculateCurrentTime();
         PositionEntityParent(anchor, worldspacePosition, worldspaceRotation, useTime, null);
 
         foreach (DictionaryEntry entry in entityMap)
@@ -56,6 +55,12 @@ public class StarSystemDisplay : MonoBehaviour
             }
         }
     }
+    public double CalculateCurrentTime()
+    {
+        double current = Epoch.CurrentMilliseconds() / 1000.0;
+        double useTime = current * timeFactor + timeOffsetSeconds;
+        return useTime;
+    }
     public Star GetStar()
     {
         return _star;
@@ -66,7 +71,7 @@ public class StarSystemDisplay : MonoBehaviour
     }
     public OrbitalGrid GetStartingGrid()
     {
-        return _startingGrid;
+        return UniverseHandler.Instance.GetStartingGrid();
     }
 
     public void LoadStarSystem(Star starSystem)
@@ -77,10 +82,6 @@ public class StarSystemDisplay : MonoBehaviour
 
             LoadEntity(_star);
             LoadDescendants(_star);
-
-            OrbitalBody earth = (OrbitalBody)_star.children[2];
-            OrbitalGrid stationGrid = (OrbitalGrid)earth.children[1];
-            _startingGrid = stationGrid;
         }
 
     }
@@ -150,7 +151,7 @@ public class StarSystemDisplay : MonoBehaviour
 
                 if (hasInteractable)
                 {
-                    InteractableManager.Instance.Register(go);
+                    InteractableManager.Instance.Register(entity, go);
                     Interactable interactable = InteractableManager.Instance.GetInteractable(go);
                     if (interactable)
                     {

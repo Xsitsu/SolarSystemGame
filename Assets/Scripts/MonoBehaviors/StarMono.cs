@@ -5,6 +5,7 @@ using UnityEngine;
 public class StarMono : OrbitalBodyMono
 {
     public Shader starShader;
+    public Texture2D texture;
     public GameObject lightSource;
     Material material;
     Light _light;
@@ -27,6 +28,7 @@ public class StarMono : OrbitalBodyMono
     public void DisplayStar(Star star)
     {
         material.SetColor("_Color", star.color);
+        material.SetTexture("_MainTex", texture);
         display.transform.localScale *= (float)((2 * star.radius_m) / Numbers.UnitsToMeters);
 
         if (_light != null)

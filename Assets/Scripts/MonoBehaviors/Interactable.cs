@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 public class Interactable : MonoBehaviour
 {
+    public Entity entity;
     public GameObject adornee;
     public GameObject canvas;
     public GameObject button;
@@ -60,20 +61,7 @@ public class Interactable : MonoBehaviour
 
     public void Interact()
     {
-        GameObject character = PlayerManager.Instance.character;
-
-        // test stuff
-        OrbitalBodyMono mono = adornee.GetComponent<OrbitalBodyMono>();
-        if (mono != null)
-        {
-            //character.transform.position = mono.gameObject.transform.position + mono.display.transform.localScale * 0.6f;
-            //StarSystemDisplay.Instance.SetNewOrbitalAnchor(mono.gameObject);
-        }
-        else
-        {
-            //character.transform.position = adornee.transform.position + (new Vector3(1, 1, 1) * 1000);
-            //StarSystemDisplay.Instance.SetNewOrbitalAnchor(adornee);
-        }
+        WarpManager.Instance.InitializeWarp(PlayerManager.Instance.CharacterStructure, entity);
    }
 
     public void SetName(string nameText)

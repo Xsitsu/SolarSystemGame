@@ -13,7 +13,7 @@ public class StarLogUI : MonoBehaviour
     {
         logEntries = new List<StarLogEntry>();
 
-        Entity entity = new SystemGeneratorSol().Generate();
+        Entity entity = UniverseHandler.Instance.GetStarSystem();
         DisplayStarSystem(entity);
     }
 
