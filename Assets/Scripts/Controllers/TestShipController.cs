@@ -17,13 +17,12 @@ public class TestShipController : MonoBehaviour
     }
     void Update()
     {
-        /*
         if (enabled)
         {
             int sublightAcceleration = 0;
             Vector3 sublightRotation = new Vector3(0, 0, 0);
 
-            if (warpEngine.warpFactor > 0 || Input.GetKey(KeyCode.LeftShift))
+            if (false && (warpEngine.warpFactor > 0 || Input.GetKey(KeyCode.LeftShift)))
             {
                 int warpAcceleration = 0;
                 if (Input.GetKey(KeyCode.W))
@@ -66,21 +65,5 @@ public class TestShipController : MonoBehaviour
             sublightEngine.moveDirection.z = sublightAcceleration;
             sublightEngine.rotateDirection = sublightRotation;
         }
-        */
-
-        int rotX = 0;
-        int rotY = 0;
-        int rotZ = 0;
-        if (Input.GetKey(KeyCode.Q)) rotZ++;
-        if (Input.GetKey(KeyCode.E)) rotZ--;
-        if (Input.GetKey(KeyCode.A)) rotY--;
-        if (Input.GetKey(KeyCode.D)) rotY++;
-        if (Input.GetKey(KeyCode.Z)) rotX--;
-        if (Input.GetKey(KeyCode.C)) rotX++;
-
-        float rotSpeed = 0.2f;
-
-        Quaternion applyRotation = Quaternion.Euler(rotSpeed * rotX, rotSpeed * rotY, rotSpeed * rotZ);
-        PlayerManager.Instance.CharacterStructure.rotation *= applyRotation;
     }
 }

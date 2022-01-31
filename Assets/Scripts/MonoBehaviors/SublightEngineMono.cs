@@ -31,7 +31,13 @@ public class SublightEngineMono : EngineMono
 
         SpeedOut = speed;
 
-        transform.Rotate(rotateDirection * rotateSpeed * Time.deltaTime);
-        transform.localPosition += transform.forward * (float)(speed / Numbers.UnitsToMeters) * Time.deltaTime;
+        Vector3 rotateData = rotateDirection * rotateSpeed * Time.deltaTime;
+        Quaternion rotationStep = Quaternion.Euler(rotateData.x, rotateData.y, rotateData.z);
+
+        Vector3 moveStep = new Vector3(0, 0, (float)(speed) * Time.deltaTime);
+
+        Structure characterStructure = PlayerManager.Instance.CharacterStructure;
+        characterStructure.rotation *= rotationStep;
+        characterStructure.position += (characterStructure.rotation * moveStep).ToUnityd();
     }
 }
