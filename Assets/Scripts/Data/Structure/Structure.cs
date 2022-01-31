@@ -2,31 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Structure
+public class Structure : Entity
 {
-    public string name;
-    public double radiusM;
     public Vector3d position = new Vector3d(0, 0, 0);
     public Quaternion rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
 
-    public OrbitalGrid parent { get; private set; }
-
-    public void RemoveParent()
+    public override Vector3d CalculatePosition(double atTime)
     {
-        if (this.parent != null)
-        {
-            this.parent.RemoveStructure(this);
-        }
+        return position;
     }
-    public void AddTo(OrbitalGrid parent)
+    public override Quaternion CalculateRotation(double atTime)
     {
-        this.parent = parent;
-    }
-    public void RemoveFrom(OrbitalGrid parent)
-    {
-        if (this.parent == parent)
-        {
-            this.parent = null;
-        }
+        return rotation;
     }
 }

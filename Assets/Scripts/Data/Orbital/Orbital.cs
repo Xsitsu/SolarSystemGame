@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Orbital
+public class Orbital : Entity
 {
-    public string name = "";
     public double orbitRadius; // meters
     public double orbitInclination; // degrees (relative to parent equator)
     public double longitudeOfAN; // degrees
@@ -16,57 +15,30 @@ public class Orbital
     public Quaternion rotationOffset = Quaternion.LookRotation(Vector3.forward, Vector3.up);
 
     public bool anchored = false;
-    public OrbitalBody parent { get; private set; }
 
-    public bool HasAncestor(OrbitalBody ancestor)
+    public override Vector3d CalculatePosition(double atTime)
     {
-        OrbitalBody check = parent;
-        while (check != null)
-        {
-            if (check == ancestor)
-            {
-                return true;
-            }
-            else
-            {
-                check = check.parent;
-            }
-        }
-        return false;
+        Quaternion orbitPlaneRotation = GetLongANRotation() * GetOrbitInclinationRotation();
+        Quaternion orbitRotation = orbitPlaneRotation * GetOrbitPeriodRotation(atTime);
+
+        Vector3d orbitPosition = (orbitRotation * new Vector3(0, 0, (float)orbitRadius)).ToUnityd();
+        return orbitPosition;
     }
-    public OrbitalBody FindCommonAncestor(Orbital other)
+    public override Quaternion CalculateRotation(double atTime)
     {
-        OrbitalBody check = parent;
-        while (check != null && !other.HasAncestor(check))
-        {
-            check = check.parent;
-        }
-        return check;
-    }
-    public void RemoveParent()
-    {
-        if (this.parent != null)
-        {
-            this.parent.RemoveSatellite(this);
-        }
-    }
-    public void AddTo(OrbitalBody parent)
-    {
-        this.parent = parent;
-    }
-    public void RemoveFrom(OrbitalBody parent)
-    {
-        if (this.parent == parent)
-        {
-            this.parent = null;
-        }
+        Quaternion orbitPlaneRotation = GetLongANRotation() * GetOrbitInclinationRotation();
+        Quaternion tiltRotation = GetAxialTiltRotation();
+
+        Quaternion childRotation = orbitPlaneRotation * tiltRotation;
+        return childRotation;
     }
 
     public double CalculateOrbitalPeriod()
     {
-        if (parent != null)
+        if (parent != null && parent is OrbitalBody)
         {
-            double massCentralKG = parent.mass;
+            OrbitalBody par = (OrbitalBody)parent;
+            double massCentralKG = par.mass;
 
             double radM = orbitRadius;
             double rad3 = radM * radM * radM;

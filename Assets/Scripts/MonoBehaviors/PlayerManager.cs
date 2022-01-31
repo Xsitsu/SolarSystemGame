@@ -38,7 +38,7 @@ public class PlayerManager : MonoBehaviour
         if (CharacterStructure.parent == null)
         {
             StarSystemDisplay.Instance.SetStructureAnchor(CharacterStructure);
-            StarSystemDisplay.Instance.GetStartingGrid().AddStructure(CharacterStructure);
+            StarSystemDisplay.Instance.GetStartingGrid().AddChild(CharacterStructure);
         }
     }
 }

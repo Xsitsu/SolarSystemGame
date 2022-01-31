@@ -13,8 +13,8 @@ public class StarLogUI : MonoBehaviour
     {
         logEntries = new List<StarLogEntry>();
 
-        Orbital orbital = new SystemGeneratorSol().Generate();
-        DisplayStarSystem(orbital);
+        Entity entity = new SystemGeneratorSol().Generate();
+        DisplayStarSystem(entity);
     }
 
     void Update()
@@ -22,36 +22,34 @@ public class StarLogUI : MonoBehaviour
         
     }
 
-    public void DisplayStarSystem(Orbital orbital)
+    public void DisplayStarSystem(Entity entity)
     {
         ClearList();
-        ProcessAddOrbital(orbital);
+        ProcessAddEntity(entity);
     }
 
-    void ProcessAddOrbital(Orbital orbital)
+    void ProcessAddEntity(Entity entity)
     {
-        //Debug.Log("ProcessAddOrbital for: " + orbital.name);
-
         StarLogEntry entry = Instantiate(StarLogEntryPrefab).GetComponent<StarLogEntry>();
-        entry.SetText(orbital.name);
+        entry.SetText(entity.name);
 
-        if (orbital is Star)
+        if (entity is Star)
         {
-            entry.SetIconColor(((Star)orbital).color);
+            entry.SetIconColor(((Star)entity).color);
         }
-        else if (orbital is Planet)
+        else if (entity is Planet)
         {
-            entry.SetIconColor(((Planet)orbital).color);
+            entry.SetIconColor(((Planet)entity).color);
         }
 
         AddEntry(entry);
 
-        if (orbital is OrbitalBody)
+        if (entity is OrbitalBody)
         {
-            OrbitalBody ob = (OrbitalBody)orbital;
-            foreach (Orbital child in ob.satellites)
+            OrbitalBody ob = (OrbitalBody)entity;
+            foreach (Entity child in ob.children)
             {
-                ProcessAddOrbital(child);
+                ProcessAddEntity(child);
             }
         }
     }

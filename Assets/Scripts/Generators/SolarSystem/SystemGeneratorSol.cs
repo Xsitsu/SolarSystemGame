@@ -63,7 +63,7 @@ public class SystemGeneratorSol : ISystemGenerator
 
         //Planet earthMoonMoon = MakeMoon("Luna Minor", 1 * System.Math.Pow(10, 20), 10, MakeColor(255, 0, 255), (earthMoon.radius / 1000) + 10000);
 
-        earth.AddSatellite(earthMoon);
+        earth.AddChild(earthMoon);
         //earthMoon.AddSatellite(earthMoonMoon);
 
         // Mars
@@ -96,15 +96,15 @@ public class SystemGeneratorSol : ISystemGenerator
         Planet pluto = MakePlanet("Pluto", 0.0022, 1195, MakeColor(186, 185, 182), 39.53);
         SetOrbitData(pluto, 11.88, 110.299, 122.53 - 360, 6.387230 * Numbers.DayToSeconds);
 
-        sun.AddSatellite(mercury);
-        sun.AddSatellite(venus);
-        sun.AddSatellite(earth);
-        sun.AddSatellite(mars);
-        sun.AddSatellite(jupiter);
-        sun.AddSatellite(saturn);
-        sun.AddSatellite(uranus);
-        sun.AddSatellite(neptune);
-        sun.AddSatellite(pluto);
+        sun.AddChild(mercury);
+        sun.AddChild(venus);
+        sun.AddChild(earth);
+        sun.AddChild(mars);
+        sun.AddChild(jupiter);
+        sun.AddChild(saturn);
+        sun.AddChild(uranus);
+        sun.AddChild(neptune);
+        sun.AddChild(pluto);
 
 
         // Terra Station
@@ -121,8 +121,8 @@ public class SystemGeneratorSol : ISystemGenerator
         // terraStation.position = new Vector3d(20000, 0, 0);
         // terraStation.rotation = Quaternion.Euler(-43, 0, 150);
 
-        terraStationGrid.AddStructure(terraStation);
-        earth.AddSatellite(terraStationGrid);
+        terraStationGrid.AddChild(terraStation);
+        earth.AddChild(terraStationGrid);
 
         return sun;
     }

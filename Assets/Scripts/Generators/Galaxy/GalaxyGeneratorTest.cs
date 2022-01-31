@@ -20,12 +20,12 @@ public class GalaxyGeneratorTest : IGalaxyGenerator
         galaxy.name = "Milky Way";
         galaxy.mass = 4.1 * 1000000 * Numbers.SolarMassToKG;
 
-        galaxy.AddSatellite(GenerateSystem(systemGenerator, "Sol 1", 100, 0.47));
-        galaxy.AddSatellite(GenerateSystem(systemGenerator, "Sol 2", 96, 0.47));
-        galaxy.AddSatellite(GenerateSystem(systemGenerator, "Sol 3", 85, 0));
-        galaxy.AddSatellite(GenerateSystem(systemGenerator, "Sol 4", 128, 0.32));
-        galaxy.AddSatellite(GenerateSystem(systemGenerator, "Sol 5", 91, 0.83));
-        galaxy.AddSatellite(GenerateSystem(systemGenerator, "Sol 6", 112, 0.67));
+        galaxy.AddChild(GenerateSystem(systemGenerator, "Sol 1", 100, 0.47));
+        galaxy.AddChild(GenerateSystem(systemGenerator, "Sol 2", 96, 0.47));
+        galaxy.AddChild(GenerateSystem(systemGenerator, "Sol 3", 85, 0));
+        galaxy.AddChild(GenerateSystem(systemGenerator, "Sol 4", 128, 0.32));
+        galaxy.AddChild(GenerateSystem(systemGenerator, "Sol 5", 91, 0.83));
+        galaxy.AddChild(GenerateSystem(systemGenerator, "Sol 6", 112, 0.67));
 
         return galaxy;
     }
