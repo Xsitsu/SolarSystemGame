@@ -5,11 +5,19 @@ using UnityEngine;
 public abstract class Entity
 {
     public string name;
-    public double radiusM;
+    public double radius_m;
+    public double mass_kg;
 
 
     public Entity parent;
     public List<Entity> children = new List<Entity>();
+
+    public void SetEntityData(string name, double radius_m, double mass_kg)
+    {
+        this.name = name;
+        this.radius_m = radius_m;
+        this.mass_kg = mass_kg;
+    }
 
     public void AddChild(Entity child)
     {
@@ -59,4 +67,5 @@ public abstract class Entity
 
     public abstract Vector3d CalculatePosition(double atTime);
     public abstract Quaternion CalculateRotation(double atTime);
+    public abstract Quaternion CalculateLocalRotation(double atTime);
 }

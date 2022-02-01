@@ -11,6 +11,7 @@ public class StarSystemDisplay : MonoBehaviour
 
     public Entity anchor;
     public double timeFactor = 1.0;
+    public double timeOffsetSeconds = 0.0;
 
     Star _star;
     OrbitalGrid _startingGrid;
@@ -38,7 +39,7 @@ public class StarSystemDisplay : MonoBehaviour
         Quaternion worldspaceRotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
 
         double current = Epoch.CurrentMilliseconds() / 1000.0;
-        double useTime = current * timeFactor;
+        double useTime = current * timeFactor + timeOffsetSeconds;
         PositionEntityParent(anchor, worldspacePosition, worldspaceRotation, useTime, null);
     }
     public Star GetStar()
@@ -54,28 +55,6 @@ public class StarSystemDisplay : MonoBehaviour
         return _startingGrid;
     }
 
-    // public void SetNewOrbitalAnchor(GameObject gameObject)
-    // {
-    //     foreach (DictionaryEntry entry in orbitalMap)
-    //     {
-    //         if ((GameObject)(entry.Value) == gameObject)
-    //         {
-    //             if (entry.Key is OrbitalBody)
-    //             {
-    //                 OrbitalBody body = (OrbitalBody)entry.Key;
-
-    //                 Debug.Log("Set new orbit anchor: " + body.name);
-
-    //                 anchor.RemoveParent();
-    //                 body.AddSatellite(anchor);
-    //                 anchor.orbitRadius = body.radius * 1.4;
-
-    //                 return;
-    //             }
-    //         }
-    //     }
-    // }
-
     public void LoadStarSystem(Star starSystem)
     {
         if (!StarSystemIsLoaded())
@@ -84,20 +63,6 @@ public class StarSystemDisplay : MonoBehaviour
 
             LoadEntity(_star);
             LoadDescendants(_star);
-
-            //SetAnchor(_star);
-
-            /*
-            if (anchorObject != null)
-            {
-                ShipRenderer renderer = anchorObject.GetComponent<ShipRenderer>();
-                if (renderer != null)
-                {
-                    renderer.SetLightSource(GetOrbitalObject(_star));
-                }
-            }
-            */
-
 
             OrbitalBody earth = (OrbitalBody)_star.children[2];
             OrbitalGrid stationGrid = (OrbitalGrid)earth.children[1];
@@ -112,21 +77,7 @@ public class StarSystemDisplay : MonoBehaviour
             UnloadEntity(_star);
             UnloadDescendants(_star);
 
-            //SetAnchor(null);
-
             _star = null;
-            //anchor = null;
-
-            /*
-            if (anchorObject != null)
-            {
-                ShipRenderer renderer = anchorObject.GetComponent<ShipRenderer>();
-                if (renderer != null)
-                {
-                    renderer.SetLightSource(GetOrbitalObject(null));
-                }
-            }
-            */
         }
     }
     public bool StarSystemIsLoaded()
@@ -158,15 +109,6 @@ public class StarSystemDisplay : MonoBehaviour
 
                 hasInteractable = true;
             }
-            else if (entity is OrbitalGrid)
-            {
-                OrbitalGrid og = (OrbitalGrid)entity;
-                go = Instantiate(nonePrefab);
-                foreach (Entity en in og.children)
-                {
-                    LoadEntity(en);
-                }
-            }
             else if (entity is Station)
             {
                 go = Instantiate(stationPrefab);
@@ -187,12 +129,11 @@ public class StarSystemDisplay : MonoBehaviour
                 Observable obs = go.GetComponent<Observable>();
                 if (obs != null)
                 {
-                    obs.minZoom = (float)(entity.radiusM * 1.2);
-                    obs.maxZoom = (float)(entity.radiusM * 4);
-                    obs.defaultZoom = (float)(entity.radiusM * 1.5);
+                    obs.minZoom = (float)(entity.radius_m * 1.2);
+                    obs.maxZoom = (float)(entity.radius_m * 4);
+                    obs.defaultZoom = (float)(entity.radius_m * 1.5);
                 }
 
-                //if (!(orbital is OrbitalGrid))
                 if (hasInteractable)
                 {
                     InteractableManager.Instance.Register(go);
@@ -200,7 +141,7 @@ public class StarSystemDisplay : MonoBehaviour
                     if (interactable)
                     {
                         interactable.SetName(entity.name);
-                        interactable.SetOffsetDistance(entity.radiusM);
+                        interactable.SetOffsetDistance(entity.radius_m);
                     }
                     else
                     {
@@ -214,15 +155,6 @@ public class StarSystemDisplay : MonoBehaviour
     {
         if (EntityIsLoaded(entity))
         {
-            if (entity is OrbitalGrid)
-            {
-                OrbitalGrid og = (OrbitalGrid)entity;
-                foreach (Entity en in og.children)
-                {
-                    UnloadEntity(en);
-                }
-            }
-
             GameObject go = (GameObject)entityMap[entity];
             entityMap.Remove(entity);
             InteractableManager.Instance.Unregister(go);
@@ -272,7 +204,7 @@ public class StarSystemDisplay : MonoBehaviour
         {
             GameObject obj = GetEntityObject(entity);
             obj.transform.localPosition = (worldspacePosition.ToUnity() / (float)Numbers.UnitsToMeters);
-            obj.transform.rotation = worldspaceRotation;// * orbital.GetRotationalPeriodRotation(currentTime);
+            obj.transform.rotation = worldspaceRotation * entity.CalculateLocalRotation(currentTime);
         }
     }
     void PositionEntityParent(Entity entity, Vector3d worldspacePosition, Quaternion worldspaceRotation, double currentTime, Entity fromChild)

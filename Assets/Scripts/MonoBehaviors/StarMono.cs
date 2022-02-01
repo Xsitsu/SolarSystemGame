@@ -27,7 +27,7 @@ public class StarMono : OrbitalBodyMono
     public void DisplayStar(Star star)
     {
         material.SetColor("_Color", star.color);
-        display.transform.localScale *= (float)((2 * star.radius) / Numbers.UnitsToMeters);
+        display.transform.localScale *= (float)((2 * star.radius_m) / Numbers.UnitsToMeters);
 
         if (_light != null)
         {
