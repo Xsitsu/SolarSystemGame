@@ -339,6 +339,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8683508571069385529, guid: a5e6e294c3010914492a62f2c420f6ba,
         type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683508571069385529, guid: a5e6e294c3010914492a62f2c420f6ba,
+        type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683508571069385529, guid: a5e6e294c3010914492a62f2c420f6ba,
+        type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683508571069385529, guid: a5e6e294c3010914492a62f2c420f6ba,
+        type: 3}
       propertyPath: m_projectionMatrixMode
       value: 1
       objectReference: {fileID: 0}

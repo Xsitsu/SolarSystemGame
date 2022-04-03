@@ -9,6 +9,9 @@ public class PlanetMono : OrbitalBodyMono
     Material material;
     GameObject _lightSource;
 
+    Texture2D texture_white;
+    Color color;
+
     void Start()
     {
         
@@ -17,6 +20,7 @@ public class PlanetMono : OrbitalBodyMono
     {
         material = new Material(planetShader);
         display.GetComponent<MeshRenderer>().material = material;
+        texture_white = Texture2D.whiteTexture;
     }
     void Update()
     {
@@ -28,13 +32,35 @@ public class PlanetMono : OrbitalBodyMono
     }
     public void DisplayPlanet(Planet planet)
     {
-        material.SetColor("_Color", planet.color);
+        color = planet.color;
+
         display.transform.localScale *= (float)((2 * planet.radius_m) / Numbers.UnitsToMeters);
 
+        material.SetColor("_Color", planet.color);
         material.SetTexture("_MainTex", texture);
     }
     public void SetLightSource(GameObject lightSource)
     {
         _lightSource = lightSource;
+    }
+    public void ApplySettings(StarSystemDisplaySettings settings)
+    {
+        material.SetFloat("_Ambience", settings.Ambience);
+        if (settings.DebugTiling)
+        {
+            material.SetTexture("_MainTex", texture);
+        }
+        else
+        {
+            material.SetTexture("_MainTex", texture_white);
+        }
+        if (settings.DebugAmbience)
+        {
+            material.SetColor("_AmbientColor", settings.DebugAmbienceColor);
+        }
+        else
+        {
+            material.SetColor("_AmbientColor", color);
+        }
     }
 }

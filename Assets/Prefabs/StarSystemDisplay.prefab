@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e20f64cb3fac2b844bfeb8e99f6f67c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: 04f09e5523af38a4c9b7abafd0c89f4e, type: 2}
   nonePrefab: {fileID: 575671382489657171, guid: d872f913dc1c9a94dad770969f93eb25,
     type: 3}
   starPrefab: {fileID: 575671382489657171, guid: 9dfc1af4c72104e4fb2b8581e2a13e4b,
@@ -52,3 +53,4 @@ MonoBehaviour:
   stationPrefab: {fileID: 3481526890011117502, guid: 7c39be7c03c4f794b8bde88ce75a92b8,
     type: 3}
   timeFactor: 1
+  timeOffsetSeconds: 0

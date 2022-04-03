@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class StarSystemDisplay : MonoBehaviour
 {
+    public StarSystemDisplaySettings settings;
+
     public GameObject nonePrefab;
     public GameObject starPrefab;
     public GameObject planetPrefab;
@@ -41,6 +43,18 @@ public class StarSystemDisplay : MonoBehaviour
         double current = Epoch.CurrentMilliseconds() / 1000.0;
         double useTime = current * timeFactor + timeOffsetSeconds;
         PositionEntityParent(anchor, worldspacePosition, worldspaceRotation, useTime, null);
+
+        foreach (DictionaryEntry entry in entityMap)
+        {
+            Entity entity = (Entity)entry.Key;
+            GameObject go = (GameObject)entry.Value;
+
+            if (entity is Planet)
+            {
+                PlanetMono mono = go.GetComponent<PlanetMono>();
+                mono.ApplySettings(settings);
+            }
+        }
     }
     public Star GetStar()
     {

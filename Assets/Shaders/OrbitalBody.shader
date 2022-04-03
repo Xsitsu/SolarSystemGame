@@ -4,6 +4,8 @@
     {
         _MainTex ("Texture", 2D) = "white" {}
         _Color ("Color", Color) = (1, 1, 1, 1)
+        _Ambience ("Ambience", Float) = 0
+        _AmbientColor ("AmbientColor", Color) = (1, 1, 1, 1)
         _LightDirection ("Light Source Direction", Vector) = (0, 0, 0, 0)
     }
     SubShader
@@ -40,6 +42,8 @@
             sampler2D _MainTex;
             float4 _MainTex_ST;
             fixed4 _Color;
+            float _Ambience;
+            fixed4 _AmbientColor;
             float4 _LightDirection;
 
             v2f vert (appdata v)
@@ -55,13 +59,24 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
+                fixed4 col;
+
+                fixed4 useCol = _Color;
+
                 fixed3 lightDirection = normalize(_LightDirection.xyz);
                 float intensity = -1 * dot(lightDirection, i.worldNormal);
-                float ambience = 0.4;
+                if (intensity < 0)
+                {
+                    intensity = _Ambience;
+                    useCol = _AmbientColor;
+                }
+                else
+                {
+                    intensity = ((1 - _Ambience) * intensity) + _Ambience;
+                }
 
-                intensity = (intensity * (1 - ambience)) + ambience;
+                col = intensity * useCol * tex2D(_MainTex, i.uv);
 
-                fixed4 col = intensity * _Color * tex2D(_MainTex, i.uv);
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
