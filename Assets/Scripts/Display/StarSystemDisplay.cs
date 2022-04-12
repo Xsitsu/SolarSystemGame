@@ -82,6 +82,8 @@ public class StarSystemDisplay : MonoBehaviour
 
             LoadEntity(_star);
             LoadDescendants(_star);
+
+            PlayerManager.Instance.character.GetComponent<ShipRenderer>().SetLightSource(GetEntityObject(_star));
         }
 
     }
