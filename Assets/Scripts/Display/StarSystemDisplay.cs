@@ -10,6 +10,7 @@ public class StarSystemDisplay : MonoBehaviour
     public GameObject starPrefab;
     public GameObject planetPrefab;
     public GameObject stationPrefab;
+    public GameObject ringPrefab;
 
     public Entity anchor;
     public double timeFactor = 1.0;
@@ -113,6 +114,7 @@ public class StarSystemDisplay : MonoBehaviour
             {
                 Planet planet = (Planet)entity;
                 go = Instantiate(planetPrefab);
+                go.GetComponent<PlanetMono>().InitTextures(planet);
                 go.GetComponent<PlanetMono>().DisplayPlanet(planet);
                 go.GetComponent<PlanetMono>().SetLightSource(GetEntityObject(_star));
 
@@ -131,6 +133,17 @@ public class StarSystemDisplay : MonoBehaviour
                 go = Instantiate(stationPrefab);
 
                 hasInteractable = true;
+            }
+            else if (entity is Ring)
+            {
+                double parentRad_m = entity.parent.radius_m * 1.1;
+                double innerUnits = parentRad_m / Numbers.UnitsToMeters;
+                double thicknessUnits = (entity.radius_m - parentRad_m) / Numbers.UnitsToMeters;
+
+                go = Instantiate(ringPrefab);
+                go.GetComponent<PlanetRing>().innerRadius = (float)innerUnits;
+                go.GetComponent<PlanetRing>().thickness = (float)thicknessUnits;
+                go.GetComponent<PlanetRing>().ForceUpdate();
             }
             else
             {

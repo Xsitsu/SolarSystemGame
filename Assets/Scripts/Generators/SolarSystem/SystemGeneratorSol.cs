@@ -178,6 +178,20 @@ public class SystemGeneratorSol : ISystemGenerator
             color = MakeColor(247, 200, 57),
         };
 
+        Ring saturnRing = new Ring
+        {
+            name = "Saturn's Rings",
+            mass_kg = 1,
+            radius_m = (270000 / 2) * Numbers.KMToM,
+
+            eccentricity = 0,
+            semiMajorAxis_m = 0,
+            inclination_deg = 0,
+            longitudeOfAN_deg = 0,
+            argumentOfPeriapsis_deg = 0,
+            periapsisEpoch_sec = 0
+        };
+
         // Uranus
         Planet uranus = new Planet
         {
@@ -250,6 +264,7 @@ public class SystemGeneratorSol : ISystemGenerator
 
         earth.AddChild(luna);
 
+        saturn.AddChild(saturnRing);
 
         // Terra Station
         OrbitalGrid terraStationGrid = new OrbitalGrid
@@ -285,9 +300,9 @@ public class SystemGeneratorSol : ISystemGenerator
 
             eccentricity = 0.0006822,
             semiMajorAxis_m = 7238 * Numbers.KMToM,
-            inclination_deg = 33.6445,
-            longitudeOfAN_deg = 55.2902,
-            argumentOfPeriapsis_deg = 22.2131,
+            inclination_deg = 0,
+            longitudeOfAN_deg = 0,
+            argumentOfPeriapsis_deg = 0,
             periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)),
         };
 

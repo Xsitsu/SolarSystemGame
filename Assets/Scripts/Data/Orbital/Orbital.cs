@@ -70,7 +70,7 @@ public class Orbital : Entity
     }
     public Quaternion GetOrbitPeriodRotation(double atTime)
     {
-        if (parent != null)
+        if (parent != null && semiMajorAxis_m > 0)
         {
             double period_sec = CalculateOrbitalPeriod_sec();
 

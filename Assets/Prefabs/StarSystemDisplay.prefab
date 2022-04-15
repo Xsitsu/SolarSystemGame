@@ -52,5 +52,7 @@ MonoBehaviour:
     type: 3}
   stationPrefab: {fileID: 3481526890011117502, guid: 7c39be7c03c4f794b8bde88ce75a92b8,
     type: 3}
+  ringPrefab: {fileID: 575671382489657171, guid: 1c3bd86293afd294a90d61747e525d56,
+    type: 3}
   timeFactor: 1
   timeOffsetSeconds: 0

@@ -142,7 +142,7 @@ MonoBehaviour:
   display: {fileID: 5748661338972811893}
   satellites: {fileID: 8867802971113548477}
   starShader: {fileID: 4800000, guid: 28ab8854f4e2f5644a32f7a56eedd41a, type: 3}
-  texture: {fileID: 2800000, guid: dd7786c3f208a9940b4cb70d4afe180a, type: 3}
+  texture: {fileID: 2800000, guid: 02809c2fa46eeff4facb2ddb8fcf14cd, type: 3}
   lightSource: {fileID: 158277709545348041}
 --- !u!114 &4582709483146482088
 MonoBehaviour:

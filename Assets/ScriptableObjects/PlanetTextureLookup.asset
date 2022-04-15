@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b30be15db2e138b4191c6448c4d4fe1f, type: 3}
+  m_Name: PlanetTextureLookup
+  m_EditorClassIdentifier: 
+  textures:
+  - {fileID: 2800000, guid: 02809c2fa46eeff4facb2ddb8fcf14cd, type: 3}
+  - {fileID: 2800000, guid: 7464a5cf136c42341ba490a15a7fba8e, type: 3}
+  - {fileID: 2800000, guid: 9cbf62c639e49cf42a2d0dbc547fd211, type: 3}
+  - {fileID: 2800000, guid: 1f2a0e80f780e4542ba06683ad29445f, type: 3}
+  - {fileID: 2800000, guid: 7a9396de2473ac74d875a8cbdaa22700, type: 3}
+  - {fileID: 2800000, guid: 06d81ffa29a31f845a0e1399e480fd63, type: 3}
+  - {fileID: 2800000, guid: 0dcf8d3f1723b1548a369fb21892f7ee, type: 3}
+  - {fileID: 2800000, guid: 04bc0297624165146852d95a1663c680, type: 3}
+  - {fileID: 2800000, guid: 9641ff162f8b031429ae924015d3bcd2, type: 3}
+  - {fileID: 2800000, guid: acaa8a5d598b5254a9314dd5d0b8acc6, type: 3}
+  - {fileID: 2800000, guid: 59a3bf482be8e5e4c9aaf577805f196b, type: 3}
+  - {fileID: 2800000, guid: 90928b7f44f999c43a4988586b350f57, type: 3}
+  - {fileID: 2800000, guid: 5180b45e286caa7449f83ff9baea26a0, type: 3}
+  - {fileID: 2800000, guid: e4c23b43434ea3b44b3da30b273a2b69, type: 3}
+  - {fileID: 2800000, guid: b99b7612bbd1f0742bfd83924b91062c, type: 3}

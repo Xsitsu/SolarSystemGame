@@ -2,11 +2,11 @@
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        _LightDirection ("Light Source Direction", Vector) = (0, 0, 0, 0)
+        _TerrainTexture ("Texture", 2D) = "white" {}
+        _LightTexture ("Texture", 2D) = "white" {}
         _Color ("Color", Color) = (1, 1, 1, 1)
         _Ambience ("Ambience", Float) = 0
-        _AmbientColor ("AmbientColor", Color) = (1, 1, 1, 1)
-        _LightDirection ("Light Source Direction", Vector) = (0, 0, 0, 0)
     }
     SubShader
     {
@@ -39,11 +39,14 @@
                 float4 vertex : SV_POSITION;
             };
 
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
+            sampler2D _TerrainTexture;
+            float4 _TerrainTexture_ST;
+
+            sampler2D _LightTexture;
+            float4 _LightTexture_ST;
+
             fixed4 _Color;
             float _Ambience;
-            fixed4 _AmbientColor;
             float4 _LightDirection;
 
             v2f vert (appdata v)
@@ -52,7 +55,7 @@
                 o.worldNormal = UnityObjectToWorldNormal(v.normal);
                 o.worldPosition = mul(unity_ObjectToWorld, v.vertex);
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uv = TRANSFORM_TEX(v.uv, _TerrainTexture);
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
             }
@@ -61,21 +64,20 @@
             {
                 fixed4 col;
 
-                fixed4 useCol = _Color;
-
                 fixed3 lightDirection = normalize(_LightDirection.xyz);
                 float intensity = -1 * dot(lightDirection, i.worldNormal);
-                if (intensity < 0)
+                if (intensity > 0) // Day side
+                {
+                    intensity = ((1 - _Ambience) * intensity * intensity) + _Ambience;
+                    col = tex2D(_TerrainTexture, i.uv);
+                }
+                else // Night side
                 {
                     intensity = _Ambience;
-                    useCol = _AmbientColor;
-                }
-                else
-                {
-                    intensity = ((1 - _Ambience) * intensity) + _Ambience;
+                    col = tex2D(_TerrainTexture, i.uv);
                 }
 
-                col = intensity * useCol * tex2D(_MainTex, i.uv);
+                col = col * intensity;
 
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);

@@ -48,8 +48,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   display: {fileID: 5748661338972811893}
   satellites: {fileID: 8867802971113548477}
+  lookup: {fileID: 11400000, guid: 53d1ebd5bc17c8c4f996b04599dbf136, type: 2}
   planetShader: {fileID: 4800000, guid: 89a0469271ce8fd47b4675814aeadf06, type: 3}
-  texture: {fileID: 2800000, guid: dd7786c3f208a9940b4cb70d4afe180a, type: 3}
+  terrainTexture: {fileID: 2800000, guid: dd7786c3f208a9940b4cb70d4afe180a, type: 3}
+  lightTexture: {fileID: 0}
 --- !u!114 &4199220214729824065
 MonoBehaviour:
   m_ObjectHideFlags: 0

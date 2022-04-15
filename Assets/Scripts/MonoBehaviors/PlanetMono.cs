@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class PlanetMono : OrbitalBodyMono
 {
+    public PlanetTextureLookup lookup;
     public Shader planetShader;
-    public Texture2D texture;
+    public Texture2D terrainTexture;
+    public Texture2D lightTexture;
     Material material;
     GameObject _lightSource;
 
@@ -30,6 +32,46 @@ public class PlanetMono : OrbitalBodyMono
             material.SetVector("_LightDirection", dir);
         }
     }
+    public void InitTextures(Planet planet)
+    {
+        // Gross hacky function needs to be replaced with a proper solution sometime later
+        if (planet.name == "Mercury")
+        {
+            terrainTexture = lookup.textures[1];
+        }
+        else if (planet.name == "Venus")
+        {
+            terrainTexture = lookup.textures[3];
+        }
+        else if (planet.name == "Earth")
+        {
+            terrainTexture = lookup.textures[4];
+        }
+        else if (planet.name == "Luna")
+        {
+            terrainTexture = lookup.textures[8];
+        }
+        else if (planet.name == "Mars")
+        {
+            terrainTexture = lookup.textures[9];
+        }
+        else if (planet.name == "Jupiter")
+        {
+            terrainTexture = lookup.textures[10];
+        }
+        else if (planet.name == "Saturn")
+        {
+            terrainTexture = lookup.textures[11];
+        }
+        else if (planet.name == "Uranus")
+        {
+            terrainTexture = lookup.textures[13];
+        }
+        else if (planet.name == "Neptune")
+        {
+            terrainTexture = lookup.textures[14];
+        }
+    }
     public void DisplayPlanet(Planet planet)
     {
         color = planet.color;
@@ -37,7 +79,8 @@ public class PlanetMono : OrbitalBodyMono
         display.transform.localScale *= (float)((2 * planet.radius_m) / Numbers.UnitsToMeters);
 
         material.SetColor("_Color", planet.color);
-        material.SetTexture("_MainTex", texture);
+        material.SetTexture("_TerrainTexture", terrainTexture);
+        material.SetTexture("_LightTexture", lightTexture);
     }
     public void SetLightSource(GameObject lightSource)
     {
@@ -48,19 +91,21 @@ public class PlanetMono : OrbitalBodyMono
         material.SetFloat("_Ambience", settings.Ambience);
         if (settings.DebugTiling)
         {
-            material.SetTexture("_MainTex", texture);
+            material.SetTexture("_TerrainTexture", terrainTexture);
+         material.SetTexture("_LightTexture", lightTexture);
         }
         else
         {
-            material.SetTexture("_MainTex", texture_white);
+            material.SetTexture("_TerrainTexture", texture_white);
+            material.SetTexture("_LightTexture", texture_white);
         }
         if (settings.DebugAmbience)
         {
-            material.SetColor("_AmbientColor", settings.DebugAmbienceColor);
+            // material.SetColor("_AmbientColor", settings.DebugAmbienceColor);
         }
         else
         {
-            material.SetColor("_AmbientColor", color);
+            // material.SetColor("_AmbientColor", color);
         }
     }
 }
