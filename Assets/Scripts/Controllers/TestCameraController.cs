@@ -35,6 +35,7 @@ public class TestCameraController : MonoBehaviour
         }
 
         if (Input.GetMouseButton(1))
+        // if (UnityEngine.InputSystem.Mouse.current.rightButton.isPressed)
         {
             float axisX = Input.GetAxis("Mouse X");
             float axisY = Input.GetAxis("Mouse Y");

@@ -28,10 +28,14 @@ public class StarLogUI : MonoBehaviour
         ProcessAddEntity(entity);
     }
 
-    void ProcessAddEntity(Entity entity)
+    StarLogEntry MakeEntry(Entity entity)
     {
-        StarLogEntry entry = Instantiate(StarLogEntryPrefab).GetComponent<StarLogEntry>();
+        GameObject obj = Instantiate(StarLogEntryPrefab);
+        obj.name = entity.name;
+        StarLogEntry entry = obj.GetComponent<StarLogEntry>();
         entry.SetText(entity.name);
+        entry.entity = entity;
+        entry.Init();
 
         if (entity is Star)
         {
@@ -42,15 +46,19 @@ public class StarLogUI : MonoBehaviour
             entry.SetIconColor(((Planet)entity).color);
         }
 
-        AddEntry(entry);
-
-        if (entity is OrbitalBody)
+        return entry;
+    }
+    void ProcessAddEntity(Entity entity)
+    {
+        if (entity is OrbitalBody || entity is Station)
         {
-            OrbitalBody ob = (OrbitalBody)entity;
-            foreach (Entity child in ob.children)
-            {
-                ProcessAddEntity(child);
-            }
+            StarLogEntry entry = MakeEntry(entity);
+            AddEntry(entry);
+        }
+
+        foreach (Entity child in entity.children)
+        {
+            ProcessAddEntity(child);
         }
     }
 

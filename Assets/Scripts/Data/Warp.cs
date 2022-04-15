@@ -232,15 +232,13 @@ public class Warp
             double useSpeed = warp.primaryEngine.CalculateSpeedC() * Numbers.c;
             double maxSpeed;
             
-            maxSpeed = (remaining * 2) + (warp.target.radius_m * 0.05);
+            maxSpeed = (remaining * 2) + (warp.target.radius_m * 0.05) + 100;
 
             useSpeed = System.Math.Min(maxSpeed, useSpeed);
 
             warp._distance -= useSpeed * deltaTime_sec;
 
             warp._warpGrid.position = (warp._warpGrid.rotation * new Vector3(0, 0, -(float)warp._distance)).ToUnityd();
-
-
 
             if (endDistance_m >= warp._distance)
             {

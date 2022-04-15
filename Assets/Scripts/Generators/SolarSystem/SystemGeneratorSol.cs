@@ -254,7 +254,7 @@ public class SystemGeneratorSol : ISystemGenerator
         // Terra Station
         OrbitalGrid terraStationGrid = new OrbitalGrid
         {
-            name = "Terra Station",
+            name = "Terra Station Grid",
 
             eccentricity = 0.0006822,
             semiMajorAxis_m = 6738 * Numbers.KMToM,
@@ -281,7 +281,7 @@ public class SystemGeneratorSol : ISystemGenerator
         // Terra Station 2
         terraStationGrid = new OrbitalGrid
         {
-            name = "Terra Station 2",
+            name = "Terra Station 2 Grid",
 
             eccentricity = 0.0006822,
             semiMajorAxis_m = 7238 * Numbers.KMToM,
@@ -308,7 +308,7 @@ public class SystemGeneratorSol : ISystemGenerator
         // Luna Station
         OrbitalGrid lunaStationGrid = new OrbitalGrid
         {
-            name = "Luna Station",
+            name = "Luna Station Grid",
 
             eccentricity = 0.0006822,
             semiMajorAxis_m = luna.radius_m * 2,
