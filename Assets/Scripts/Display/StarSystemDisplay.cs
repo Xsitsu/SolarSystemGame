@@ -144,6 +144,7 @@ public class StarSystemDisplay : MonoBehaviour
                 go.GetComponent<PlanetRing>().innerRadius = (float)innerUnits;
                 go.GetComponent<PlanetRing>().thickness = (float)thicknessUnits;
                 go.GetComponent<PlanetRing>().ForceUpdate();
+                go.GetComponent<PlanetRing>().SetLightSource(GetEntityObject(_star));
             }
             else
             {

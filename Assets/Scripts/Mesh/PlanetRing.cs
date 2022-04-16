@@ -12,11 +12,27 @@ public class PlanetRing : MonoBehaviour {
 	public float thickness = 0.5f;
 	public Material ringMat;
 
+    private GameObject _lightSource;
+
 	//cached references
 	GameObject ring;
 	Mesh ringMesh;
 	MeshFilter ringMF;
 	MeshRenderer ringMR;
+
+    void Update()
+    {
+        if (_lightSource != null)
+        {
+            Vector3 dir = Vector3.Normalize(transform.position - _lightSource.transform.position);
+
+            Material material = ringMR.material;
+            if (material != null)
+            {
+                material.SetVector("_LightDirection", dir);
+            }
+        }
+    }
 
 	void OnEnable(){
 		if (ring == null || ringMesh == null) {
@@ -104,5 +120,9 @@ public class PlanetRing : MonoBehaviour {
     public void ForceUpdate()
     {
         BuildRingMesh();
+    }
+    public void SetLightSource(GameObject lightSource)
+    {
+        _lightSource = lightSource;
     }
 }
