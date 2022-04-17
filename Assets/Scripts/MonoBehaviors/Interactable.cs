@@ -6,6 +6,7 @@ using TMPro;
 public class Interactable : MonoBehaviour
 {
     public Entity entity;
+    public GameObject cameraContainer;
     public GameObject adornee;
     public GameObject canvas;
     public GameObject button;
@@ -33,30 +34,56 @@ public class Interactable : MonoBehaviour
     }
     void Start()
     {
-        button.GetComponent<Button>().onClick.AddListener(Interact);
+        canvas.GetComponent<Canvas>().worldCamera = cameraContainer.GetComponent<Camera>();
     }
 
     void Update()
     {
-        bool hide = true;
-        if (adornee != null)
+        if (IsVisible())
         {
-            Vector3 screenPosition = Camera.main.WorldToScreenPoint(adornee.transform.position);
-            if (screenPosition.z > 0)
-            {
-                transform.position = new Vector3(screenPosition.x, screenPosition.y, 0);
-                hide = false;
-
-                if (PlayerManager.Instance.character != null)
-                {
-                    double distU = (PlayerManager.Instance.character.transform.position - adornee.transform.position).magnitude;
-                    double distM = (distU * Numbers.UnitsToMeters) - offsetDistance;
-                    SetDistance(distM);
-                }
-            }
+            canvas.SetActive(true);
+            UpdatePosition();
+            UpdateRotation();
+            UpdateDistance();
         }
-
-        canvas.SetActive(!hide);
+        else 
+        {
+            canvas.SetActive(false);
+        }
+    }
+    Vector3 OffsetToAdornee()
+    {
+        Vector3 fromPos = cameraContainer.transform.position;
+        Vector3 targetPos = adornee.transform.position;
+        Vector3 offset = targetPos - fromPos;
+        return offset;
+    }
+    Vector3 DirectionToAdornee()
+    {
+        return Vector3.Normalize(OffsetToAdornee());
+    }
+    bool IsVisible()
+    {
+        Vector3 lookDir = cameraContainer.transform.forward;
+        Vector3 direction = DirectionToAdornee();
+        return Vector3.Dot(lookDir, direction) > 0f;
+    }
+    void UpdatePosition()
+    {
+        Vector3 direction = DirectionToAdornee();
+        transform.position = cameraContainer.transform.position + (direction * 12f);
+    }
+    void UpdateRotation()
+    {
+        Vector3 direction = DirectionToAdornee();
+        transform.rotation = Quaternion.LookRotation(direction);
+    }
+    void UpdateDistance()
+    {
+        Vector3 offset = OffsetToAdornee();
+        float distance = offset.magnitude;
+        double distance_m = (distance * Numbers.UnitsToMeters) - offsetDistance;
+        SetDistance(distance_m);
     }
 
     public void Interact()

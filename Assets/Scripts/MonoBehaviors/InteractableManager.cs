@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class InteractableManager : MonoBehaviour
 {
+    public GameObject cameraContainer;
     public GameObject interactablePrefab;
     public GameObject canvas;
     static private InteractableManager _instance;
@@ -32,7 +33,8 @@ public class InteractableManager : MonoBehaviour
     {
         GameObject intGameObj = Instantiate(interactablePrefab);
         Interactable interactable = intGameObj.GetComponent<Interactable>();
-
+        interactable.transform.name = entity.name;
+        interactable.cameraContainer = cameraContainer;
         interactable.entity = entity;
         interactable.adornee = gameObject;
         intGameObj.transform.SetParent(canvas.transform);
