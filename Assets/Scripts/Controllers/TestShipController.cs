@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class TestShipController : MonoBehaviour
 {
@@ -14,10 +15,31 @@ public class TestShipController : MonoBehaviour
 
     SublightEngineMono sublightEngine;
     WarpEngineMono warpEngine;
-    void Start()
+
+
+    private ShipActions shipActions;
+
+    
+    Quaternion handRotationBase;
+    bool isQuatRot = false;
+
+    void OnEnable()
+    {
+        shipActions.Enable();
+    }
+    void OnDisable()
+    {
+        shipActions.Disable();
+    }
+    void Awake()
     {
         sublightEngine = GetComponent<SublightEngineMono>();
         warpEngine = GetComponent<WarpEngineMono>();
+
+        shipActions = new ShipActions();
+    }
+    void Start()
+    {
         transform.localScale = sizeMeters / (float)Numbers.UnitsToMeters;
 
         _directionLine = DirectionLine.GetComponent<LineRenderer>();
@@ -75,9 +97,6 @@ public class TestShipController : MonoBehaviour
                 _warpTargetLine.SetPosition(0, transform.position);
 
                 warp.UpdateWarpLines(_directionLine, _warpTargetLine, transform.position);
-
-                // Vector3d posUnits = posTo / Numbers.UnitsToMeters;
-                // Debug.LogFormat("Has warp to target {0}. Pos: {1}, Dist: {2}", warp.target.name, posUnits.ToUnity(), GetDistText(posTo.magnitude));
             }
             else
             {
@@ -91,48 +110,45 @@ public class TestShipController : MonoBehaviour
 
     void UpdateWarp()
     {
-        int warpAcceleration = 0;
-        if (Input.GetKey(KeyCode.W))
-        {
-            warpAcceleration = 1;
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            warpAcceleration = -1;
-        }
-
-        warpEngine.moveDirection.z = warpAcceleration;
+        warpEngine.moveDirection.z = shipActions.Player.Accelerate.ReadValue<float>();
     }
 
     void UpdateSublight()
     {
-        int sublightAcceleration = 0;
+        float sublightAcceleration = shipActions.Player.Accelerate.ReadValue<float>();
         Vector3 sublightRotation = new Vector3(0, 0, 0);
 
-        if (Input.GetKey(KeyCode.W))
-        {
-            sublightAcceleration = 1;
-        }
-        else if (Input.GetKey(KeyCode.S) || autoBrake)
+        if (autoBrake && sublightAcceleration < 0.01f)
         {
             sublightAcceleration = -1;
         }
 
-        int rotX = 0;
-        int rotY = 0;
-        int rotZ = 0;
-        if (Input.GetKey(KeyCode.Q)) rotZ++;
-        if (Input.GetKey(KeyCode.E)) rotZ--;
-        if (Input.GetKey(KeyCode.A)) rotY--;
-        if (Input.GetKey(KeyCode.D)) rotY++;
-        if (Input.GetKey(KeyCode.Z)) rotX--;
-        if (Input.GetKey(KeyCode.C)) rotX++;
-
-        sublightRotation.x = rotX;
-        sublightRotation.y = rotY;
-        sublightRotation.z = rotZ;
+        sublightRotation.x = shipActions.Player.Pitch.ReadValue<float>();
+        sublightRotation.y = shipActions.Player.Yaw.ReadValue<float>();
+        sublightRotation.z = shipActions.Player.Roll.ReadValue<float>();
 
         sublightEngine.moveDirection.z = sublightAcceleration;
         sublightEngine.rotateDirection = sublightRotation;
+
+        if (shipActions.Player.ShipRotationEnable.ReadValue<float>() > 0.5f)
+        {
+            sublightEngine.useRotateQuaternion = true;
+
+            if (!isQuatRot)
+            {
+                isQuatRot = true;
+                handRotationBase = Quaternion.Inverse(shipActions.Player.ShipRotation.ReadValue<Quaternion>());
+            }
+            else
+            {
+                sublightEngine.rotateQuaternion = shipActions.Player.ShipRotation.ReadValue<Quaternion>() * handRotationBase;
+            }
+        }
+        else
+        {
+            isQuatRot = false;
+            sublightEngine.useRotateQuaternion = false;
+            sublightEngine.rotateQuaternion = shipActions.Player.ShipRotation.ReadValue<Quaternion>();
+        }
     }
 }

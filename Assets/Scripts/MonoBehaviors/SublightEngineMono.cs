@@ -16,12 +16,15 @@ public class SublightEngineMono : EngineMono
 
     public Vector3 moveDirection;
     public Vector3 rotateDirection;
+    public Quaternion rotateQuaternion;
+    public bool useRotateQuaternion;
 
     void Start()
     {
         speed = 0;
         moveDirection = new Vector3(0, 0, 0);
         rotateDirection = new Vector3(0, 0, 0);
+        rotateQuaternion = Quaternion.LookRotation(Vector3.forward, Vector3.up);
     }
 
     void Update()
@@ -33,6 +36,11 @@ public class SublightEngineMono : EngineMono
 
         Vector3 rotateData = rotateDirection * rotateSpeed * Time.deltaTime;
         Quaternion rotationStep = Quaternion.Euler(rotateData.x, rotateData.y, rotateData.z);
+
+        if (useRotateQuaternion)
+        {
+            rotationStep *= Quaternion.Slerp(Quaternion.LookRotation(Vector3.forward, Vector3.up), rotateQuaternion, 0.05f);
+        }
 
         Vector3 moveStep = new Vector3(0, 0, (float)(speed) * Time.deltaTime);
 
