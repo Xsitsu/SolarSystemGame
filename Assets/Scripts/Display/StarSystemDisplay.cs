@@ -130,7 +130,10 @@ public class StarSystemDisplay : MonoBehaviour
             }
             else if (entity is Station)
             {
+                float rad = (float)(((Station)entity).radius_m / Numbers.UnitsToMeters);
+
                 go = Instantiate(stationPrefab);
+                go.transform.localScale = new Vector3(rad, rad, rad);
 
                 hasInteractable = true;
             }
