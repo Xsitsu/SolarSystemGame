@@ -108,6 +108,20 @@ public class StarSystemDisplay : MonoBehaviour
         if (!EntityIsLoaded(entity))
         {
             bool hasInteractable = false;
+            double signatureDistance = 0;
+
+            if (entity.parent != null)
+            {
+                if (entity.parent is Star)
+                {
+                    signatureDistance = 0.1 * Numbers.LightYearToKM * Numbers.KMToM;
+                }
+                else
+                {
+                    signatureDistance = 0.1 * Numbers.AUToKM * Numbers.KMToM;
+                }
+            }
+
 
             GameObject go = null;
             if (entity is Planet)
@@ -127,6 +141,7 @@ public class StarSystemDisplay : MonoBehaviour
                 go.GetComponent<StarMono>().DisplayStar(star);
 
                 hasInteractable = true;
+                signatureDistance = 0;
             }
             else if (entity is Station)
             {
@@ -176,6 +191,7 @@ public class StarSystemDisplay : MonoBehaviour
                     {
                         interactable.SetName(entity.name);
                         interactable.SetOffsetDistance(entity.radius_m);
+                        interactable.SetSignatureSize(signatureDistance);
                     }
                     else
                     {

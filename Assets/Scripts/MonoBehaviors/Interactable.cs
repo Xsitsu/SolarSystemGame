@@ -12,6 +12,7 @@ public class Interactable : MonoBehaviour
     public GameObject button;
     public GameObject textLabel;
 
+    double _signatureSize_m;
     double offsetDistance;
 
     string _nameText = "";
@@ -31,6 +32,7 @@ public class Interactable : MonoBehaviour
 
         SetName("");
         SetDistance(0);
+        SetSignatureSize(0);
     }
     void Start()
     {
@@ -39,7 +41,7 @@ public class Interactable : MonoBehaviour
 
     void Update()
     {
-        if (IsVisible())
+        if (IsVisible() && IsInSignatureDistance())
         {
             canvas.SetActive(true);
             UpdatePosition();
@@ -61,6 +63,15 @@ public class Interactable : MonoBehaviour
     Vector3 DirectionToAdornee()
     {
         return Vector3.Normalize(OffsetToAdornee());
+    }
+    bool IsInSignatureDistance()
+    {
+        if (_signatureSize_m > 0)
+        {
+            double dist_m = (double)(OffsetToAdornee().magnitude) * Numbers.UnitsToMeters;
+            return (_signatureSize_m >= dist_m);
+        }
+        return true;
     }
     bool IsVisible()
     {
@@ -146,5 +157,10 @@ public class Interactable : MonoBehaviour
     public void SetOffsetDistance(double dist)
     {
         offsetDistance = dist;
+    }
+
+    public void SetSignatureSize(double size)
+    {
+        _signatureSize_m = size;
     }
 }
