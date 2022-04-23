@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Ambience: 0.05
   DebugTiling: 1
-  DebugAmbience: 0
+  DebugAmbience: 1
   DebugAmbienceColor: {r: 1, g: 0, b: 1, a: 1}

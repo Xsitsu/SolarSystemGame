@@ -15,6 +15,21 @@ public class SystemGeneratorSol : ISystemGenerator
         return (dt.Subtract(timeEpoch)).TotalSeconds;
     }
 
+    OrbitalGrid StationHelper(OrbitalGrid grid)
+    {
+        Station makeStation = new Station()
+        {
+            name = grid.name,
+
+            radius_m = 10000,
+
+            rotationSpeed_degPersec = new Vector3d(0, 2, 0),
+        };
+        grid.name += " Station";
+        grid.AddChild(makeStation);
+        return grid;
+    }
+
     public Star Generate()
     {
         Star sun = new Star
@@ -345,6 +360,69 @@ public class SystemGeneratorSol : ISystemGenerator
 
         lunaStationGrid.AddChild(lunaStation);
         luna.AddChild(lunaStationGrid);
+
+        // Mars Station
+        mars.AddChild(StationHelper(new OrbitalGrid
+        {
+            name = "Mars Station",
+
+            eccentricity = 0,
+            semiMajorAxis_m = mars.radius_m * 1.1,
+            inclination_deg = -18.58,
+            longitudeOfAN_deg = -88.7,
+            argumentOfPeriapsis_deg = 20.2131,
+            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)),
+        }));
+
+        // Jupiter Station
+        jupiter.AddChild(StationHelper(new OrbitalGrid
+        {
+            name = "Jupiter Station",
+
+            eccentricity = 0,
+            semiMajorAxis_m = jupiter.radius_m * 1.4,
+            inclination_deg = 32.086,
+            longitudeOfAN_deg = -22.7,
+            argumentOfPeriapsis_deg = 20.2131,
+            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)),
+        }));
+
+        jupiter.AddChild(StationHelper(new OrbitalGrid
+        {
+            name = "Jupiter Station 2",
+
+            eccentricity = 0,
+            semiMajorAxis_m = jupiter.radius_m + (200 * Numbers.KMToM),
+            inclination_deg = 78.086,
+            longitudeOfAN_deg = 28,
+            argumentOfPeriapsis_deg = 12.2131,
+            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)),
+        }));
+
+        // Saturn Station
+        saturn.AddChild(StationHelper(new OrbitalGrid
+        {
+            name = "Saturn Station",
+
+            eccentricity = 0,
+            semiMajorAxis_m = saturn.radius_m * 1.67,
+            inclination_deg = 8,
+            longitudeOfAN_deg = 36.2,
+            argumentOfPeriapsis_deg = 28,
+            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)),
+        }));
+
+        saturn.AddChild(StationHelper(new OrbitalGrid
+        {
+            name = "Saturn Station 2",
+
+            eccentricity = 0,
+            semiMajorAxis_m = saturn.radius_m * 1.42,
+            inclination_deg = 68,
+            longitudeOfAN_deg = 2.2,
+            argumentOfPeriapsis_deg = 88,
+            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)),
+        }));
 
         return sun;
     }
