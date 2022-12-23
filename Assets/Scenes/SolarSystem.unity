@@ -200,6 +200,11 @@ PrefabInstance:
       propertyPath: autoBrake
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 518803332839855551, guid: a236dead37d3b13408d4dac38192c75e,
+        type: 3}
+      propertyPath: sizeMeters.z
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1521363444914832825, guid: a236dead37d3b13408d4dac38192c75e,
         type: 3}
       propertyPath: maxWarp

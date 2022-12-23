@@ -5,7 +5,7 @@ using System.Text;
 public static class Numbers
 {
     // Game Specific
-    public static double UnitsToMeters = 100;
+    public static double UnitsToMeters = 40;
 
     // Constants
     public static double G = 6.673 * System.Math.Pow(10, -11);                  // (N*m)^2 / kg^2
