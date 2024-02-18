@@ -47,17 +47,9 @@ public class GridManager : MonoBehaviour
 
         double longOfAN = theta - 90;
 
-        OrbitalGrid grid = new OrbitalGrid
-        {
-            name = entity.name + " Grid",
-
-            eccentricity = 0,
-            semiMajorAxis_m = relativePosition.magnitude,
-            inclination_deg = inclination,
-            longitudeOfAN_deg = longOfAN,
-            argumentOfPeriapsis_deg = 90,
-            periapsisEpoch_sec = StarSystemDisplay.Instance.CalculateCurrentTime(),
-        };
+        OrbitalGrid grid = new OrbitalGrid();
+        grid.name = entity.name + " Grid";
+        grid.SetOrbitData(0, relativePosition.magnitude, inclination, longOfAN, 90, StarSystemDisplay.Instance.CalculateCurrentTime());
 
         Debug.LogFormat("Created new grid: dist_to {0}, inclination {1}, longAN {2}", radius, inclination, longOfAN);
 

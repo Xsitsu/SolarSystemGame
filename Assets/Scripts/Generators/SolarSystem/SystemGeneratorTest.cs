@@ -24,20 +24,12 @@ public class SystemGeneratorTest : ISystemGenerator
             // mass_kg = 0.01 * Numbers.EarthMassToKGs,
             radius_m = 1000 * Numbers.KMToM,
 
-            eccentricity = 0,
-            semiMajorAxis_m = 0,
-            inclination_deg = 0,
-            longitudeOfAN_deg = 0,
-            argumentOfPeriapsis_deg = 0,
-            periapsisEpoch_sec = 0,
-
             axialTilt_deg = 0,
             rotationalPeriod_sec =  60,
 
             color = MakeColor(252, 212, 64),
         };
-
-
+        sun.SetOrbitData(0, 0, 0, 0, 0, 0);
 
         // Red
         Planet red = new Planet
@@ -46,19 +38,12 @@ public class SystemGeneratorTest : ISystemGenerator
             mass_kg = 1,
             radius_m = 100 * Numbers.KMToM,
 
-            eccentricity = 0,
-            semiMajorAxis_m = 2000 * Numbers.KMToM,
-            inclination_deg = 0,
-            longitudeOfAN_deg = 0,
-            argumentOfPeriapsis_deg = 0,
-            periapsisEpoch_sec = 0,
-
             axialTilt_deg = 0,
             rotationalPeriod_sec = 23 * Numbers.HourToSecond + 56 * Numbers.MinuteToSecond + 4.100,
 
             color = MakeColor(255, 0, 0),
         };
-
+        red.SetOrbitData(0, 2000 * Numbers.KMToM, 0, 0, 0, 0);
 
         // Blue
         Planet blue = new Planet
@@ -67,19 +52,12 @@ public class SystemGeneratorTest : ISystemGenerator
             mass_kg = 1,
             radius_m = 100 * Numbers.KMToM,
 
-            eccentricity = 0,
-            semiMajorAxis_m = 2000 * Numbers.KMToM,
-            inclination_deg = 0,
-            longitudeOfAN_deg = 90,
-            argumentOfPeriapsis_deg = 0,
-            periapsisEpoch_sec = 0,
-
             axialTilt_deg = 0,
             rotationalPeriod_sec = 23 * Numbers.HourToSecond + 56 * Numbers.MinuteToSecond + 4.100,
 
             color = MakeColor(0, 0, 255),
         };
-
+        blue.SetOrbitData(0, 2000 * Numbers.KMToM , 0, 90, 0, 0);
 
 
 
@@ -91,17 +69,9 @@ public class SystemGeneratorTest : ISystemGenerator
 
 
         // Red Station
-        OrbitalGrid redStationGrid = new OrbitalGrid()
-        {
-            name = "Red Station",
-
-            eccentricity = 0,
-            semiMajorAxis_m = 200 * Numbers.KMToM,
-            inclination_deg = 0,
-            longitudeOfAN_deg = 0,
-            argumentOfPeriapsis_deg = 0,
-            periapsisEpoch_sec = 0,
-        };
+        OrbitalGrid redStationGrid = new OrbitalGrid();
+        redStationGrid.name = "Red Station";
+        redStationGrid.SetOrbitData(0, 200 * Numbers.KMToM, 0, 0, 0, 0);
 
         Station redStation = new Station()
         {
@@ -118,17 +88,9 @@ public class SystemGeneratorTest : ISystemGenerator
 
 
         // Blue Station
-        OrbitalGrid blueStationGrid = new OrbitalGrid()
-        {
-            name = "Blue Station",
-
-            eccentricity = 0,
-            semiMajorAxis_m = 200 * Numbers.KMToM,
-            inclination_deg = 0,
-            longitudeOfAN_deg = 0,
-            argumentOfPeriapsis_deg = 0,
-            periapsisEpoch_sec = 0,
-        };
+        OrbitalGrid blueStationGrid = new OrbitalGrid();
+        blueStationGrid.name = "Blue Station";
+        blueStationGrid.SetOrbitData(0, 200 * Numbers.KMToM, 0, 0, 0, 0);
 
         Station blueStation = new Station()
         {
@@ -147,17 +109,9 @@ public class SystemGeneratorTest : ISystemGenerator
 
 
         // Sun Station
-        OrbitalGrid sunStationGrid = new OrbitalGrid()
-        {
-            name = "Sol Station",
-
-            eccentricity = 0,
-            semiMajorAxis_m = 1500 * Numbers.KMToM,
-            inclination_deg = 70,
-            longitudeOfAN_deg = 22,
-            argumentOfPeriapsis_deg = 50,
-            periapsisEpoch_sec = 0,
-        };
+        OrbitalGrid sunStationGrid = new OrbitalGrid();
+        sunStationGrid.name = "Sol Station";
+        sunStationGrid.SetOrbitData(0, 1500 * Numbers.KMToM, 70, 22, 50, 0);
 
         Station sunStation = new Station()
         {
@@ -176,17 +130,9 @@ public class SystemGeneratorTest : ISystemGenerator
 
 
         // Sun Station 2
-        sunStationGrid = new OrbitalGrid()
-        {
-            name = "Sol Station 2",
-
-            eccentricity = 0,
-            semiMajorAxis_m = 1500 * Numbers.KMToM,
-            inclination_deg = 0,
-            longitudeOfAN_deg = 0,
-            argumentOfPeriapsis_deg = 180,
-            periapsisEpoch_sec = 0,
-        };
+        sunStationGrid = new OrbitalGrid();
+        sunStationGrid.name = "Sol Station 2";
+        sunStationGrid.SetOrbitData(0, 1500 * Numbers.KMToM, 0, 0, 180, 0);
 
         sunStation = new Station()
         {

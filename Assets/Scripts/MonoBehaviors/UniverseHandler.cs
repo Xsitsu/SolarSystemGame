@@ -6,6 +6,8 @@ public class UniverseHandler : MonoBehaviour
 {
     Star _star = null;
     OrbitalGrid _startingGrid = null;
+    OrbitalMechanics.Solver.ISolver _solver = new OrbitalMechanics.Solver.EllipseSolver();
+
     static private UniverseHandler _instance;
 	static public UniverseHandler Instance { get { return _instance; } }
     void Awake()
@@ -28,6 +30,10 @@ public class UniverseHandler : MonoBehaviour
 
     }
 
+    public OrbitalMechanics.Solver.ISolver GetSolver()
+    {
+        return _solver;
+    }
     public Star GetStarSystem()
     {
         Debug.Log("GetStarSystem()");

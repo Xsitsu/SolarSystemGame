@@ -8,7 +8,7 @@ public class GalaxyGeneratorTest : IGalaxyGenerator
     {
         Star sol = generator.Generate();
         sol.name = name;
-        sol.semiMajorAxis_m = orbitRadius_LY * Numbers.LightYearToKM * Numbers.KMToM;
+        sol.orbit_m.SemiMajorAxis_m = orbitRadius_LY * Numbers.LightYearToKM * Numbers.KMToM;
         return sol;
     }
     public Galaxy Generate(int seed)

@@ -32,24 +32,20 @@ public class SystemGeneratorSol : ISystemGenerator
 
     public Star Generate()
     {
+        double epoch_2000 = DateTimeToSeconds(new System.DateTime(2000, 1, 1));
+
         Star sun = new Star
         {
             name = "Sol",
             mass_kg = 1.000 * Numbers.SolarMassToKG,
             radius_m = 696340 * Numbers.KMToM,
 
-            eccentricity = 0,
-            semiMajorAxis_m = 0,
-            inclination_deg = 0,
-            longitudeOfAN_deg = 0,
-            argumentOfPeriapsis_deg = 0,
-            periapsisEpoch_sec = 0,
-
             axialTilt_deg = 0,
             rotationalPeriod_sec =  25.05 * Numbers.DayToSeconds,
 
             color = MakeColor(252, 212, 64),
         };
+        sun.SetOrbitData(0, 0, 0, 0, 0, 0);
 
         // Mercury
         Planet mercury = new Planet
@@ -58,18 +54,12 @@ public class SystemGeneratorSol : ISystemGenerator
             mass_kg = 0.055 * Numbers.EarthMassToKGs,
             radius_m = 2439.7 * Numbers.KMToM,
 
-            eccentricity = 0.205,
-            semiMajorAxis_m = 0.387 * Numbers.AUToKM * Numbers.KMToM,
-            inclination_deg = 3.38,
-            longitudeOfAN_deg = 48.331,
-            argumentOfPeriapsis_deg = 29.124,
-            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2000, 1, 1)),
-
             axialTilt_deg = 2.04,
             rotationalPeriod_sec =  58.646 * Numbers.DayToSeconds,
 
             color = MakeColor(128, 106, 75),
         };
+        mercury.SetOrbitData(0.205, 0.387 * Numbers.AUToKM * Numbers.KMToM, 3.38, 48.331, 29.124, epoch_2000);
 
         // Venus
         Planet venus = new Planet
@@ -78,18 +68,12 @@ public class SystemGeneratorSol : ISystemGenerator
             mass_kg = 0.815 * Numbers.EarthMassToKGs,
             radius_m = 6051.8 * Numbers.KMToM,
 
-            eccentricity = 0.006,
-            semiMajorAxis_m = 0.723 * Numbers.AUToKM * Numbers.KMToM,
-            inclination_deg = 3.86,
-            longitudeOfAN_deg = 76.680,
-            argumentOfPeriapsis_deg = 54.884,
-            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2000, 1, 1)),
-
             axialTilt_deg = 177.36,
             rotationalPeriod_sec =  243.0226 * Numbers.DayToSeconds,
 
             color = MakeColor(207, 184, 54),
         };
+        venus.SetOrbitData(0.006, 0.723 * Numbers.AUToKM * Numbers.KMToM, 3.86, 76.680, 54.884, epoch_2000);
 
         // Earth
         Planet earth = new Planet
@@ -98,18 +82,12 @@ public class SystemGeneratorSol : ISystemGenerator
             mass_kg = 1.000 * Numbers.EarthMassToKGs,
             radius_m = 6371.0 * Numbers.KMToM,
 
-            eccentricity = 0.016,
-            semiMajorAxis_m = 1.000 * Numbers.AUToKM * Numbers.KMToM,
-            inclination_deg = 7.155,
-            longitudeOfAN_deg = -11.260,
-            argumentOfPeriapsis_deg = 114.207,
-            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2000, 1, 1)),
-
             axialTilt_deg = 23.439,
             rotationalPeriod_sec = 23 * Numbers.HourToSecond + 56 * Numbers.MinuteToSecond + 4.100,
 
             color = MakeColor(49, 108, 196),
         };
+        earth.SetOrbitData(0.016, 1.000 * Numbers.AUToKM * Numbers.KMToM, 7.155, -11.260, 114.207, epoch_2000);
 
         // Luna
         Planet luna = new Planet
@@ -118,18 +96,12 @@ public class SystemGeneratorSol : ISystemGenerator
             mass_kg = 0.0123 * Numbers.EarthMassToKGs,
             radius_m = 1737.4 * Numbers.KMToM,
 
-            eccentricity = 0.0549,
-            semiMajorAxis_m = 384339 * Numbers.KMToM,
-            inclination_deg = -23.439 + 5.145,
-            longitudeOfAN_deg = 0,
-            argumentOfPeriapsis_deg = 0,
-            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2000, 1, 1)),
-
             axialTilt_deg = 6.687,
             rotationalPeriod_sec = 27.321661 * Numbers.DayToSeconds,
 
             color = MakeColor(220, 220, 220),
         };
+        luna.SetOrbitData(0.0549, 384339 * Numbers.KMToM, -23.439 + 5.145, 0, 0, epoch_2000);
 
         // earth.AddChild(luna);
 
@@ -140,18 +112,12 @@ public class SystemGeneratorSol : ISystemGenerator
             mass_kg = 0.107 * Numbers.EarthMassToKGs,
             radius_m = 3389.5 * Numbers.KMToM,
 
-            eccentricity = 0.0934,
-            semiMajorAxis_m = 1.523 * Numbers.AUToKM * Numbers.KMToM,
-            inclination_deg = 5.65,
-            longitudeOfAN_deg = 49.558,
-            argumentOfPeriapsis_deg = 286.502,
-            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2000, 1, 1)),
-
             axialTilt_deg = 25.19,
             rotationalPeriod_sec = 1.025957 * Numbers.DayToSeconds,
 
             color = MakeColor(189, 66, 28),
         };
+        mars.SetOrbitData(0.0934, 1.523 * Numbers.AUToKM * Numbers.KMToM, 5.65, 49.558, 286.502, epoch_2000);
 
         // Jupiter
         Planet jupiter = new Planet
@@ -160,18 +126,12 @@ public class SystemGeneratorSol : ISystemGenerator
             mass_kg = 317.8 * Numbers.EarthMassToKGs,
             radius_m = 69911 * Numbers.KMToM,
 
-            eccentricity = 0.0489,
-            semiMajorAxis_m = 5.2044 * Numbers.AUToKM * Numbers.KMToM,
-            inclination_deg = 6.09,
-            longitudeOfAN_deg = 100.464,
-            argumentOfPeriapsis_deg = 273.867,
-            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2000, 1, 1)),
-
             axialTilt_deg = 3.13,
             rotationalPeriod_sec = 9 * Numbers.HourToSecond + 55 * Numbers.MinuteToSecond + 30,
 
             color = MakeColor(207, 128, 89),
         };
+        jupiter.SetOrbitData(0.0489, 5.2044 * Numbers.AUToKM * Numbers.KMToM, 6.09, 100.464, 273.867, epoch_2000);
 
         // Saturn
         Planet saturn = new Planet
@@ -180,31 +140,18 @@ public class SystemGeneratorSol : ISystemGenerator
             mass_kg = 95.159 * Numbers.EarthMassToKGs,
             radius_m = 58232 * Numbers.KMToM,
 
-            eccentricity = 0.0565,
-            semiMajorAxis_m = 9.5826 * Numbers.AUToKM * Numbers.KMToM,
-            inclination_deg = 5.51,
-            longitudeOfAN_deg = 113.665,
-            argumentOfPeriapsis_deg = 339.392,
-            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2000, 1, 1)),
-
             axialTilt_deg = 26.73,
             rotationalPeriod_sec = 10 * Numbers.HourToSecond + 33 * Numbers.MinuteToSecond + 38,
 
             color = MakeColor(247, 200, 57),
         };
+        saturn.SetOrbitData(0.0565, 9.5826 * Numbers.AUToKM * Numbers.KMToM, 5.51, 113.665, 339.392, epoch_2000);
 
         Ring saturnRing = new Ring
         {
             name = "Saturn's Rings",
             mass_kg = 1,
             radius_m = (270000 / 2) * Numbers.KMToM,
-
-            eccentricity = 0,
-            semiMajorAxis_m = 0,
-            inclination_deg = 0,
-            longitudeOfAN_deg = 0,
-            argumentOfPeriapsis_deg = 0,
-            periapsisEpoch_sec = 0
         };
 
         // Uranus
@@ -214,18 +161,12 @@ public class SystemGeneratorSol : ISystemGenerator
             mass_kg = 14.536 * Numbers.EarthMassToKGs,
             radius_m = 25362 * Numbers.KMToM,
 
-            eccentricity = 0.047,
-            semiMajorAxis_m = 19.191 * Numbers.AUToKM * Numbers.KMToM,
-            inclination_deg = 6.48,
-            longitudeOfAN_deg = 74.006,
-            argumentOfPeriapsis_deg = 96.998,
-            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2000, 1, 1)),
-
             axialTilt_deg = 97.77 - 360,
             rotationalPeriod_sec = 17 * Numbers.HourToSecond + 14 * Numbers.MinuteToSecond + 24,
 
             color = MakeColor(51, 191, 222),
         };
+        uranus.SetOrbitData(0.047, 19.191 * Numbers.AUToKM * Numbers.KMToM, 6.48, 74.006, 96.998, epoch_2000);
 
         // Neptune
         Planet neptune = new Planet
@@ -234,18 +175,12 @@ public class SystemGeneratorSol : ISystemGenerator
             mass_kg = 17.147 * Numbers.EarthMassToKGs,
             radius_m = 24622 * Numbers.KMToM,
 
-            eccentricity = 0.008,
-            semiMajorAxis_m = 30.07 * Numbers.AUToKM * Numbers.KMToM,
-            inclination_deg = 6.43,
-            longitudeOfAN_deg = 131.783,
-            argumentOfPeriapsis_deg = 273.187,
-            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2000, 1, 1)),
-
             axialTilt_deg = 28.32,
             rotationalPeriod_sec = 16 * Numbers.HourToSecond + 6 * Numbers.MinuteToSecond + 36,
 
             color = MakeColor(6, 57, 199),
         };
+        neptune.SetOrbitData(0.008, 30.07 * Numbers.AUToKM * Numbers.KMToM, 6.43, 131.783, 273.187, epoch_2000);
 
         // Pluto
         Planet pluto = new Planet
@@ -254,18 +189,12 @@ public class SystemGeneratorSol : ISystemGenerator
             mass_kg = 0.00218 * Numbers.EarthMassToKGs,
             radius_m = 1188.3 * Numbers.KMToM,
 
-            eccentricity = 0.2488,
-            semiMajorAxis_m = 39.482 * Numbers.AUToKM * Numbers.KMToM,
-            inclination_deg = 11.88,
-            longitudeOfAN_deg = 110.299,
-            argumentOfPeriapsis_deg = 113.834,
-            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2000, 1, 1)),
-
             axialTilt_deg = 122.53 - 360,
             rotationalPeriod_sec = 6 * Numbers.DayToSeconds + 9 * Numbers.HourToSecond + 17 * Numbers.MinuteToSecond + 0,
 
             color = MakeColor(186, 185, 182),
         };
+        pluto.SetOrbitData(0.2488, 39.482 * Numbers.AUToKM * Numbers.KMToM, 11.88, 110.299, 113.834, epoch_2000);
 
         sun.AddChild(mercury);
         sun.AddChild(venus);
@@ -282,17 +211,9 @@ public class SystemGeneratorSol : ISystemGenerator
         saturn.AddChild(saturnRing);
 
         // Terra Station
-        OrbitalGrid terraStationGrid = new OrbitalGrid
-        {
-            name = "Terra Station Grid",
-
-            eccentricity = 0.0006822,
-            semiMajorAxis_m = 6738 * Numbers.KMToM,
-            inclination_deg = 51.6445,
-            longitudeOfAN_deg = 292.2902,
-            argumentOfPeriapsis_deg = 83.2131,
-            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)),
-        };
+        OrbitalGrid terraStationGrid = new OrbitalGrid();
+        terraStationGrid.name = "Terra Station Grid";
+        terraStationGrid.SetOrbitData(0.0006822, 6738 * Numbers.KMToM, 51.6445, 292.2902, 83.2131, DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)));
 
         Station terraStation = new Station()
         {
@@ -309,17 +230,9 @@ public class SystemGeneratorSol : ISystemGenerator
 
 
         // Terra Station 2
-        terraStationGrid = new OrbitalGrid
-        {
-            name = "Terra Station 2 Grid",
-
-            eccentricity = 0.0006822,
-            semiMajorAxis_m = 7238 * Numbers.KMToM,
-            inclination_deg = 0,
-            longitudeOfAN_deg = 0,
-            argumentOfPeriapsis_deg = 0,
-            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)),
-        };
+        terraStationGrid = new OrbitalGrid();
+        terraStationGrid.name = "Terra Station 2 Grid";
+        terraStationGrid.SetOrbitData(0.0006822, 7238 * Numbers.KMToM, 0, 0, 0, DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)));
 
         terraStation = new Station()
         {
@@ -336,17 +249,9 @@ public class SystemGeneratorSol : ISystemGenerator
 
 
         // Luna Station
-        OrbitalGrid lunaStationGrid = new OrbitalGrid
-        {
-            name = "Luna Station Grid",
-
-            eccentricity = 0.0006822,
-            semiMajorAxis_m = luna.radius_m * 2,
-            inclination_deg = 22.6445,
-            longitudeOfAN_deg = 79.2902,
-            argumentOfPeriapsis_deg = 20.2131,
-            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)),
-        };
+        OrbitalGrid lunaStationGrid = new OrbitalGrid();
+        lunaStationGrid.name = "Luna Station Grid";
+        lunaStationGrid.SetOrbitData(0.0006822, luna.radius_m * 2, 22.6445, 79.2902, 20.2131, DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)));
 
         Station lunaStation = new Station()
         {
@@ -362,67 +267,32 @@ public class SystemGeneratorSol : ISystemGenerator
         luna.AddChild(lunaStationGrid);
 
         // Mars Station
-        mars.AddChild(StationHelper(new OrbitalGrid
-        {
-            name = "Mars Station",
-
-            eccentricity = 0,
-            semiMajorAxis_m = mars.radius_m * 1.1,
-            inclination_deg = -18.58,
-            longitudeOfAN_deg = -88.7,
-            argumentOfPeriapsis_deg = 20.2131,
-            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)),
-        }));
+        OrbitalGrid station = new OrbitalGrid();
+        station.name = "Mars Station";
+        station.SetOrbitData(0, mars.radius_m * 1.1, -18.58, -88.7, 20.2131, DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)));
+        mars.AddChild(StationHelper(station));
 
         // Jupiter Station
-        jupiter.AddChild(StationHelper(new OrbitalGrid
-        {
-            name = "Jupiter Station",
+        station = new OrbitalGrid();
+        station.name = "Jupiter Station";
+        station.SetOrbitData(0, jupiter.radius_m * 1.4, 32.086, -22.7, 20.2131, DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)));
+        jupiter.AddChild(StationHelper(station));
 
-            eccentricity = 0,
-            semiMajorAxis_m = jupiter.radius_m * 1.4,
-            inclination_deg = 32.086,
-            longitudeOfAN_deg = -22.7,
-            argumentOfPeriapsis_deg = 20.2131,
-            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)),
-        }));
-
-        jupiter.AddChild(StationHelper(new OrbitalGrid
-        {
-            name = "Jupiter Station 2",
-
-            eccentricity = 0,
-            semiMajorAxis_m = jupiter.radius_m + (200 * Numbers.KMToM),
-            inclination_deg = 78.086,
-            longitudeOfAN_deg = 28,
-            argumentOfPeriapsis_deg = 12.2131,
-            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)),
-        }));
+        station = new OrbitalGrid();
+        station.name = "Jupiter Station 2";
+        station.SetOrbitData(0, jupiter.radius_m + (200 * Numbers.KMToM), 78.086, 28, 12.2131, DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)));
+        jupiter.AddChild(StationHelper(station));
 
         // Saturn Station
-        saturn.AddChild(StationHelper(new OrbitalGrid
-        {
-            name = "Saturn Station",
+        station = new OrbitalGrid();
+        station.name = "Saturn Station";
+        station.SetOrbitData(0, saturn.radius_m * 1.67, 8, 36.2, 28, DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)));
+        saturn.AddChild(StationHelper(station));
 
-            eccentricity = 0,
-            semiMajorAxis_m = saturn.radius_m * 1.67,
-            inclination_deg = 8,
-            longitudeOfAN_deg = 36.2,
-            argumentOfPeriapsis_deg = 28,
-            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)),
-        }));
-
-        saturn.AddChild(StationHelper(new OrbitalGrid
-        {
-            name = "Saturn Station 2",
-
-            eccentricity = 0,
-            semiMajorAxis_m = saturn.radius_m * 1.42,
-            inclination_deg = 68,
-            longitudeOfAN_deg = 2.2,
-            argumentOfPeriapsis_deg = 88,
-            periapsisEpoch_sec = DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)),
-        }));
+        station = new OrbitalGrid();
+        station.name = "Saturn Station 2";
+        station.SetOrbitData(0, saturn.radius_m * 1.42, 68, 2.2, 88, DateTimeToSeconds(new System.DateTime(2022, 01, 31, 17, 50, 36)));
+        saturn.AddChild(StationHelper(station));
 
         return sun;
     }
