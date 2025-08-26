@@ -46,7 +46,11 @@ public class Interactable : MonoBehaviour
         bool hide = true;
         if (adornee != null)
         {
-            Vector3 screenPosition = Camera.main.WorldToScreenPoint(adornee.transform.position);
+            Vector3 camWorldSpace = cameraContainer.transform.position;
+            Vector3 adorneeWorldSpace = adornee.transform.position;
+            Vector3 adorneeLocalOffset = adorneeWorldSpace;// - camWorldSpace;
+
+            Vector3 screenPosition = cameraContainer.GetComponent<Camera>().WorldToScreenPoint(adorneeLocalOffset);
             if (screenPosition.z > 0)
             {
                 transform.position = new Vector3(screenPosition.x, screenPosition.y, 0);

@@ -213,7 +213,7 @@ PrefabInstance:
     - target: {fileID: 5340496282669709503, guid: a236dead37d3b13408d4dac38192c75e,
         type: 3}
       propertyPath: maxZoom
-      value: 1e+9
+      value: 1e+20
       objectReference: {fileID: 0}
     - target: {fileID: 5340496282669709503, guid: a236dead37d3b13408d4dac38192c75e,
         type: 3}
@@ -356,7 +356,7 @@ PrefabInstance:
         type: 3}
       propertyPath: zoomContainer
       value: 
-      objectReference: {fileID: 2101450415}
+      objectReference: {fileID: 2108154440}
     - target: {fileID: 8683508571069385529, guid: a5e6e294c3010914492a62f2c420f6ba,
         type: 3}
       propertyPath: field of view
@@ -2506,6 +2506,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3942003398345137478, guid: 077013130d1232a47a13ec89819010e4,
     type: 3}
   m_PrefabInstance: {fileID: 2107217724}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2108154440 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5845227682084822392, guid: a5e6e294c3010914492a62f2c420f6ba,
+    type: 3}
+  m_PrefabInstance: {fileID: 581870851}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &33260110841285327
 PrefabInstance:
