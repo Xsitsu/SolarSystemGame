@@ -39,6 +39,32 @@ public class Interactable : MonoBehaviour
 
     void Update()
     {
+        Update_Screen();
+    }
+    void Update_Screen()
+    {
+        bool hide = true;
+        if (adornee != null)
+        {
+            Vector3 screenPosition = Camera.main.WorldToScreenPoint(adornee.transform.position);
+            if (screenPosition.z > 0)
+            {
+                transform.position = new Vector3(screenPosition.x, screenPosition.y, 0);
+                hide = false;
+
+                if (PlayerManager.Instance.character != null)
+                {
+                    double distU = (PlayerManager.Instance.character.transform.position - adornee.transform.position).magnitude;
+                    double distM = (distU * Numbers.UnitsToMeters) - offsetDistance;
+                    SetDistance(distM);
+                }
+            }
+        }
+
+        canvas.SetActive(!hide);
+    }
+    void Update_VR()
+    {
         if (IsVisible())
         {
             canvas.SetActive(true);
@@ -46,7 +72,7 @@ public class Interactable : MonoBehaviour
             UpdateRotation();
             UpdateDistance();
         }
-        else 
+        else
         {
             canvas.SetActive(false);
         }
